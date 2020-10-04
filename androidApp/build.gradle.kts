@@ -1,8 +1,10 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    id("kotlin-android-extensions")
+    id(Plugins.androidApplication)
+    kotlin(Plugins.kotlinAndroid)
+    kotlin(Plugins.kotlinExtensions)
+    kotlin(Plugins.kapt)
 }
+
 group = "com.wind.animelist"
 version = "1.0-SNAPSHOT"
 
@@ -14,22 +16,52 @@ repositories {
 }
 dependencies {
     implementation(project(":shared"))
-    implementation("com.google.android.material:material:1.2.0")
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
+
+    // core
+    implementation(Libs.Android.appCompat)
+    implementation(Libs.Android.material)
+    implementation(Libs.Android.recyclerView)
+    implementation(Libs.Android.constraint)
+    implementation(Libs.Android.core)
+    implementation(Libs.Android.fragment)
+    implementation(Libs.Android.lifeCycle)
+    implementation(Libs.Android.liveData)
+    implementation(Libs.Android.viewModel)
+
+    // injection
+    implementation(Libs.Injection.core)
+
+    // glide
+    implementation(Libs.Glide.glide1)
+    kapt(Libs.Glide.glide2)
+    implementation(Libs.Glide.glideTransform)
+
+    // thread
+    implementation(Libs.Thread.coroutine)
+    implementation(Libs.Thread.coroutineAndroid)
 }
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(Configs.compileSdk)
+
     defaultConfig {
-        applicationId = "com.wind.animelist.androidApp"
-        minSdkVersion(24)
-        targetSdkVersion(29)
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Configs.androidApplicationId
+        minSdkVersion(Configs.minSdk)
+        targetSdkVersion(Configs.targetSdk)
+        versionCode = Configs.versionCode
+        versionName = Configs.versionName
     }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+        jvmTarget = "1.8"
     }
 }

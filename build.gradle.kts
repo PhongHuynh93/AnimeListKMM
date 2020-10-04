@@ -14,6 +14,9 @@ buildscript {
 group = "com.wind.animelist"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
 }

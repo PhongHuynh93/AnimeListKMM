@@ -18,4 +18,6 @@ rootProject.name = "AnimeList"
 
 include(":androidApp")
 include(":shared")
+include(":domain")
+include(":data")
 

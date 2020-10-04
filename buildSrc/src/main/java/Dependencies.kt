@@ -27,7 +27,7 @@ object Libs {
     object Kotlin {
         const val std = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     }
-    object Dagger {
+    object Injection {
         const val core = "org.kodein.di:kodein-di-framework-android-x:7.1.0"
     }
     object Test {
@@ -78,7 +78,7 @@ object Configs {
     const val compileSdk = 29
     const val targetSdk = 29
 
-    const val applicationId = "com.wind.myanimelist"
+    const val androidApplicationId = "com.wind.myanimelist.androidApp"
     const val versionCode = 1
     const val versionName = "1.0.0"
 }

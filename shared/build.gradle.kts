@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
-    id("kotlin-android-extensions")
+    id(Plugins.androidLibrary)
+    kotlin(Plugins.kotlinExtensions)
 }
 group = "com.wind.animelist"
 version = "1.0-SNAPSHOT"
@@ -24,7 +24,11 @@ kotlin {
         }
     }
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":domain"))
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
@@ -47,18 +51,14 @@ kotlin {
     }
 }
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(Configs.compileSdk)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
     defaultConfig {
-        minSdkVersion(24)
-        targetSdkVersion(29)
-        versionCode = 1
-        versionName = "1.0"
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
+        minSdkVersion(Configs.minSdk)
+        targetSdkVersion(Configs.targetSdk)
+        versionCode = Configs.versionCode
+        versionName = Configs.versionName
     }
 }
 val packForXcode by tasks.creating(Sync::class) {

@@ -17,6 +17,9 @@ repositories {
 dependencies {
     implementation(project(":shared"))
 
+    // kotlin
+    implementation(Libs.Kotlin.std)
+
     // core
     implementation(Libs.Android.appCompat)
     implementation(Libs.Android.material)
@@ -29,7 +32,7 @@ dependencies {
     implementation(Libs.Android.viewModel)
 
     // injection
-    implementation(Libs.Injection.core)
+    implementation(Libs.Injection.android)
 
     // glide
     implementation(Libs.Glide.glide1)
@@ -37,8 +40,8 @@ dependencies {
     implementation(Libs.Glide.glideTransform)
 
     // thread
-    implementation(Libs.Thread.coroutine)
-    implementation(Libs.Thread.coroutineAndroid)
+    implementation(Libs.Thread.core)
+    implementation(Libs.Thread.android)
 }
 android {
     compileSdkVersion(Configs.compileSdk)

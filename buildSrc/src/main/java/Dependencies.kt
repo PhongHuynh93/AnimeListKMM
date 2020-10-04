@@ -8,6 +8,8 @@ object Versions {
     const val constraintLayout: String = "2.0.0"
     const val room: String = "2.2.2"
     const val ktor = "1.4.0"
+    const val injection = "7.1.0"
+    const val parser = "1.0.0-RC2"
 }
 
 object Libs {
@@ -28,7 +30,8 @@ object Libs {
         const val std = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     }
     object Injection {
-        const val core = "org.kodein.di:kodein-di-framework-android-x:7.1.0"
+        const val android = "org.kodein.di:kodein-di-framework-android-x:${Versions.injection}"
+        const val core = "org.kodein.di:kodein-di:${Versions.injection}"
     }
     object Test {
         const val junit = "junit:junit:4.12"
@@ -45,14 +48,12 @@ object Libs {
         const val lottie = "com.airbnb.android:lottie:3.0.1"
         const val multidex = "androidx.multidex:multidex:2.0.1"
         const val playCore = "com.google.android.play:core:1.6.4"
-//        const val firebase = "com.google.firebase:firebase-analytics:17.4.3"
-//        const val crashLytic = "com.google.firebase:firebase-crashlytics:17.1.0"
         const val skeleton = "io.supercharge:shimmerlayout:2.1.0"
         const val workManager = "androidx.work:work-runtime-ktx:2.4.0"
     }
     object Thread {
-        const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
-        const val coroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions
+        const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
+        const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions
             .kotlinCoroutines}"
     }
     object Db {
@@ -64,12 +65,22 @@ object Libs {
         const val adMob = "com.google.android.gms:play-services-ads:19.2.0"
     }
     object Network {
-        const val network1 = "io.ktor:ktor-client-android:${Versions.ktor}"
-        const val network2 = "io.ktor:ktor-client-cio:${Versions.ktor}"
-        const val network3 = "io.ktor:ktor-client-serialization-jvm:${Versions.ktor}"
-        const val log = "io.ktor:ktor-client-logging-jvm:${Versions.ktor}"
-        const val log2 = "ch.qos.logback:logback-classic:1.2.3"
-        const val parser = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2"
+//        https://ktor.io/docs/http-client-multiplatform.html#samples
+        const val core = "io.ktor:ktor-client-core:${Versions.ktor}"
+        const val android = "io.ktor:ktor-client-android:${Versions.ktor}"
+        const val ios = "io.ktor:ktor-client-ios:${Versions.ktor}"
+        const val logAndroid = "io.ktor:ktor-client-logging-jvm:${Versions.ktor}"
+        const val logCore = "io.ktor:ktor-client-logging:${Versions.ktor}"
+        const val logIos = "io.ktor:ktor-client-logging-native:${Versions.ktor}"
+        const val logCore2 = "ch.qos.logback:logback-classic:1.2.3"
+        // proguard for android
+//        https://github.com/Kotlin/kotlinx.serialization#android
+//        const val parserCore = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.parser}"
+        const val parserCore = "io.ktor:ktor-client-serialization:${Versions.ktor}"
+//        https://ktor.io/docs/json-feature.html#serializers
+        const val parserAndroid = "io.ktor:ktor-client-serialization-jvm:${Versions.ktor}"
+        // FIXME: 10/4/2020 temperately this version can not be found
+//        const val parserIos = "io.ktor:ktor-client-serialization-native:${Versions.ktor}"
     }
 }
 
@@ -88,18 +99,12 @@ object Plugins {
     const val androidLibrary = "com.android.library"
     const val kotlinAndroid = "android"
     const val kotlinExtensions = "android.extensions"
-//    const val googleService = "com.google.gms.google-services"
-//    const val crashlytics = "com.google.firebase.crashlytics"
     const val kapt = "kapt"
-    const val hilt = "dagger.hilt.android.plugin"
     const val serialization = "kotlinx-serialization"
 }
 
 object ClassPaths {
     const val gradlePlugin = "com.android.tools.build:gradle:${Versions.gradlePlugin}"
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-    const val googleServices = "com.google.gms:google-services:4.3.3"
-    const val crashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta02"
-    const val hilt = "com.google.dagger:hilt-android-gradle-plugin:2.28-alpha"
     const val serialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
 }

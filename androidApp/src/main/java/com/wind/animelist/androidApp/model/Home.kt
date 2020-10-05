@@ -32,5 +32,10 @@ data class Title(val resId: Int): HomeItem {
     override fun getType(): Int {
         return AdapterTypeUtil.TYPE_TITLE
     }
+}
 
+object Divider: HomeItem {
+    override fun getType(): Int {
+        return AdapterTypeUtil.TYPE_DIVIDER
+    }
 }

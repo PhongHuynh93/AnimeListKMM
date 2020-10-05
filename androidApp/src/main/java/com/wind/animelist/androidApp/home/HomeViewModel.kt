@@ -7,10 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.di.homeVModule
-import com.wind.animelist.androidApp.model.HomeAnime
-import com.wind.animelist.androidApp.model.HomeItem
-import com.wind.animelist.androidApp.model.HomeManga
-import com.wind.animelist.androidApp.model.Title
+import com.wind.animelist.androidApp.model.*
 import com.wind.animelist.shared.domain.data
 import com.wind.animelist.shared.domain.usecase.GetTopAnimeUseCase
 import com.wind.animelist.shared.domain.usecase.GetTopMangaUseCase
@@ -45,12 +42,14 @@ class HomeViewModel constructor(app: Application) : AndroidViewModel(app), DIAwa
             val list = mutableListOf<HomeItem>()
             topMangaListDeferred.await().apply {
                 data?.let {
+                    list.add(Divider)
                     list.add(Title(R.string.top_manga))
                     list.add(HomeManga(it))
                 }
             }
             topAnimeListDeferred.await().apply {
                 data?.let {
+                    list.add(Divider)
                     list.add(Title(R.string.top_anime))
                     list.add(HomeAnime(it))
                 }

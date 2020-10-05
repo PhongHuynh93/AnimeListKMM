@@ -29,6 +29,7 @@ import org.kodein.di.*
 import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import util.getDimen
+import util.setUpToolbar
 
 /**
  * Created by Phong Huynh on 9/26/2020
@@ -60,6 +61,24 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = homeAdapter
+                val spaceNormal = getDimen(R.dimen.space_normal)
+                val spaceSmall = getDimen(R.dimen.space_small)
+                addItemDecoration(object: RecyclerView.ItemDecoration() {
+                    override fun getItemOffsets(
+                        outRect: Rect,
+                        view: View,
+                        parent: RecyclerView,
+                        state: RecyclerView.State
+                    ) {
+                        super.getItemOffsets(outRect, view, parent, state)
+                        val pos = parent.getChildAdapterPosition(view)
+                        when (homeAdapter.getItemViewType(pos)) {
+                            AdapterTypeUtil.TYPE_DIVIDER -> if (pos > 0) {
+                                outRect.top = spaceNormal.toInt()
+                            }
+                        }
+                    }
+                })
             }
         }
         return viewBinding.root
@@ -95,6 +114,9 @@ class HomeAdapter constructor(private val applicationContext: Context, private v
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
+            AdapterTypeUtil.TYPE_DIVIDER -> {
+                return DividerViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_divider, parent, false))
+            }
             AdapterTypeUtil.TYPE_ANIME_SLIDER -> {
                 val binding = ItemMangaHomePagerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 HomeAnimeHozListViewHolder(binding)
@@ -160,6 +182,7 @@ class HomeAdapter constructor(private val applicationContext: Context, private v
             }
         }
     }
+    inner class DividerViewHolder(val itemView: View): RecyclerView.ViewHolder(itemView)
     inner class HomeAnimeHozListViewHolder(val binding: ItemMangaHomePagerBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.rcv.apply {

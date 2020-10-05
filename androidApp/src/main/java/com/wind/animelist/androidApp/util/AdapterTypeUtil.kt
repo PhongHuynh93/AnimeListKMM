@@ -7,4 +7,5 @@ object AdapterTypeUtil {
     const val TYPE_MANGA_SLIDER = 1
     const val TYPE_ANIME_SLIDER = 2
     const val TYPE_TITLE = 3
+    const val TYPE_DIVIDER = 4
 }

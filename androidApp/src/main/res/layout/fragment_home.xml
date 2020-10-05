@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.wind.animelist.androidApp.home.HomeViewModel" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv"
+    <LinearLayout
+        android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        app:data="@{vm.data}"/>
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_normal"
+            android:layout_marginVertical="@dimen/space_pretty_small"
+            android:text="@string/home_title"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:data="@{vm.data}"
+            tools:context=".MainActivity" />
+    </LinearLayout>
 </layout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
+        <variable
+            name="item"
+            type="com.wind.animelist.shared.domain.model.Manga" />
+    </data>
+
+    <widget.RatioCardView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:rcv_dimensionRatio="2:3"
+        app:cardCornerRadius="@dimen/default_radius"
+        app:cardElevation="0dp"
+        tools:background="@android:color/white"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:id="@+id/imgv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:shapeAppearance="@style/RoundView"
+            app:image="@{item.imageUrl}"
+            app:requestManager="@{requestManager}"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bottom_black_gradient" />
+
+        <TextView
+            android:id="@+id/tvPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="@dimen/space_pretty_small"
+            android:layout_marginBottom="@dimen/space_pretty_small"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:shadowColor="@color/text_shadow"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:includeFontPadding="false"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textStyle="bold"
+            android:theme="@style/AppTheme.Dark"
+            android:text="@{item.title}"
+            tools:text="@tools:sample/full_names" />
+    </widget.RatioCardView>
+</layout>

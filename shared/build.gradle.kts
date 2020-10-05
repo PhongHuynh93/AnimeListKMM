@@ -1,20 +1,32 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
-    id("kotlin-android-extensions")
+    id(Plugins.androidLibrary)
+    kotlin(Plugins.kotlinExtensions)
+    id(Plugins.serialization)
+    kotlin(Plugins.kapt)
 }
-group = "com.wind.animelist"
-version = "1.0-SNAPSHOT"
 
-repositories {
-    gradlePluginPortal()
-    google()
-    jcenter()
-    mavenCentral()
-}
 kotlin {
+    // target 1.8 when using kodein
+    // https://github.com/Kodein-Framework/Kodein-Samples/blob/master/di/coffee-maker/common/build.gradle.kts
+    targets {
+        jvm {
+            tasks.withType<KotlinCompile> {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+        }
+        js {
+            browser {}
+            nodejs {}
+        }
+        macosX64("macos") { binaries.sharedLib() }
+        linuxX64("linux") { binaries.sharedLib() }
+        mingwX64("mingw") { binaries.sharedLib() }
+    }
     android()
     ios {
         binaries {
@@ -24,7 +36,17 @@ kotlin {
         }
     }
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation(Libs.Injection.core)
+                implementation(Libs.Thread.core)
+                implementation(Libs.Network.core)
+                implementation(Libs.Network.core2)
+                implementation(Libs.Network.parserCore)
+                implementation(Libs.Network.logCore)
+                implementation(Libs.Network.logCore2)
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
@@ -33,7 +55,10 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.google.android.material:material:1.2.0")
+                implementation(Libs.Network.android)
+                implementation(Libs.Network.parserAndroid)
+                implementation(Libs.Network.logAndroid)
+                implementation(Libs.Thread.coreAndroid)
             }
         }
         val androidTest by getting {
@@ -42,23 +67,27 @@ kotlin {
                 implementation("junit:junit:4.12")
             }
         }
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                implementation(Libs.Network.ios)
+//                implementation(Libs.Network.parserIos)
+//                implementation(Libs.Thread.coreIos)
+            }
+        }
         val iosTest by getting
     }
 }
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(Configs.compileSdk)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].java.setSrcDirs(listOf("src/androidMain/kotlin"))
+    sourceSets["main"].res.setSrcDirs(listOf("src/androidMain/res"))
+
     defaultConfig {
-        minSdkVersion(24)
-        targetSdkVersion(29)
-        versionCode = 1
-        versionName = "1.0"
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
+        minSdkVersion(Configs.minSdk)
+        targetSdkVersion(Configs.targetSdk)
+        versionCode = Configs.versionCode
+        versionName = Configs.versionName
     }
 }
 val packForXcode by tasks.creating(Sync::class) {
@@ -66,7 +95,7 @@ val packForXcode by tasks.creating(Sync::class) {
     val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
     val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
     val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
-    val framework = kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
+    val framework = kotlin.targets.getByName<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>(targetName).binaries.getFramework(mode)
     inputs.property("mode", mode)
     dependsOn(framework.linkTask)
     val targetDir = File(buildDir, "xcode-frameworks")

@@ -1,20 +1,17 @@
 package com.wind.animelist.androidApp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.wind.animelist.shared.Greeting
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
+import com.wind.animelist.androidApp.home.HomeFragment
 
-fun greet(): String {
-    return Greeting().greeting()
-}
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val tv: TextView = findViewById(R.id.text_view)
-        tv.text = greet()
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                add(R.id.root, HomeFragment.newInstance())
+            }
+        }
     }
 }

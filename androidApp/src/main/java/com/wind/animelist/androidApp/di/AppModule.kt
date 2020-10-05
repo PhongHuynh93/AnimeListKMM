@@ -1,5 +1,7 @@
 package com.wind.animelist.androidApp.di
 
+import com.wind.animelist.shared.data.di.dataModule
+import com.wind.animelist.shared.domain.di.domainModule
 import org.kodein.di.DI
 
 /**

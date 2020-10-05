@@ -7,9 +7,8 @@ object Versions {
     const val material: String = "1.3.0-alpha02"
     const val constraintLayout: String = "2.0.0"
     const val room: String = "2.2.2"
-    const val ktor = "1.4.0"
+    const val ktor = "1.4.1"
     const val injection = "7.1.0"
-    const val parser = "1.0.0-RC2"
 }
 
 object Libs {
@@ -53,7 +52,9 @@ object Libs {
     }
     object Thread {
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
-        const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions
+        const val coreAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions
+            .kotlinCoroutines}"
+        const val coreIos = "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${Versions
             .kotlinCoroutines}"
     }
     object Db {
@@ -67,17 +68,19 @@ object Libs {
     object Network {
 //        https://ktor.io/docs/http-client-multiplatform.html#samples
         const val core = "io.ktor:ktor-client-core:${Versions.ktor}"
+        const val core2 = "io.ktor:ktor-client-json:${Versions.ktor}"
         const val android = "io.ktor:ktor-client-android:${Versions.ktor}"
         const val ios = "io.ktor:ktor-client-ios:${Versions.ktor}"
+
+        // log
         const val logAndroid = "io.ktor:ktor-client-logging-jvm:${Versions.ktor}"
         const val logCore = "io.ktor:ktor-client-logging:${Versions.ktor}"
         const val logIos = "io.ktor:ktor-client-logging-native:${Versions.ktor}"
         const val logCore2 = "ch.qos.logback:logback-classic:1.2.3"
+
         // proguard for android
 //        https://github.com/Kotlin/kotlinx.serialization#android
-//        const val parserCore = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.parser}"
         const val parserCore = "io.ktor:ktor-client-serialization:${Versions.ktor}"
-//        https://ktor.io/docs/json-feature.html#serializers
         const val parserAndroid = "io.ktor:ktor-client-serialization-jvm:${Versions.ktor}"
         // FIXME: 10/4/2020 temperately this version can not be found
 //        const val parserIos = "io.ktor:ktor-client-serialization-native:${Versions.ktor}"

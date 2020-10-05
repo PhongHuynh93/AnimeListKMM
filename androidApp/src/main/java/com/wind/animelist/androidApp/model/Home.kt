@@ -1,8 +1,8 @@
 package com.wind.animelist.androidApp.model
 
 import com.wind.animelist.androidApp.util.AdapterTypeUtil
-import com.wind.domain.model.Anime
-import com.wind.domain.model.Manga
+import com.wind.animelist.shared.domain.model.Anime
+import com.wind.animelist.shared.domain.model.Manga
 
 /**
  * Created by Phong Huynh on 9/29/2020

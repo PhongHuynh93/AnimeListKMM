@@ -1,4 +1,4 @@
-package com.wind.domain.mapper
+package com.wind.animelist.shared.domain.mapper
 
 class ListMapperImpl<I, O>(
     private val mapper: Mapper<I, O>

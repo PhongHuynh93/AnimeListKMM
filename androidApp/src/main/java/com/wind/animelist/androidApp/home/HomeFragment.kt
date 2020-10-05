@@ -18,15 +18,17 @@ import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.adapter.TitleViewHolder
 import com.wind.animelist.androidApp.databinding.*
 import com.wind.animelist.androidApp.di.homeModule
-import com.wind.myanimelist.home.HomeViewModel
-import com.wind.myanimelist.model.HomeAnime
-import com.wind.myanimelist.model.HomeItem
-import com.wind.myanimelist.model.HomeManga
-import com.wind.myanimelist.model.Title
-import com.wind.myanimelist.util.AdapterTypeUtil
+import com.wind.animelist.androidApp.model.HomeAnime
+import com.wind.animelist.androidApp.model.HomeItem
+import com.wind.animelist.androidApp.model.HomeManga
+import com.wind.animelist.androidApp.model.Title
+import com.wind.animelist.androidApp.util.AdapterTypeUtil
+import com.wind.animelist.shared.domain.model.Anime
+import com.wind.animelist.shared.domain.model.Manga
 import org.kodein.di.*
 import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
+import util.getDimen
 
 /**
  * Created by Phong Huynh on 9/26/2020

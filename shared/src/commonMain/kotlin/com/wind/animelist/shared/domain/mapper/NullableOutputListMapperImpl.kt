@@ -1,4 +1,4 @@
-package com.wind.domain.mapper
+package com.wind.animelist.shared.domain.mapper
 
 class NullableOutputListMapperImpl<I, O>(
     private val mapper: Mapper<I, O>

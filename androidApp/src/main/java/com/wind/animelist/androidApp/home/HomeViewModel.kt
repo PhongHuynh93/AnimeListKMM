@@ -11,8 +11,9 @@ import com.wind.animelist.androidApp.model.HomeAnime
 import com.wind.animelist.androidApp.model.HomeItem
 import com.wind.animelist.androidApp.model.HomeManga
 import com.wind.animelist.androidApp.model.Title
-import com.wind.domain.usecase.GetTopAnimeUseCase
-import com.wind.domain.usecase.GetTopMangaUseCase
+import com.wind.animelist.shared.domain.data
+import com.wind.animelist.shared.domain.usecase.GetTopAnimeUseCase
+import com.wind.animelist.shared.domain.usecase.GetTopMangaUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware

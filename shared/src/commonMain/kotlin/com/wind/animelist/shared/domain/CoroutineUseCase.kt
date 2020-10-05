@@ -1,4 +1,4 @@
-package com.wind.domain
+package com.wind.animelist.shared.domain
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

@@ -16,6 +16,7 @@ repositories {
 }
 dependencies {
     implementation(project(":shared"))
+    implementation(project(":shareAndroid"))
 
     // kotlin
     implementation(Libs.Kotlin.std)
@@ -40,8 +41,7 @@ dependencies {
     implementation(Libs.Glide.glideTransform)
 
     // thread
-    implementation(Libs.Thread.core)
-    implementation(Libs.Thread.android)
+    implementation(Libs.Thread.coreAndroid)
 }
 android {
     compileSdkVersion(Configs.compileSdk)

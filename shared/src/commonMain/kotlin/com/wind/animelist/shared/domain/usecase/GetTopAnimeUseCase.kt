@@ -1,9 +1,9 @@
-package com.wind.domain.usecase
+package com.wind.animelist.shared.domain.usecase
 
-import com.wind.data.Repository
-import com.wind.domain.UseCase
-import com.wind.domain.mapper.impl.AnimeDataMapper
-import com.wind.domain.model.Anime
+import com.wind.animelist.shared.data.Repository
+import com.wind.animelist.shared.domain.UseCase
+import com.wind.animelist.shared.domain.mapper.impl.AnimeDataMapper
+import com.wind.animelist.shared.domain.model.Anime
 import kotlinx.coroutines.CoroutineDispatcher
 
 /**

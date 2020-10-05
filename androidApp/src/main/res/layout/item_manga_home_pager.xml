@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.wind.myanimelist.model.HomeItem" />
+            type="com.wind.animelist.androidApp.model.HomeItem" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView

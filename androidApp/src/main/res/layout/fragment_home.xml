@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.wind.myanimelist.home.HomeViewModel" />
+            type="com.wind.animelist.androidApp.home.HomeViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView

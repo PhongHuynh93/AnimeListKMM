@@ -1,8 +1,8 @@
-package com.wind.domain.mapper.impl
+package com.wind.animelist.shared.domain.mapper.impl
 
-import com.wind.data.model.NetworkAnime
-import com.wind.domain.mapper.Mapper
-import com.wind.domain.model.Anime
+import com.wind.animelist.shared.data.model.NetworkAnime
+import com.wind.animelist.shared.domain.mapper.Mapper
+import com.wind.animelist.shared.domain.model.Anime
 
 /**
  * Created by Phong Huynh on 10/3/2020

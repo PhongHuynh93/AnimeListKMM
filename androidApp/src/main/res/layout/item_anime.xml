@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="com.wind.domain.model.Anime" />
+            type="com.wind.animelist.shared.domain.model.Anime" />
     </data>
 
     <widget.RatioCardView

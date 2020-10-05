@@ -1,5 +1,8 @@
 package com.wind.animelist.androidApp.di
 
+import com.wind.animelist.shared.domain.di.ioDispatcherTag
+import com.wind.animelist.shared.domain.usecase.GetTopAnimeUseCase
+import com.wind.animelist.shared.domain.usecase.GetTopMangaUseCase
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance

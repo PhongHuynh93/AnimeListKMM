@@ -1,11 +1,32 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("multiplatform")
     id(Plugins.androidLibrary)
     kotlin(Plugins.kotlinExtensions)
     id(Plugins.serialization)
+    kotlin(Plugins.kapt)
 }
 
 kotlin {
+    // target 1.8 when using kodein
+    // https://github.com/Kodein-Framework/Kodein-Samples/blob/master/di/coffee-maker/common/build.gradle.kts
+    targets {
+        jvm {
+            tasks.withType<KotlinCompile> {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+        }
+        js {
+            browser {}
+            nodejs {}
+        }
+        macosX64("macos") { binaries.sharedLib() }
+        linuxX64("linux") { binaries.sharedLib() }
+        mingwX64("mingw") { binaries.sharedLib() }
+    }
     android()
     ios {
         binaries {
@@ -20,6 +41,7 @@ kotlin {
                 implementation(Libs.Injection.core)
                 implementation(Libs.Thread.core)
                 implementation(Libs.Network.core)
+                implementation(Libs.Network.core2)
                 implementation(Libs.Network.parserCore)
                 implementation(Libs.Network.logCore)
                 implementation(Libs.Network.logCore2)
@@ -36,6 +58,7 @@ kotlin {
                 implementation(Libs.Network.android)
                 implementation(Libs.Network.parserAndroid)
                 implementation(Libs.Network.logAndroid)
+                implementation(Libs.Thread.coreAndroid)
             }
         }
         val androidTest by getting {
@@ -48,6 +71,7 @@ kotlin {
             dependencies {
                 implementation(Libs.Network.ios)
 //                implementation(Libs.Network.parserIos)
+//                implementation(Libs.Thread.coreIos)
             }
         }
         val iosTest by getting
@@ -56,6 +80,8 @@ kotlin {
 android {
     compileSdkVersion(Configs.compileSdk)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].java.setSrcDirs(listOf("src/androidMain/kotlin"))
+    sourceSets["main"].res.setSrcDirs(listOf("src/androidMain/res"))
 
     defaultConfig {
         minSdkVersion(Configs.minSdk)

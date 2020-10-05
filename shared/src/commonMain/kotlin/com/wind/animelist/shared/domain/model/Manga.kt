@@ -1,7 +1,7 @@
-package com.wind.domain.model
+package com.wind.animelist.shared.domain.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import com.wind.animelist.shared.util.Parcelable
+import com.wind.animelist.shared.util.Parcelize
 
 /**
  * Created by Phong Huynh on 10/3/2020

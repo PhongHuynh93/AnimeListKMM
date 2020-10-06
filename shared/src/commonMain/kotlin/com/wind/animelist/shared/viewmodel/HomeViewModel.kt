@@ -1,43 +1,38 @@
-package com.wind.animelist.androidApp.home
+package com.wind.animelist.shared.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.wind.animelist.androidApp.R
-import com.wind.animelist.androidApp.di.homeVModule
-import com.wind.animelist.androidApp.model.*
+import com.wind.animelist.shared.base.BaseViewModel
 import com.wind.animelist.shared.domain.Result
 import com.wind.animelist.shared.domain.data
 import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.domain.usecase.GetTopAnimeUseCase
 import com.wind.animelist.shared.domain.usecase.GetTopMangaParam
 import com.wind.animelist.shared.domain.usecase.GetTopMangaUseCase
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
-import org.kodein.di.DIAware
-import org.kodein.di.android.subDI
+import com.wind.animelist.shared.util.CFlow
+import com.wind.animelist.shared.util.asCommonFlow
+import com.wind.animelist.shared.viewmodel.model.Divider
+import com.wind.animelist.shared.viewmodel.model.HomeItem
+import com.wind.animelist.shared.viewmodel.model.HomeManga
+import com.wind.animelist.shared.viewmodel.model.Title
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import org.kodein.di.DI
 import org.kodein.di.instance
-import org.kodein.di.android.x.di
 
 /**
- * Created by Phong Huynh on 9/26/2020
+ * Created by Phong Huynh on 10/6/2020
  */
-class HomeViewModel constructor(app: Application) : AndroidViewModel(app), DIAware {
-    override val di by subDI(di()) {
-        import(homeVModule)
-    }
-    val getTopMangaUseCase: GetTopMangaUseCase by instance()
-    val getTopAnimeUseCase: GetTopAnimeUseCase by instance()
+@ExperimentalCoroutinesApi
+class HomeViewModel(val di: DI): BaseViewModel() {
+    val getTopMangaUseCase: GetTopMangaUseCase by di.instance()
+    val getTopAnimeUseCase: GetTopAnimeUseCase by di.instance()
 
-    private val _data: MutableLiveData<List<HomeItem>> = MutableLiveData()
-    val data: LiveData<List<HomeItem>> = _data
+    private val _data = MutableStateFlow<List<HomeItem>?>(null)
+    val data: CFlow<List<HomeItem>> get() = _data.filterNotNull().asCommonFlow()
 
+    // TODO: 10/6/2020 handle error and loading here
     init {
-        viewModelScope.launch {
+        clientScope.launch {
             val topMangaListDeferredList = mutableListOf<Deferred<Result<List<Manga>>>>()
                 .apply {
                     add(async {
@@ -64,7 +59,8 @@ class HomeViewModel constructor(app: Application) : AndroidViewModel(app), DIAwa
                 for (item in list) {
                     item.data?.let {
                         listHome.add(Divider)
-                        listHome.add(Title(R.string.top_manga))
+                        // TODO: 10/6/2020 find the workaround for R in android and ios
+                        listHome.add(Title("Top manga"))
                         listHome.add(HomeManga(it))
                     }
                 }

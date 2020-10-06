@@ -1,6 +1,5 @@
-package com.wind.animelist.androidApp.model
+package com.wind.animelist.shared.viewmodel.model
 
-import com.wind.animelist.androidApp.util.AdapterTypeUtil
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.domain.model.Manga
 
@@ -28,7 +27,7 @@ data class HomeAnime(
     }
 }
 
-data class Title(val resId: Int): HomeItem {
+data class Title(val text: String): HomeItem {
     override fun getType(): Int {
         return AdapterTypeUtil.TYPE_TITLE
     }

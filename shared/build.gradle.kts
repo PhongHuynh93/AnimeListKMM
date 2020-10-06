@@ -70,8 +70,9 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(Libs.Network.ios)
-//                implementation(Libs.Network.parserIos)
-//                implementation(Libs.Thread.coreIos)
+                implementation(Libs.Network.parserIos)
+                implementation(Libs.Network.logIos)
+                implementation(Libs.Thread.coreIos)
             }
         }
         val iosTest by getting

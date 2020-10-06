@@ -8,10 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.di.homeVModule
 import com.wind.animelist.androidApp.model.*
+import com.wind.animelist.shared.domain.Result
 import com.wind.animelist.shared.domain.data
+import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.domain.usecase.GetTopAnimeUseCase
+import com.wind.animelist.shared.domain.usecase.GetTopMangaParam
 import com.wind.animelist.shared.domain.usecase.GetTopMangaUseCase
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.android.subDI
@@ -33,31 +38,49 @@ class HomeViewModel constructor(app: Application) : AndroidViewModel(app), DIAwa
 
     init {
         viewModelScope.launch {
-            val topMangaListDeferred = async {
-                getTopMangaUseCase(Unit)
-            }
-            val topAnimeListDeferred = async {
-                getTopAnimeUseCase(Unit)
-            }
-            val list = mutableListOf<HomeItem>()
-            topMangaListDeferred.await().apply {
-                data?.let {
-                    list.add(Divider)
-                    list.add(Title(R.string.top_manga))
-                    list.add(HomeManga(it))
+            val topMangaListDeferredList = mutableListOf<Deferred<Result<List<Manga>>>>()
+                .apply {
+                    add(async {
+                        getTopMangaUseCase(GetTopMangaParam("manga"))
+                    })
+                    add(async {
+                        getTopMangaUseCase(GetTopMangaParam("novels"))
+                    })
+                    add(async {
+                        getTopMangaUseCase(GetTopMangaParam("oneshots"))
+                    })
+                    add(async {
+                        getTopMangaUseCase(GetTopMangaParam("doujin"))
+                    })
+                    add(async {
+                        getTopMangaUseCase(GetTopMangaParam("manhwa"))
+                    })
+                    add(async {
+                        getTopMangaUseCase(GetTopMangaParam("manhua"))
+                    })
                 }
-            }
-            topAnimeListDeferred.await().apply {
-                data?.let {
-                    list.add(Divider)
-                    list.add(Title(R.string.top_anime))
-                    list.add(HomeAnime(it))
+            val listHome = mutableListOf<HomeItem>()
+            topMangaListDeferredList.awaitAll().let { list ->
+                for (item in list) {
+                    item.data?.let {
+                        listHome.add(Divider)
+                        listHome.add(Title(R.string.top_manga))
+                        listHome.add(HomeManga(it))
+                    }
                 }
+
             }
-            if (list.isEmpty()) {
+//            topAnimeListDeferred.await().apply {
+//                data?.let {
+//                    list.add(Divider)
+//                    list.add(Title(R.string.top_anime))
+//                    list.add(HomeAnime(it))
+//                }
+//            }
+            if (listHome.isEmpty()) {
                 // TODO: 9/28/2020 show no data
             } else {
-                _data.value = list
+                _data.value = listHome
             }
         }
     }

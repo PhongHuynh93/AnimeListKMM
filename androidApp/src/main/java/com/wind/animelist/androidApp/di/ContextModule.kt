@@ -15,8 +15,6 @@ import org.kodein.di.provider
 fun homeModule(frag: Fragment) = DI.Module("home") {
     bind<HomeAdapter>() with provider {
         val applicationContext = frag.requireContext().applicationContext
-        val homeMangaAdapter = HomeMangaHozAdapter(Glide.with(frag))
-        val homeAnimeHozAdapter = HomeAnimeHozAdapter(Glide.with(frag))
-        HomeAdapter(applicationContext, homeMangaAdapter, homeAnimeHozAdapter)
+        HomeAdapter(applicationContext, Glide.with(frag))
     }
 }

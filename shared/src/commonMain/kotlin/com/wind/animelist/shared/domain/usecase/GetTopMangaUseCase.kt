@@ -9,12 +9,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 /**
  * Created by Phong Huynh on 9/26/2020
  */
+data class GetTopMangaParam(val subType: String)
 class GetTopMangaUseCase constructor(
     dispatcher: CoroutineDispatcher,
     private val repository: Repository
-) : UseCase<Unit, List<Manga>>(dispatcher) {
-    override suspend fun execute(parameters: Unit): List<Manga> {
-        return repository.getTopManga().data
+) : UseCase<GetTopMangaParam, List<Manga>>(dispatcher) {
+    override suspend fun execute(para: GetTopMangaParam): List<Manga> {
+        return repository.getTopManga(para.subType).data
             .map {
                 MangaDataMapper().map(it)
             }.filter {

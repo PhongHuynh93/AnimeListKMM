@@ -35,10 +35,8 @@ class RatioCardView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        Log.e("TAG", "ratio $mRatio")
         if (mRatio > 0) {
             val (width, height) = measure(widthMeasureSpec, heightMeasureSpec, mRatio.toDouble())
-            Log.e("TAG", "onMeasure: $width $height")
             super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY))
         } else {

@@ -25,11 +25,12 @@ import com.wind.animelist.androidApp.model.Title
 import com.wind.animelist.androidApp.util.AdapterTypeUtil
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.domain.model.Manga
-import org.kodein.di.*
+import org.kodein.di.DI
+import org.kodein.di.DIAware
 import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
+import org.kodein.di.instance
 import util.getDimen
-import util.setUpToolbar
 
 /**
  * Created by Phong Huynh on 9/26/2020
@@ -77,6 +78,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
                                 outRect.top = spaceNormal.toInt()
                             }
                         }
+                        if (pos == homeAdapter.itemCount - 1) {
+                            outRect.bottom = spaceNormal.toInt()
+                        }
                     }
                 })
             }
@@ -92,7 +96,7 @@ fun RecyclerView.loadData(data: List<HomeItem>?) {
     }
 }
 
-class HomeAdapter constructor(private val applicationContext: Context, private val homeMangaHozAdapter: HomeMangaHozAdapter, private val homeAnimeHozAdapter: HomeAnimeHozAdapter) : ListAdapter<HomeItem, RecyclerView.ViewHolder>(object : DiffUtil
+class HomeAdapter constructor(private val applicationContext: Context, private val requestManager: RequestManager) : ListAdapter<HomeItem, RecyclerView.ViewHolder>(object : DiffUtil
 .ItemCallback<HomeItem>() {
     override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
         return oldItem === newItem
@@ -161,9 +165,10 @@ class HomeAdapter constructor(private val applicationContext: Context, private v
     inner class HomeMangaHozListViewHolder(val binding: ItemMangaHomePagerBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.rcv.apply {
-                adapter = homeMangaHozAdapter
+                adapter = HomeMangaHozAdapter(requestManager)
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
                 setHasFixedSize(true)
+                itemAnimator = null
                 addItemDecoration(object: RecyclerView.ItemDecoration() {
                     override fun getItemOffsets(
                         outRect: Rect,
@@ -186,9 +191,10 @@ class HomeAdapter constructor(private val applicationContext: Context, private v
     inner class HomeAnimeHozListViewHolder(val binding: ItemMangaHomePagerBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.rcv.apply {
-                adapter = homeAnimeHozAdapter
+                adapter = HomeAnimeHozAdapter(requestManager)
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
                 setHasFixedSize(true)
+                itemAnimator = null
                 addItemDecoration(object: RecyclerView.ItemDecoration() {
                     override fun getItemOffsets(
                         outRect: Rect,

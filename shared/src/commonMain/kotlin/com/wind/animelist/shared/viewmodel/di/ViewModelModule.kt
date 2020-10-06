@@ -1,4 +1,4 @@
-package com.wind.animelist.androidApp.di
+package com.wind.animelist.shared.viewmodel.di
 
 import com.wind.animelist.shared.domain.di.ioDispatcherTag
 import com.wind.animelist.shared.domain.usecase.GetTopAnimeUseCase

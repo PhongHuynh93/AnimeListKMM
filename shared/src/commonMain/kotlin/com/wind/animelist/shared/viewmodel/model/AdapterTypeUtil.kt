@@ -1,4 +1,4 @@
-package com.wind.animelist.androidApp.util
+package com.wind.animelist.shared.viewmodel.model
 
 /**
  * Created by Phong Huynh on 9/29/2020

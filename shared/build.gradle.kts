@@ -11,23 +11,13 @@ plugins {
 kotlin {
     // target 1.8 when using kodein
     // https://github.com/Kodein-Framework/Kodein-Samples/blob/master/di/coffee-maker/common/build.gradle.kts
-    targets {
-        jvm {
-            tasks.withType<KotlinCompile> {
-                kotlinOptions {
-                    jvmTarget = "1.8"
-                }
+    android {
+        tasks.withType<KotlinCompile> {
+            kotlinOptions {
+                jvmTarget = "1.8"
             }
         }
-        js {
-            browser {}
-            nodejs {}
-        }
-        macosX64("macos") { binaries.sharedLib() }
-        linuxX64("linux") { binaries.sharedLib() }
-        mingwX64("mingw") { binaries.sharedLib() }
     }
-    android()
     ios {
         binaries {
             framework {
@@ -55,6 +45,8 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(Libs.Injection.android)
+                implementation(Libs.Android.viewModel)
                 implementation(Libs.Network.android)
                 implementation(Libs.Network.parserAndroid)
                 implementation(Libs.Network.logAndroid)

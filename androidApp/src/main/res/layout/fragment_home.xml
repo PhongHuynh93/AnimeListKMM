@@ -6,8 +6,12 @@
     <data>
 
         <variable
+            name="lifecycleOwner"
+            type="androidx.lifecycle.LifecycleOwner" />
+
+        <variable
             name="vm"
-            type="com.wind.animelist.androidApp.home.HomeViewModel" />
+            type="com.wind.animelist.shared.viewmodel.HomeViewModel" />
     </data>
 
     <LinearLayout
@@ -33,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            app:lifecycle="@{lifecycleOwner}"
             app:data="@{vm.data}"
             tools:context=".MainActivity" />
     </LinearLayout>

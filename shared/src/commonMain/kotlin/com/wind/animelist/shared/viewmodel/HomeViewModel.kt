@@ -24,6 +24,10 @@ import org.kodein.di.instance
  */
 @ExperimentalCoroutinesApi
 class HomeViewModel(val di: DI): BaseViewModel() {
+    fun loadMoreManga() {
+        TODO("Not yet implemented")
+    }
+
     val getTopMangaUseCase: GetTopMangaUseCase by di.instance()
     val getTopAnimeUseCase: GetTopAnimeUseCase by di.instance()
 

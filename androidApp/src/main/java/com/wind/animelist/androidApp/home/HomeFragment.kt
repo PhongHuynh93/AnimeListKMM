@@ -11,10 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.adapter.TitleViewHolder
@@ -31,6 +28,7 @@ import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.viewmodel.HomeViewModel
 import com.wind.animelist.shared.viewmodel.HomeViewModelFactory
 import com.wind.animelist.shared.viewmodel.di.homeVModule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.kodein.di.DI
@@ -38,11 +36,14 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
+import recyclerviewAdapter.FooterAdapter
 import util.getDimen
+import util.loadmore.LoadMoreHelper
 
 /**
  * Created by Phong Huynh on 9/26/2020
  */
+@ExperimentalCoroutinesApi
 class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
     private lateinit var viewBinding: FragmentHomeBinding
     override val di: DI
@@ -51,11 +52,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
         }
 
     val homeAdapter: HomeAdapter by instance()
+    val footerAdapter: FooterAdapter by instance()
+    private val concatAdapter: ConcatAdapter by lazy {
+        val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
+        val adapter = ConcatAdapter(config, homeAdapter, footerAdapter)
+        adapter
+    }
     val vmHome by viewModels<HomeViewModel> {
         HomeViewModelFactory(subDI(di()) {
             import(homeVModule)
         })
     }
+    val loadMoreHelper: LoadMoreHelper by instance()
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -71,9 +79,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
             vm = vmHome
             lifecycleOwner = viewLifecycleOwner
             rcv.apply {
+                loadMoreHelper.handleLoadmore(this) {
+                    vmHome.loadMoreManga()
+                }
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
-                adapter = homeAdapter
+                adapter = concatAdapter
                 val spaceNormal = getDimen(R.dimen.space_normal)
                 val spaceSmall = getDimen(R.dimen.space_small)
                 addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -85,12 +96,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
                     ) {
                         super.getItemOffsets(outRect, view, parent, state)
                         val pos = parent.getChildAdapterPosition(view)
-                        when (homeAdapter.getItemViewType(pos)) {
+                        when (concatAdapter.getItemViewType(pos)) {
                             AdapterTypeUtil.TYPE_DIVIDER -> if (pos > 0) {
                                 outRect.top = spaceNormal.toInt()
                             }
                         }
-                        if (pos == homeAdapter.itemCount - 1) {
+                        if (pos == concatAdapter.itemCount - 1) {
                             outRect.bottom = spaceNormal.toInt()
                         }
                     }
@@ -105,7 +116,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
 fun RecyclerView.loadData(lifecycleOwner: LifecycleOwner, data: CFlow<List<HomeItem>>?) {
     data?.let {
         it.onEach { list ->
-            (adapter as HomeAdapter).setData(list)
+            (adapter as ConcatAdapter).adapters.forEach { adapter ->
+                if (adapter is HomeAdapter) {
+                    adapter.setData(list)
+                }
+            }
         }.launchIn(lifecycleOwner.lifecycleScope)
     }
 }

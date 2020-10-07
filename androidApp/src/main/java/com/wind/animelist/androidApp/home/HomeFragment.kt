@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -83,9 +84,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
             vm = vmHome
             lifecycleOwner = viewLifecycleOwner
             rcv.apply {
-                loadMoreHelper.handleLoadmore(this) {
-                    vmHome.loadMoreManga()
-                }
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = concatAdapter
@@ -115,6 +113,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
                         }
                     }
                 })
+                loadMoreHelper.handleLoadmore(this) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Please implement loadmore",
+                        Toast.LENGTH_SHORT
+                    ).show()
+//                    vmHome.loadMoreManga()
+                }
             }
         }
         return viewBinding.root
@@ -127,7 +133,7 @@ fun RecyclerView.loadData(lifecycleOwner: LifecycleOwner, data: CFlow<List<HomeI
         it.onEach { list ->
             (adapter as ConcatAdapter).adapters.forEach { adapter ->
                 if (adapter is HomeAdapter) {
-                    adapter.setData(list)
+                    adapter.submitList(list)
                 }
             }
         }.launchIn(lifecycleOwner.lifecycleScope)
@@ -214,10 +220,6 @@ class HomeAdapter constructor(
                 vh.binding.text = (item as Title).text
             }
         }
-    }
-
-    fun setData(data: List<HomeItem>) {
-        submitList(data)
     }
 
     inner class HomeMangaHozListViewHolder(val binding: ItemMangaHomePagerBinding) :

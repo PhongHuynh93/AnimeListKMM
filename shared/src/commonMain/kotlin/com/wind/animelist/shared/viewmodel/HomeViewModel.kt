@@ -7,6 +7,7 @@ import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.domain.usecase.GetTopAnimeUseCase
 import com.wind.animelist.shared.domain.usecase.GetTopMangaParam
 import com.wind.animelist.shared.domain.usecase.GetTopMangaUseCase
+import com.wind.animelist.shared.util.API_RATE_LIMIT_TIME
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.util.asCommonFlow
 import com.wind.animelist.shared.viewmodel.model.Divider
@@ -24,64 +25,72 @@ import org.kodein.di.instance
  */
 @ExperimentalCoroutinesApi
 class HomeViewModel(val di: DI): BaseViewModel() {
-    fun loadMoreManga() {
-        TODO("Not yet implemented")
-    }
-
     val getTopMangaUseCase: GetTopMangaUseCase by di.instance()
     val getTopAnimeUseCase: GetTopAnimeUseCase by di.instance()
-
     private val _data = MutableStateFlow<List<HomeItem>?>(null)
     val data: CFlow<List<HomeItem>> get() = _data.filterNotNull().asCommonFlow()
+    private var list = mutableListOf<HomeItem>()
 
     // TODO: 10/6/2020 handle error and loading here
     init {
+        clearState()
+        // note - rate limited - 2 requests/1s
         clientScope.launch {
-            val topMangaListDeferredList = mutableListOf<Deferred<Result<List<Manga>>>>()
-                .apply {
-                    add(async {
-                        getTopMangaUseCase(GetTopMangaParam("manga"))
-                    })
-                    add(async {
-                        getTopMangaUseCase(GetTopMangaParam("novels"))
-                    })
-                    add(async {
-                        getTopMangaUseCase(GetTopMangaParam("oneshots"))
-                    })
-                    add(async {
-                        getTopMangaUseCase(GetTopMangaParam("doujin"))
-                    })
-                    add(async {
-                        getTopMangaUseCase(GetTopMangaParam("manhwa"))
-                    })
-                    add(async {
-                        getTopMangaUseCase(GetTopMangaParam("manhua"))
-                    })
+            loadAndShowData(listOf(
+                async {
+                    getTopMangaUseCase(GetTopMangaParam("manga"))
+                },
+                async {
+                    getTopMangaUseCase(GetTopMangaParam("novels"))
                 }
-            val listHome = mutableListOf<HomeItem>()
-            topMangaListDeferredList.awaitAll().let { list ->
-                for (item in list) {
-                    item.data?.let {
-                        listHome.add(Divider)
-                        // TODO: 10/6/2020 find the workaround for R in android and ios
-                        listHome.add(Title("Top manga"))
-                        listHome.add(HomeManga(it))
-                    }
+            ))
+            delay(API_RATE_LIMIT_TIME)
+            loadAndShowData(listOf(
+                async {
+                    getTopMangaUseCase(GetTopMangaParam("oneshots"))
+                },
+                async {
+                    getTopMangaUseCase(GetTopMangaParam("doujin"))
                 }
+            ))
+            delay(API_RATE_LIMIT_TIME)
+            loadAndShowData(listOf(
+                async {
+                    getTopMangaUseCase(GetTopMangaParam("manhwa"))
+                },
+                async {
+                    getTopMangaUseCase(GetTopMangaParam("manhua"))
+                }
+            ))
 
-            }
-//            topAnimeListDeferred.await().apply {
-//                data?.let {
-//                    list.add(Divider)
-//                    list.add(Title(R.string.top_anime))
-//                    list.add(HomeAnime(it))
-//                }
-//            }
-            if (listHome.isEmpty()) {
-                // TODO: 9/28/2020 show no data
-            } else {
-                _data.value = listHome
+        }
+    }
+
+    private fun clearState() {
+        list.clear()
+    }
+
+    private suspend fun loadAndShowData(list: List<Deferred<Result<List<Manga>>>>) {
+        val listHome = mutableListOf(*this.list.toTypedArray())
+        list.awaitAll().let { list ->
+            for (item in list) {
+                item.data?.let {
+                    listHome.add(Divider)
+                    // TODO: 10/6/2020 find the workaround for R in android and ios
+                    listHome.add(Title("Top manga"))
+                    listHome.add(HomeManga(it))
+                }
             }
         }
+        if (listHome.isEmpty()) {
+            // TODO: 9/28/2020 show no data
+        } else {
+            _data.value = listHome
+        }
+        this.list = listHome
+    }
+
+    fun loadMoreManga() {
+        TODO("Not yet implemented")
     }
 }

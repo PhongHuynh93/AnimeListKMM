@@ -47,8 +47,7 @@ class LoadMoreHelper(private val fragmentManager: FragmentManager) {
     }
 
     fun handleLoadmore(rcv: RecyclerView, callback: () -> Unit) {
-        frag.get().callback = callback
-        frag.get().handleLoadmore(rcv)
+        frag.get().handleLoadmore(rcv, callback)
     }
 
     fun setLoading(loading: Boolean) {
@@ -63,7 +62,6 @@ class LoadMoreHelper(private val fragmentManager: FragmentManager) {
 class LoadMoreHelperFragment : Fragment() {
     var loading = false
     var visibleThreshold = 5
-    lateinit var callback: () -> Unit
 
     companion object {
         fun newInstance(): LoadMoreHelperFragment {
@@ -79,7 +77,7 @@ class LoadMoreHelperFragment : Fragment() {
         return null
     }
 
-    fun handleLoadmore(rcv: RecyclerView) {
+    fun handleLoadmore(rcv: RecyclerView, callback: () -> Unit) {
         if (rcv.layoutManager is LinearLayoutManager) {
             val linearLayoutManager = rcv.layoutManager as LinearLayoutManager
             rcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {

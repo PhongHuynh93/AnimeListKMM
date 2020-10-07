@@ -37,6 +37,8 @@ import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
 import recyclerviewAdapter.FooterAdapter
+import recyclerviewAdapter.HeaderAdapter
+import util.TYPE_FOOTER
 import util.getDimen
 import util.loadmore.LoadMoreHelper
 
@@ -53,9 +55,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
 
     val homeAdapter: HomeAdapter by instance()
     val footerAdapter: FooterAdapter by instance()
+    val headerAdapter: HeaderAdapter by instance()
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
-        val adapter = ConcatAdapter(config, homeAdapter, footerAdapter)
+        val adapter = ConcatAdapter(config, headerAdapter, homeAdapter, footerAdapter)
+        headerAdapter.submitList(listOf(getString(R.string.home_title)))
         adapter
     }
     val vmHome by viewModels<HomeViewModel> {
@@ -96,9 +100,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
                     ) {
                         super.getItemOffsets(outRect, view, parent, state)
                         val pos = parent.getChildAdapterPosition(view)
+                        val posBinding = parent.getChildViewHolder(view).bindingAdapterPosition
                         when (concatAdapter.getItemViewType(pos)) {
-                            AdapterTypeUtil.TYPE_DIVIDER -> if (pos > 0) {
+                            AdapterTypeUtil.TYPE_DIVIDER -> if (posBinding > 0) {
                                 outRect.top = spaceNormal.toInt()
+                            }
+                            TYPE_FOOTER -> {
+                                outRect.top = spaceNormal.toInt()
+                                outRect.bottom = spaceNormal.toInt()
                             }
                         }
                         if (pos == concatAdapter.itemCount - 1) {

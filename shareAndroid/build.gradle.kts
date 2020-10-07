@@ -44,6 +44,7 @@ dependencies {
     // android lib
     implementation(Libs.Android.appCompat)
     implementation(Libs.Android.material)
+    implementation(Libs.Android.recyclerView)
 
     // kts
     implementation(Libs.Android.core)

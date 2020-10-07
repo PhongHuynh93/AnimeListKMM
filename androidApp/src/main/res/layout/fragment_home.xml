@@ -14,31 +14,11 @@
             type="com.wind.animelist.shared.viewmodel.HomeViewModel" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/main_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".MainActivity">
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_normal"
-            android:layout_marginVertical="@dimen/space_pretty_small"
-            android:text="@string/home_title"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            app:lifecycle="@{lifecycleOwner}"
-            app:data="@{vm.data}"
-            tools:context=".MainActivity" />
-    </LinearLayout>
+        app:data="@{vm.data}"
+        app:lifecycle="@{lifecycleOwner}"
+        tools:context=".MainActivity" />
 </layout>

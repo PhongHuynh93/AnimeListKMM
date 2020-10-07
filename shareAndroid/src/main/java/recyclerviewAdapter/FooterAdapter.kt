@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.wind.collagePhotoMaker.share.R
 import kotlinx.android.synthetic.main.item_footer.view.*
+import util.TYPE_FOOTER
 
 /**
  * Created by Phong Huynh on 8/1/2020.
  * https://github.com/googlecodelabs/android-paging/pull/46/files
  */
-private const val TYPE_FOOTER = 100
 class FooterAdapter : RecyclerView.Adapter<FooterAdapter.ViewHolder>() {
 
     /**

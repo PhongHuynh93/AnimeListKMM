@@ -7,6 +7,7 @@ import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.provider
 import recyclerviewAdapter.FooterAdapter
+import recyclerviewAdapter.HeaderAdapter
 import util.loadmore.LoadMoreHelper
 
 /**
@@ -19,6 +20,9 @@ fun homeModule(frag: Fragment) = DI.Module("home") {
     }
     bind<FooterAdapter>() with provider {
         FooterAdapter()
+    }
+    bind<HeaderAdapter>() with provider {
+        HeaderAdapter()
     }
     bind<LoadMoreHelper>() with provider {
         LoadMoreHelper(frag.childFragmentManager)

@@ -6,8 +6,8 @@ import com.wind.animelist.androidApp.home.HomeAdapter
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.provider
-import recyclerviewAdapter.FooterAdapter
-import recyclerviewAdapter.HeaderAdapter
+import com.wind.animelist.androidApp.adapter.FooterAdapter
+import com.wind.animelist.androidApp.adapter.HeaderAdapter
 import util.loadmore.LoadMoreHelper
 
 /**

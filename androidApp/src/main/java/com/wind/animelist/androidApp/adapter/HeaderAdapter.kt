@@ -1,4 +1,4 @@
-package recyclerviewAdapter
+package com.wind.animelist.androidApp.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.wind.collagePhotoMaker.share.databinding.ItemHeaderBinding
+import com.wind.animelist.androidApp.databinding.ItemHeaderBinding
 import util.TYPE_HEADER
 
 /**

@@ -14,11 +14,26 @@
             type="com.wind.animelist.shared.viewmodel.HomeViewModel" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:data="@{vm.data}"
-        app:lifecycle="@{lifecycleOwner}"
-        tools:context=".MainActivity" />
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:data="@{vm.data}"
+            app:lifecycle="@{lifecycleOwner}"
+            app:loadState="@{vm.loadState}"
+            tools:context=".MainActivity" />
+    </FrameLayout>
+
+
 </layout>

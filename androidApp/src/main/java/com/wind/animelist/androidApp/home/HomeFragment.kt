@@ -28,6 +28,7 @@ import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.viewmodel.HomeViewModel
 import com.wind.animelist.shared.viewmodel.HomeViewModelFactory
+import com.wind.animelist.shared.viewmodel.LoadState
 import com.wind.animelist.shared.viewmodel.di.homeVModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
@@ -37,8 +38,8 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
-import recyclerviewAdapter.FooterAdapter
-import recyclerviewAdapter.HeaderAdapter
+import com.wind.animelist.androidApp.adapter.FooterAdapter
+import com.wind.animelist.androidApp.adapter.HeaderAdapter
 import util.TYPE_FOOTER
 import util.getDimen
 import util.loadmore.LoadMoreHelper
@@ -127,17 +128,29 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
     }
 }
 
-@BindingAdapter("lifecycle", "data")
-fun RecyclerView.loadData(lifecycleOwner: LifecycleOwner, data: CFlow<List<HomeItem>>?) {
-    data?.let {
-        it.onEach { list ->
-            (adapter as ConcatAdapter).adapters.forEach { adapter ->
-                if (adapter is HomeAdapter) {
-                    adapter.submitList(list)
+@BindingAdapter("lifecycle", "data", "loadState")
+fun RecyclerView.loadData(lifecycleOwner: LifecycleOwner, data: CFlow<List<HomeItem>>?, loadState: CFlow<LoadState>?) {
+    data?.onEach { list ->
+        (adapter as ConcatAdapter).apply {
+            adapters.forEach { adapter ->
+                when (adapter) {
+                    is HomeAdapter -> {
+                        adapter.submitList(list)
+                    }
                 }
             }
-        }.launchIn(lifecycleOwner.lifecycleScope)
-    }
+        }
+    }?.launchIn(lifecycleOwner.lifecycleScope)
+
+    loadState?.onEach { state ->
+        (adapter as ConcatAdapter).adapters.forEach { adapter ->
+            when (adapter) {
+                is FooterAdapter -> {
+                    adapter.loadState = LoadState.NotLoading.Incomplete
+                }
+            }
+        }
+    }?.launchIn(lifecycleOwner.lifecycleScope)
 }
 
 class HomeAdapter constructor(

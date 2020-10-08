@@ -10,6 +10,7 @@ import com.wind.animelist.shared.domain.usecase.GetTopMangaUseCase
 import com.wind.animelist.shared.util.API_RATE_LIMIT_TIME
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.util.asCommonFlow
+import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Complete
 import com.wind.animelist.shared.viewmodel.model.Divider
 import com.wind.animelist.shared.viewmodel.model.HomeItem
 import com.wind.animelist.shared.viewmodel.model.HomeManga
@@ -30,6 +31,8 @@ class HomeViewModel(val di: DI): BaseViewModel() {
     private val _data = MutableStateFlow<List<HomeItem>?>(null)
     val data: CFlow<List<HomeItem>> get() = _data.filterNotNull().asCommonFlow()
     private var list = mutableListOf<HomeItem>()
+    private val _loadState = MutableStateFlow<LoadState>(LoadState.Loading)
+    val loadState: CFlow<LoadState> get() = _loadState.filterNotNull().asCommonFlow()
 
     // TODO: 10/6/2020 handle error and loading here
     init {
@@ -62,6 +65,7 @@ class HomeViewModel(val di: DI): BaseViewModel() {
                     getTopMangaUseCase(GetTopMangaParam("manhua"))
                 }
             ))
+            _loadState.value = Complete
 
         }
     }

@@ -1,4 +1,4 @@
-package com.wind.animelist.androidApp.home
+package com.wind.animelist.androidApp.ui.home
 
 import android.content.Context
 import android.graphics.Rect
@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -38,8 +40,10 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
-import com.wind.animelist.androidApp.adapter.FooterAdapter
-import com.wind.animelist.androidApp.adapter.HeaderAdapter
+import com.wind.animelist.androidApp.adapter.LoadingAdapter
+import com.wind.animelist.androidApp.adapter.TitleHeaderAdapter
+import com.wind.animelist.shared.viewmodel.NavViewModel
+import util.Event
 import util.TYPE_FOOTER
 import util.getDimen
 import util.loadmore.LoadMoreHelper
@@ -56,12 +60,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
         }
 
     val homeAdapter: HomeAdapter by instance()
-    val footerAdapter: FooterAdapter by instance()
-    val headerAdapter: HeaderAdapter by instance()
+    val loadingAdapter: LoadingAdapter by instance()
+    val titleHeaderAdapter: TitleHeaderAdapter by instance()
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
-        val adapter = ConcatAdapter(config, headerAdapter, homeAdapter, footerAdapter)
-        headerAdapter.submitList(listOf(getString(R.string.home_title)))
+        val adapter = ConcatAdapter(config, titleHeaderAdapter, homeAdapter, loadingAdapter)
+        titleHeaderAdapter.submitList(listOf(getString(R.string.home_title)))
         adapter
     }
     val vmHome by viewModels<HomeViewModel> {
@@ -70,6 +74,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
         })
     }
     val loadMoreHelper: LoadMoreHelper by instance()
+    private val vmNav by activityViewModels<NavViewModel>()
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -84,6 +89,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
         viewBinding = FragmentHomeBinding.inflate(inflater, container, false).apply {
             vm = vmHome
             lifecycleOwner = viewLifecycleOwner
+            homeAdapter.apply {
+                callbackAnime = object: HomeAnimeHozAdapter.Callback {
+                    override fun onClick(view: View, pos: Int, item: Anime) {
+                        vmNav.goToAnime.value = Event(item)
+                    }
+                }
+                callbackManga = object: HomeMangaHozAdapter.Callback {
+                    override fun onClick(view: View, pos: Int, item: Manga) {
+                        vmNav.goToManga.value = Event(item)
+                    }
+                }
+            }
             rcv.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
@@ -145,7 +162,7 @@ fun RecyclerView.loadData(lifecycleOwner: LifecycleOwner, data: CFlow<List<HomeI
     loadState?.onEach { state ->
         (adapter as ConcatAdapter).adapters.forEach { adapter ->
             when (adapter) {
-                is FooterAdapter -> {
+                is LoadingAdapter -> {
                     adapter.loadState = LoadState.NotLoading.Incomplete
                 }
             }
@@ -167,6 +184,8 @@ class HomeAdapter constructor(
     }
 }) {
     private val spaceNormal = applicationContext.getDimen(R.dimen.space_normal).toInt()
+    var callbackManga: HomeMangaHozAdapter.Callback? = null
+    var callbackAnime: HomeAnimeHozAdapter.Callback? = null
 
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -240,6 +259,9 @@ class HomeAdapter constructor(
         init {
             binding.rcv.apply {
                 adapter = HomeMangaHozAdapter(requestManager)
+                    .apply {
+                        callback = callbackManga
+                    }
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
                 setHasFixedSize(true)
                 itemAnimator = null
@@ -268,6 +290,9 @@ class HomeAdapter constructor(
         init {
             binding.rcv.apply {
                 adapter = HomeAnimeHozAdapter(requestManager)
+                    .apply {
+                        callback = callbackAnime
+                    }
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
                 setHasFixedSize(true)
                 itemAnimator = null

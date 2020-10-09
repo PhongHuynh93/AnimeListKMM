@@ -14,7 +14,7 @@ import util.TYPE_FOOTER
  * Created by Phong Huynh on 8/1/2020.
  * https://github.com/googlecodelabs/android-paging/pull/46/files
  */
-class FooterAdapter : RecyclerView.Adapter<FooterAdapter.ViewHolder>() {
+class LoadingAdapter : RecyclerView.Adapter<LoadingAdapter.ViewHolder>() {
 
     /**
      * LoadState to present in the adapter.

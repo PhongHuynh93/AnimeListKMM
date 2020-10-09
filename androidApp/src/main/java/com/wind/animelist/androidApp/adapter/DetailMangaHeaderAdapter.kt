@@ -6,22 +6,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.wind.animelist.androidApp.databinding.ItemHeaderBinding
-import util.TYPE_HEADER
+import com.wind.animelist.androidApp.databinding.ItemDetailMangaHeaderBinding
+import com.wind.animelist.shared.domain.model.Manga
 
 /**
- * Created by Phong Huynh on 10/7/2020
+ * Created by Phong Huynh on 10/8/2020
  */
-class HeaderAdapter : ListAdapter<String, HeaderAdapter.ViewHolder>(object : DiffUtil
-.ItemCallback<String>() {
-    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-        return oldItem == newItem
-    }
+class DetailMangaHeaderAdapter :
+    ListAdapter<Manga, DetailMangaHeaderAdapter.ViewHolder>(object : DiffUtil
+    .ItemCallback<Manga>() {
+        override fun areItemsTheSame(oldItem: Manga, newItem: Manga): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
-        return true
-    }
-}) {
+        override fun areContentsTheSame(oldItem: Manga, newItem: Manga): Boolean {
+            return oldItem == newItem
+        }
+    }) {
 
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -30,11 +31,13 @@ class HeaderAdapter : ListAdapter<String, HeaderAdapter.ViewHolder>(object : Dif
     var callback: Callback? = null
 
     override fun getItemViewType(position: Int): Int {
-        return TYPE_HEADER
+        return Vi
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemDetailMangaHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(
             binding
         ).apply {
@@ -56,8 +59,9 @@ class HeaderAdapter : ListAdapter<String, HeaderAdapter.ViewHolder>(object : Dif
     }
 
     interface Callback {
-        fun onClick(view: View, pos: Int, item: String)
+        fun onClick(view: View, pos: Int, item: Manga)
     }
 
-    inner class ViewHolder(val binding: ItemHeaderBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemDetailMangaHeaderBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

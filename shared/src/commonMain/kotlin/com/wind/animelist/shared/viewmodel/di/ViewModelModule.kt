@@ -19,3 +19,7 @@ val homeVModule = DI.Module("homeVM") {
         GetTopAnimeUseCase(instance(ioDispatcherTag), instance())
     }
 }
+
+val detailMangaVModule = DI.Module("detailMangaVM") {
+
+}

@@ -47,6 +47,7 @@ kotlin {
             dependencies {
                 implementation(Libs.Injection.android)
                 implementation(Libs.Android.viewModel)
+                implementation(Libs.Android.liveData)
                 implementation(Libs.Network.android)
                 implementation(Libs.Network.parserAndroid)
                 implementation(Libs.Network.logAndroid)

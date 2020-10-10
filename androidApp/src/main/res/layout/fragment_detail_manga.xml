@@ -5,16 +5,16 @@
 
     <data>
         <variable
+            name="lifecycleOwner"
+            type="androidx.lifecycle.LifecycleOwner" />
+
+        <variable
             name="item"
             type="com.wind.animelist.shared.domain.model.Manga" />
 
         <variable
             name="requestManager"
             type="com.bumptech.glide.RequestManager" />
-
-        <variable
-            name="lifecycleOwner"
-            type="androidx.lifecycle.LifecycleOwner" />
 
         <variable
             name="vm"
@@ -64,6 +64,9 @@
             android:id="@+id/rcv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:lifecycle="@{lifecycleOwner}"
+            app:data="@{vm.data}"
+            app:loadState="@{vm.loadState}"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

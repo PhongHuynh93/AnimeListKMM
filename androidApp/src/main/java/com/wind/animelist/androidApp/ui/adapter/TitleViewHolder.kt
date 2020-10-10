@@ -1,4 +1,4 @@
-package com.wind.animelist.androidApp.adapter
+package com.wind.animelist.androidApp.ui.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.wind.animelist.androidApp.databinding.ItemTitleBinding

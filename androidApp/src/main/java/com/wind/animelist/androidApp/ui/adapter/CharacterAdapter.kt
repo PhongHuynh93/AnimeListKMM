@@ -1,4 +1,4 @@
-package com.wind.animelist.androidApp.adapter
+package com.wind.animelist.androidApp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,24 +7,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
-import com.wind.animelist.androidApp.databinding.ItemDetailMangaHeaderBinding
-import com.wind.animelist.shared.domain.model.Manga
-import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
+import com.wind.animelist.androidApp.databinding.ItemCharacterBinding
+import com.wind.animelist.shared.domain.model.Character
 
 /**
- * Created by Phong Huynh on 10/8/2020
+ * Created by Phong Huynh on 10/10/2020
  */
-class DetailMangaHeaderAdapter(private val requestManager: RequestManager) :
-    ListAdapter<Manga, DetailMangaHeaderAdapter.ViewHolder>(object : DiffUtil
-    .ItemCallback<Manga>() {
-        override fun areItemsTheSame(oldItem: Manga, newItem: Manga): Boolean {
-            return oldItem.id == newItem.id
-        }
+class CharacterAdapter(private val requestManager: RequestManager) : ListAdapter<Character, CharacterAdapter.ViewHolder>(object : DiffUtil
+.ItemCallback<Character>() {
+    override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+        return oldItem.id == newItem.id
+    }
 
-        override fun areContentsTheSame(oldItem: Manga, newItem: Manga): Boolean {
-            return oldItem == newItem
-        }
-    }) {
+    override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+        return oldItem == newItem
+    }
+}) {
 
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -32,16 +30,13 @@ class DetailMangaHeaderAdapter(private val requestManager: RequestManager) :
 
     var callback: Callback? = null
 
-    override fun getItemViewType(position: Int): Int {
-        return AdapterTypeUtil.TYPE_DETAIL_MANGA_HEADER
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemDetailMangaHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(
             binding.apply {
-                requestManager = this@DetailMangaHeaderAdapter.requestManager
+                requestManager = this@CharacterAdapter.requestManager
             }
         ).apply {
             itemView.setOnClickListener { view ->
@@ -62,9 +57,9 @@ class DetailMangaHeaderAdapter(private val requestManager: RequestManager) :
     }
 
     interface Callback {
-        fun onClick(view: View, pos: Int, item: Manga)
+        fun onClick(view: View, pos: Int, item: Character)
     }
 
-    inner class ViewHolder(val binding: ItemDetailMangaHeaderBinding) :
+    inner class ViewHolder(val binding: ItemCharacterBinding) :
         RecyclerView.ViewHolder(binding.root)
 }

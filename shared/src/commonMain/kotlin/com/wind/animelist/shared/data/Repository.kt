@@ -1,8 +1,6 @@
 package com.wind.animelist.shared.data
 
-import com.wind.animelist.shared.data.model.NetworkAnime
-import com.wind.animelist.shared.data.model.NetworkManga
-import com.wind.animelist.shared.data.model.TopList
+import com.wind.animelist.shared.data.model.*
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -13,6 +11,7 @@ import io.ktor.http.*
 interface Repository {
     suspend fun getTopAnime(): TopList<NetworkAnime>
     suspend fun getTopManga(subType: String): TopList<NetworkManga>
+    suspend fun getMangaCharacter(id: Int): CharacterList<NetworkCharacter>
 }
 
 private const val endpoint = "https://api.jikan.moe"
@@ -33,6 +32,12 @@ internal class RepositoryImpl internal constructor(private val client: HttpClien
     override suspend fun getTopManga(subType: String): TopList<NetworkManga> {
         return client.get {
             apiUrl("v3/top/manga/1/$subType")
+        }
+    }
+
+    override suspend fun getMangaCharacter(id: Int): CharacterList<NetworkCharacter> {
+        return client.get {
+            apiUrl("/v3/manga/$id/characters")
         }
     }
 }

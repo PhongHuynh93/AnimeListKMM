@@ -11,25 +11,25 @@
 
         <variable
             name="item"
-            type="com.wind.animelist.shared.domain.model.Manga" />
+            type="com.wind.animelist.shared.domain.model.Character" />
     </data>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
         <widget.RatioImageView
             android:id="@+id/imgv"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             app:image="@{item.imageUrl}"
             app:requestManager="@{requestManager}"
-            app:riv_dimensionRatio="2:3"
-            tools:ignore="ContentDescription"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
-    </RelativeLayout>
+            app:riv_dimensionRatio="1:1"
+            app:shapeAppearance="@style/CircleView"
+            tools:src="@tools:sample/backgrounds/scenic" />
+    </FrameLayout>
 
 </layout>
+

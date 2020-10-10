@@ -16,9 +16,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.R
-import com.wind.animelist.androidApp.adapter.LoadingAdapter
-import com.wind.animelist.androidApp.adapter.TitleHeaderAdapter
-import com.wind.animelist.androidApp.adapter.TitleViewHolder
+import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
+import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
+import com.wind.animelist.androidApp.ui.adapter.TitleViewHolder
 import com.wind.animelist.androidApp.databinding.*
 import com.wind.animelist.androidApp.di.homeModule
 import com.wind.animelist.shared.domain.model.Anime
@@ -148,7 +148,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
 }
 
 @BindingAdapter("lifecycle", "data", "loadState")
-fun RecyclerView.loadData(lifecycleOwner: LifecycleOwner, data: CFlow<List<HomeItem>>?, loadState: CFlow<LoadState>?) {
+fun RecyclerView.loadHome(lifecycleOwner: LifecycleOwner, data: CFlow<List<HomeItem>>?, loadState: CFlow<LoadState>?) {
     data?.onEach { list ->
         (adapter as ConcatAdapter).apply {
             adapters.forEach { adapter ->
@@ -205,7 +205,7 @@ class HomeAdapter constructor(
                         .inflate(R.layout.item_divider, parent, false)
                 )
             }
-            AdapterTypeUtil.TYPE_ANIME_SLIDER -> {
+            AdapterTypeUtil.TYPE_ANIME_LIST -> {
                 val binding = ItemMangaHomePagerBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -213,7 +213,7 @@ class HomeAdapter constructor(
                 )
                 HomeAnimeHozListViewHolder(binding)
             }
-            AdapterTypeUtil.TYPE_MANGA_SLIDER -> {
+            AdapterTypeUtil.TYPE_MANGA_LIST -> {
                 val binding = ItemMangaHomePagerBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -239,12 +239,12 @@ class HomeAdapter constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
         when (getItemViewType(position)) {
-            AdapterTypeUtil.TYPE_ANIME_SLIDER -> {
+            AdapterTypeUtil.TYPE_ANIME_LIST -> {
                 val homePagerViewHolder = holder as HomeAnimeHozListViewHolder
                 homePagerViewHolder.binding.item = item
                 homePagerViewHolder.binding.executePendingBindings()
             }
-            AdapterTypeUtil.TYPE_MANGA_SLIDER -> {
+            AdapterTypeUtil.TYPE_MANGA_LIST -> {
                 val homePagerViewHolder = holder as HomeMangaHozListViewHolder
                 homePagerViewHolder.binding.item = item
                 homePagerViewHolder.binding.executePendingBindings()
@@ -252,6 +252,7 @@ class HomeAdapter constructor(
             AdapterTypeUtil.TYPE_TITLE -> {
                 val vh = holder as TitleViewHolder
                 vh.binding.text = (item as Title).text
+                vh.binding.executePendingBindings()
             }
         }
     }

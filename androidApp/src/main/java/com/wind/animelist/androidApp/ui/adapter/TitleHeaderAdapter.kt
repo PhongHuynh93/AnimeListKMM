@@ -1,4 +1,4 @@
-package com.wind.animelist.androidApp.adapter
+package com.wind.animelist.androidApp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View

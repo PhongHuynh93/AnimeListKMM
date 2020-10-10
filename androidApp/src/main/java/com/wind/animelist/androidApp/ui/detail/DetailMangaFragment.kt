@@ -5,19 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.wind.animelist.androidApp.adapter.DetailMangaHeaderAdapter
-import com.wind.animelist.androidApp.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.databinding.FragmentDetailMangaBinding
 import com.wind.animelist.androidApp.di.detailMangaModule
+import com.wind.animelist.androidApp.ui.adapter.CharacterAdapter
+import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
+import com.wind.animelist.shared.domain.model.Character
 import com.wind.animelist.shared.domain.model.Manga
+import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.viewmodel.DetailMangaViewModel
 import com.wind.animelist.shared.viewmodel.DetailMangaViewModelFactory
+import com.wind.animelist.shared.viewmodel.LoadState
 import com.wind.animelist.shared.viewmodel.di.detailMangaVModule
+import com.wind.animelist.shared.viewmodel.model.DetailManga
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.android.subDI
@@ -31,18 +42,20 @@ import util.setUpToolbar
  */
 private const val EXTRA_DATA = "xData"
 private const val EXTRA_TRANSITION_NAME = "xTransitionName"
-class DetailMangaFragment(): Fragment(), DIAware {
+
+@ExperimentalCoroutinesApi
+class DetailMangaFragment() : Fragment(), DIAware {
     private lateinit var manga: Manga
     private lateinit var viewBinding: FragmentDetailMangaBinding
+    override val di: DI
+        get() = subDI(parentDI = di()) {
+            import(detailMangaModule(this@DetailMangaFragment))
+        }
     val vmDetailManga by viewModels<DetailMangaViewModel> {
         DetailMangaViewModelFactory(subDI(di()) {
             import(detailMangaVModule)
         })
     }
-    override val di: DI
-        get() = subDI(parentDI = di()) {
-            import(detailMangaModule(this@DetailMangaFragment))
-        }
     val detailMangaAdapter: DetailMangaAdapter by instance()
     val loadingAdapter: LoadingAdapter by instance()
     private val concatAdapter: ConcatAdapter by lazy {
@@ -85,5 +98,46 @@ class DetailMangaFragment(): Fragment(), DIAware {
         return viewBinding.root.apply {
             transitionName = requireArguments()[EXTRA_TRANSITION_NAME] as String
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vmDetailManga.setManga(manga)
+    }
+}
+
+@BindingAdapter("lifecycle", "data", "loadState")
+fun RecyclerView.loadDetailManga(
+    lifecycleOwner: LifecycleOwner,
+    data: CFlow<List<DetailManga>>?,
+    loadState: CFlow<LoadState>?
+) {
+    data?.onEach { list ->
+        (adapter as ConcatAdapter).apply {
+            adapters.forEach { adapter ->
+                when (adapter) {
+                    is DetailMangaAdapter -> {
+                        adapter.submitList(list)
+                    }
+                }
+            }
+        }
+    }?.launchIn(lifecycleOwner.lifecycleScope)
+
+    loadState?.onEach { state ->
+        (adapter as ConcatAdapter).adapters.forEach { adapter ->
+            when (adapter) {
+                is LoadingAdapter -> {
+                    adapter.loadState = state
+                }
+            }
+        }
+    }?.launchIn(lifecycleOwner.lifecycleScope)
+}
+
+@BindingAdapter("data")
+fun RecyclerView.loadCharacterList(list: List<Character>?) {
+    list?.let {
+        (adapter as CharacterAdapter).submitList(it)
     }
 }

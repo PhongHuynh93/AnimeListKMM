@@ -15,7 +15,7 @@ data class HomeManga(
     val list: List<Manga>
 ): HomeItem {
     override fun getType(): Int {
-        return AdapterTypeUtil.TYPE_MANGA_SLIDER
+        return AdapterTypeUtil.TYPE_MANGA_LIST
     }
 }
 
@@ -23,11 +23,11 @@ data class HomeAnime(
     val list: List<Anime>
 ): HomeItem {
     override fun getType(): Int {
-        return AdapterTypeUtil.TYPE_ANIME_SLIDER
+        return AdapterTypeUtil.TYPE_ANIME_LIST
     }
 }
 
-data class Title(val text: String): HomeItem {
+data class Title(val text: String): HomeItem, DetailManga {
     override fun getType(): Int {
         return AdapterTypeUtil.TYPE_TITLE
     }

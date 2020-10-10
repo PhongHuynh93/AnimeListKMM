@@ -11,6 +11,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/top_manga_height"
+        android:layout_height="@dimen/character_height"
         app:data="@{item}"/>
 </layout>

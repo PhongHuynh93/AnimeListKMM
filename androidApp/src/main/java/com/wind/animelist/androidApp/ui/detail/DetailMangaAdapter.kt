@@ -37,9 +37,12 @@ class DetailMangaAdapter(private val requestManager: RequestManager) : ListAdapt
     var callback: Callback? = null
 
     override fun getItemViewType(position: Int): Int {
-        return getItem(position).getType()
+        return if (position in 0 until itemCount) {
+            getItem(position).getType()
+        } else {
+            -1
+        }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {

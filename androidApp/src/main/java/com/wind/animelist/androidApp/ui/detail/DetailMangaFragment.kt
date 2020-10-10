@@ -1,5 +1,6 @@
 package com.wind.animelist.androidApp.ui.detail
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.databinding.FragmentDetailMangaBinding
 import com.wind.animelist.androidApp.di.detailMangaModule
 import com.wind.animelist.androidApp.ui.adapter.CharacterAdapter
@@ -25,6 +27,7 @@ import com.wind.animelist.shared.viewmodel.DetailMangaViewModel
 import com.wind.animelist.shared.viewmodel.DetailMangaViewModelFactory
 import com.wind.animelist.shared.viewmodel.LoadState
 import com.wind.animelist.shared.viewmodel.di.detailMangaVModule
+import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import com.wind.animelist.shared.viewmodel.model.DetailManga
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
@@ -35,6 +38,7 @@ import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
 import util.backwardTransition
+import util.getDimen
 import util.setUpToolbar
 
 /**
@@ -93,6 +97,26 @@ class DetailMangaFragment() : Fragment(), DIAware {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = concatAdapter
+                val space = getDimen(R.dimen.space_normal)
+                addItemDecoration(object : RecyclerView.ItemDecoration() {
+                    override fun getItemOffsets(
+                        outRect: Rect,
+                        view: View,
+                        parent: RecyclerView,
+                        state: RecyclerView.State
+                    ) {
+                        super.getItemOffsets(outRect, view, parent, state)
+
+                        parent.adapter!!.getItemViewType(parent.getChildAdapterPosition(view))
+                            .let { type ->
+                                when (type) {
+                                    AdapterTypeUtil.TYPE_TITLE -> {
+                                        outRect.top = space.toInt()
+                                    }
+                                }
+                            }
+                    }
+                })
             }
         }
         return viewBinding.root.apply {

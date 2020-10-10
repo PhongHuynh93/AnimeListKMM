@@ -9,6 +9,7 @@ import org.kodein.di.provider
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.androidApp.ui.detail.DetailMangaAdapter
+import com.wind.animelist.androidApp.ui.detail.DetailMangaHeaderAdapter
 import util.loadmore.LoadMoreHelper
 
 /**
@@ -33,6 +34,9 @@ fun homeModule(frag: Fragment) = DI.Module("home") {
 fun detailMangaModule(frag: Fragment) = DI.Module("detailManga") {
     bind<DetailMangaAdapter>() with provider {
         DetailMangaAdapter(Glide.with(frag))
+    }
+    bind<DetailMangaHeaderAdapter>() with provider {
+        DetailMangaHeaderAdapter(Glide.with(frag))
     }
     bind<LoadingAdapter>() with provider {
         LoadingAdapter()

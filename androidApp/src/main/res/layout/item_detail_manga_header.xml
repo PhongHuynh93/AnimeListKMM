@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+        <variable
+            name="item"
+            type="com.wind.animelist.shared.domain.model.Manga" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <widget.RatioImageView
+            android:id="@+id/imgv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:image="@{item.imageUrl}"
+            app:requestManager="@{requestManager}"
+            app:riv_dimensionRatio="@string/mangaRadio"
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+    </FrameLayout>
+</layout>
+

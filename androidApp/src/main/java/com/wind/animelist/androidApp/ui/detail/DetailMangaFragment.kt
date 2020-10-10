@@ -63,9 +63,10 @@ class DetailMangaFragment() : Fragment(), DIAware {
     }
     val detailMangaAdapter: DetailMangaAdapter by instance()
     val loadingAdapter: LoadingAdapter by instance()
+    val detailMangaHeaderAdapter: DetailMangaHeaderAdapter by instance()
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
-        val adapter = ConcatAdapter(config, detailMangaAdapter, loadingAdapter)
+        val adapter = ConcatAdapter(config, detailMangaHeaderAdapter, detailMangaAdapter, loadingAdapter)
         adapter
     }
 
@@ -93,6 +94,7 @@ class DetailMangaFragment() : Fragment(), DIAware {
             lifecycleOwner = viewLifecycleOwner
             requestManager = Glide.with(this@DetailMangaFragment)
             item = manga
+            detailMangaHeaderAdapter.submitList(listOf(manga))
             setUpToolbar(toolbar, showUpIcon = true)
             rcv.apply {
                 setHasFixedSize(true)

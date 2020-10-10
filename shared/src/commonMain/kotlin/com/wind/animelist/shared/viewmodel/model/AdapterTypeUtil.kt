@@ -5,6 +5,7 @@ package com.wind.animelist.shared.viewmodel.model
  */
 object AdapterTypeUtil {
 
+
     // home
     const val TYPE_MANGA_LIST = 1
     const val TYPE_ANIME_LIST = 2
@@ -13,4 +14,5 @@ object AdapterTypeUtil {
 
     // detail
     const val TYPE_CHARACTER_LIST = 5
+    const val TYPE_MORE_INFO = 6
 }

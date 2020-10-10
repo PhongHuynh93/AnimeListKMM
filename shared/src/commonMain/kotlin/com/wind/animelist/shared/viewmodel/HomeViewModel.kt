@@ -12,8 +12,8 @@ import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.util.asCommonFlow
 import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Complete
 import com.wind.animelist.shared.viewmodel.model.Divider
-import com.wind.animelist.shared.viewmodel.model.HomeItem
-import com.wind.animelist.shared.viewmodel.model.HomeManga
+import com.wind.animelist.shared.viewmodel.model.Home
+import com.wind.animelist.shared.viewmodel.model.MangaList
 import com.wind.animelist.shared.viewmodel.model.Title
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,9 +28,9 @@ import org.kodein.di.instance
 class HomeViewModel(val di: DI): BaseViewModel() {
     val getTopMangaUseCase: GetTopMangaUseCase by di.instance()
     val getTopAnimeUseCase: GetTopAnimeUseCase by di.instance()
-    private val _data = MutableStateFlow<List<HomeItem>?>(null)
-    val data: CFlow<List<HomeItem>> get() = _data.filterNotNull().asCommonFlow()
-    private var list = mutableListOf<HomeItem>()
+    private val _data = MutableStateFlow<List<Home>?>(null)
+    val data: CFlow<List<Home>> get() = _data.filterNotNull().asCommonFlow()
+    private var list = mutableListOf<Home>()
     private val _loadState = MutableStateFlow<LoadState>(LoadState.Loading)
     val loadState: CFlow<LoadState> get() = _loadState.filterNotNull().asCommonFlow()
 
@@ -82,7 +82,7 @@ class HomeViewModel(val di: DI): BaseViewModel() {
                     listHome.add(Divider)
                     // TODO: 10/6/2020 find the workaround for R in android and ios
                     listHome.add(Title(item.second))
-                    listHome.add(HomeManga(it))
+                    listHome.add(MangaList(it))
                 }
             }
         }

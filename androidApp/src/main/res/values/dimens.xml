@@ -2,4 +2,5 @@
 <resources>
     <dimen name="top_manga_height">200dp</dimen>
     <dimen name="character_height">68dp</dimen>
+    <dimen name="space_to_header">4dp</dimen>
 </resources>

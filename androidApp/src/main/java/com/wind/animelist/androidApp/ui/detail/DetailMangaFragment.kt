@@ -118,8 +118,16 @@ class DetailMangaFragment() : Fragment(), DIAware {
                                         outRect.top = space.toInt()
                                         outRect.bottom = space.toInt()
                                     }
+                                    AdapterTypeUtil.TYPE_MORE_INFO -> {
+                                        outRect.left = space.toInt()
+                                        outRect.right = space.toInt()
+                                        outRect.top = space.toInt()
+                                    }
                                 }
                             }
+                        if (parent.getChildAdapterPosition(view) == adapter!!.itemCount - 1) {
+                            outRect.bottom = space.toInt() * 2
+                        }
                     }
                 })
             }

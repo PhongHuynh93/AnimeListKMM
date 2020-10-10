@@ -148,7 +148,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
 }
 
 @BindingAdapter("lifecycle", "data", "loadState")
-fun RecyclerView.loadHome(lifecycleOwner: LifecycleOwner, data: CFlow<List<HomeItem>>?, loadState: CFlow<LoadState>?) {
+fun RecyclerView.loadHome(lifecycleOwner: LifecycleOwner, data: CFlow<List<Home>>?, loadState: CFlow<LoadState>?) {
     data?.onEach { list ->
         (adapter as ConcatAdapter).apply {
             adapters.forEach { adapter ->
@@ -175,13 +175,13 @@ fun RecyclerView.loadHome(lifecycleOwner: LifecycleOwner, data: CFlow<List<HomeI
 class HomeAdapter constructor(
     private val applicationContext: Context,
     private val requestManager: RequestManager
-) : ListAdapter<HomeItem, RecyclerView.ViewHolder>(object : DiffUtil
-.ItemCallback<HomeItem>() {
-    override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+) : ListAdapter<Home, RecyclerView.ViewHolder>(object : DiffUtil
+.ItemCallback<Home>() {
+    override fun areItemsTheSame(oldItem: Home, newItem: Home): Boolean {
         return oldItem === newItem
     }
 
-    override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+    override fun areContentsTheSame(oldItem: Home, newItem: Home): Boolean {
         return true
     }
 }) {
@@ -320,11 +320,11 @@ class HomeAdapter constructor(
 }
 
 @BindingAdapter("data")
-fun RecyclerView.loadManga(data: HomeItem?) {
+fun RecyclerView.loadManga(data: Home?) {
     data?.let {
         when (data) {
-            is HomeManga -> (adapter as HomeMangaHozAdapter).submitList(data.list)
-            is HomeAnime -> (adapter as HomeAnimeHozAdapter).submitList(data.list)
+            is MangaList -> (adapter as HomeMangaHozAdapter).submitList(data.list)
+            is AnimeList -> (adapter as HomeAnimeHozAdapter).submitList(data.list)
         }
     }
 }

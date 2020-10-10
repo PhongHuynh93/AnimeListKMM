@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.resolve.calls.results.createOverloadingConflictResolver
 
 plugins {
     kotlin("multiplatform")
@@ -43,10 +44,37 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
+        val commonAndroidMain by creating {
+            kotlin.srcDir("src/commonAndroidMain/java")
+            resources.srcDir("src/commonAndroidMain/res")
+
+            dependencies {
+                // kotlin
+                implementation(Libs.Kotlin.std)
+
+                // android lib
+                implementation(Libs.Android.appCompat)
+                implementation(Libs.Android.material)
+                implementation(Libs.Android.recyclerView)
+
+                // kts
+                implementation(Libs.Android.core)
+                implementation(Libs.Android.fragment)
+                implementation(Libs.Android.lifeCycle)
+                implementation(Libs.Android.liveData)
+                implementation(Libs.Android.viewModel)
+
+                // glide
+                implementation(Libs.Glide.glide1)
+                implementation(Libs.Glide.glide2)
+            }
+        }
         val androidMain by getting {
+            dependsOn(commonAndroidMain)
             dependencies {
                 implementation(Libs.Injection.android)
                 implementation(Libs.Android.viewModel)
+                implementation(Libs.Android.liveData)
                 implementation(Libs.Network.android)
                 implementation(Libs.Network.parserAndroid)
                 implementation(Libs.Network.logAndroid)

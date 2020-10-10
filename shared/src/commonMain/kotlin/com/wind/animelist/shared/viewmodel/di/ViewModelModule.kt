@@ -1,6 +1,8 @@
 package com.wind.animelist.shared.viewmodel.di
 
 import com.wind.animelist.shared.domain.di.ioDispatcherTag
+import com.wind.animelist.shared.domain.usecase.GetCharacterInMangaUseCase
+import com.wind.animelist.shared.domain.usecase.GetMoreInfoUseCase
 import com.wind.animelist.shared.domain.usecase.GetTopAnimeUseCase
 import com.wind.animelist.shared.domain.usecase.GetTopMangaUseCase
 import org.kodein.di.DI
@@ -17,5 +19,14 @@ val homeVModule = DI.Module("homeVM") {
     }
     bind<GetTopAnimeUseCase>() with provider {
         GetTopAnimeUseCase(instance(ioDispatcherTag), instance())
+    }
+}
+
+val detailMangaVModule = DI.Module("detailMangaVM") {
+    bind<GetCharacterInMangaUseCase>() with provider {
+        GetCharacterInMangaUseCase(instance(ioDispatcherTag), instance())
+    }
+    bind<GetMoreInfoUseCase>() with provider {
+        GetMoreInfoUseCase(instance(ioDispatcherTag), instance())
     }
 }

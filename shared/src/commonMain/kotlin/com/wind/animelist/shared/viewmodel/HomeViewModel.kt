@@ -12,8 +12,8 @@ import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.util.asCommonFlow
 import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Complete
 import com.wind.animelist.shared.viewmodel.model.Divider
-import com.wind.animelist.shared.viewmodel.model.HomeItem
-import com.wind.animelist.shared.viewmodel.model.HomeManga
+import com.wind.animelist.shared.viewmodel.model.Home
+import com.wind.animelist.shared.viewmodel.model.MangaList
 import com.wind.animelist.shared.viewmodel.model.Title
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,9 +28,9 @@ import org.kodein.di.instance
 class HomeViewModel(val di: DI): BaseViewModel() {
     val getTopMangaUseCase: GetTopMangaUseCase by di.instance()
     val getTopAnimeUseCase: GetTopAnimeUseCase by di.instance()
-    private val _data = MutableStateFlow<List<HomeItem>?>(null)
-    val data: CFlow<List<HomeItem>> get() = _data.filterNotNull().asCommonFlow()
-    private var list = mutableListOf<HomeItem>()
+    private val _data = MutableStateFlow<List<Home>?>(null)
+    val data: CFlow<List<Home>> get() = _data.filterNotNull().asCommonFlow()
+    private var list = mutableListOf<Home>()
     private val _loadState = MutableStateFlow<LoadState>(LoadState.Loading)
     val loadState: CFlow<LoadState> get() = _loadState.filterNotNull().asCommonFlow()
 
@@ -41,28 +41,28 @@ class HomeViewModel(val di: DI): BaseViewModel() {
         clientScope.launch {
             loadAndShowData(listOf(
                 async {
-                    getTopMangaUseCase(GetTopMangaParam("manga"))
+                    getTopMangaUseCase(GetTopMangaParam("manga")) to "Top Manga"
                 },
                 async {
-                    getTopMangaUseCase(GetTopMangaParam("novels"))
+                    getTopMangaUseCase(GetTopMangaParam("novels")) to "Top Novel"
                 }
             ))
             delay(API_RATE_LIMIT_TIME)
             loadAndShowData(listOf(
                 async {
-                    getTopMangaUseCase(GetTopMangaParam("oneshots"))
+                    getTopMangaUseCase(GetTopMangaParam("oneshots")) to "Top One Shot"
                 },
                 async {
-                    getTopMangaUseCase(GetTopMangaParam("doujin"))
+                    getTopMangaUseCase(GetTopMangaParam("doujin")) to "Top Doujin"
                 }
             ))
             delay(API_RATE_LIMIT_TIME)
             loadAndShowData(listOf(
                 async {
-                    getTopMangaUseCase(GetTopMangaParam("manhwa"))
+                    getTopMangaUseCase(GetTopMangaParam("manhwa")) to "Top Manhwa"
                 },
                 async {
-                    getTopMangaUseCase(GetTopMangaParam("manhua"))
+                    getTopMangaUseCase(GetTopMangaParam("manhua")) to "Top Manhua"
                 }
             ))
             _loadState.value = Complete
@@ -74,15 +74,15 @@ class HomeViewModel(val di: DI): BaseViewModel() {
         list.clear()
     }
 
-    private suspend fun loadAndShowData(list: List<Deferred<Result<List<Manga>>>>) {
+    private suspend fun loadAndShowData(list: List<Deferred<Pair<Result<List<Manga>>, String>>>) {
         val listHome = mutableListOf(*this.list.toTypedArray())
         list.awaitAll().let { list ->
             for (item in list) {
-                item.data?.let {
+                item.first.data?.let {
                     listHome.add(Divider)
                     // TODO: 10/6/2020 find the workaround for R in android and ios
-                    listHome.add(Title("Top manga"))
-                    listHome.add(HomeManga(it))
+                    listHome.add(Title(item.second))
+                    listHome.add(MangaList(it))
                 }
             }
         }

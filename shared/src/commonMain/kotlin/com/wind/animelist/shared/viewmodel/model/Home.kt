@@ -7,33 +7,33 @@ import com.wind.animelist.shared.domain.model.Manga
  * Created by Phong Huynh on 9/29/2020
  */
 
-interface HomeItem {
-    fun getType(): Int
+sealed class Home {
+    abstract fun getType(): Int
 }
 
-data class HomeManga(
+data class MangaList(
     val list: List<Manga>
-): HomeItem {
+): Home() {
     override fun getType(): Int {
-        return AdapterTypeUtil.TYPE_MANGA_SLIDER
+        return AdapterTypeUtil.TYPE_MANGA_LIST
     }
 }
 
-data class HomeAnime(
+data class AnimeList(
     val list: List<Anime>
-): HomeItem {
+): Home() {
     override fun getType(): Int {
-        return AdapterTypeUtil.TYPE_ANIME_SLIDER
+        return AdapterTypeUtil.TYPE_ANIME_LIST
     }
 }
 
-data class Title(val text: String): HomeItem {
+data class Title(val text: String): Home() {
     override fun getType(): Int {
         return AdapterTypeUtil.TYPE_TITLE
     }
 }
 
-object Divider: HomeItem {
+object Divider: Home() {
     override fun getType(): Int {
         return AdapterTypeUtil.TYPE_DIVIDER
     }

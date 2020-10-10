@@ -16,7 +16,6 @@ repositories {
 }
 dependencies {
     implementation(project(":shared"))
-    implementation(project(":shareAndroid"))
 
     // kotlin
     implementation(Libs.Kotlin.std)

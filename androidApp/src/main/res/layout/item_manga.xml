@@ -17,7 +17,7 @@
     <widget.RatioCardView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:rcv_dimensionRatio="2:3"
+        app:rcv_dimensionRatio="@string/mangaRadio"
         app:cardCornerRadius="@dimen/default_radius"
         app:cardElevation="0dp"
         tools:background="@android:color/white"
@@ -30,10 +30,11 @@
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            app:shapeAppearance="@style/RoundView"
             app:image="@{item.imageUrl}"
             app:requestManager="@{requestManager}"
-            tools:ignore="ContentDescription" />
+            app:shapeAppearance="@style/RoundView"
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <View
             android:layout_width="match_parent"

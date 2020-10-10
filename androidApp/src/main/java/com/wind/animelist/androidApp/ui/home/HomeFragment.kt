@@ -40,7 +40,6 @@ import org.kodein.di.android.x.di
 import org.kodein.di.instance
 import util.Event
 import util.TYPE_FOOTER
-import util.forwardTransition
 import util.getDimen
 import util.loadmore.LoadMoreHelper
 
@@ -76,11 +75,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
         fun newInstance(): HomeFragment {
             return HomeFragment()
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        forwardTransition()
     }
 
     override fun onCreateView(

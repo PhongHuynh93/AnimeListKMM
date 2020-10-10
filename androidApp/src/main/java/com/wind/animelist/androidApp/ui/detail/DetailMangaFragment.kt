@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.wind.animelist.androidApp.adapter.DetailMangaHeaderAdapter
 import com.wind.animelist.androidApp.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.databinding.FragmentDetailMangaBinding
@@ -23,6 +24,7 @@ import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
 import util.backwardTransition
+import util.setUpToolbar
 
 /**
  * Created by Phong Huynh on 10/8/2020
@@ -42,11 +44,10 @@ class DetailMangaFragment(): Fragment(), DIAware {
             import(detailMangaModule(this@DetailMangaFragment))
         }
     val detailMangaAdapter: DetailMangaAdapter by instance()
-    val detailMangaHeaderAdapter: DetailMangaHeaderAdapter by instance()
     val loadingAdapter: LoadingAdapter by instance()
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
-        val adapter = ConcatAdapter(config, detailMangaHeaderAdapter, detailMangaAdapter, loadingAdapter)
+        val adapter = ConcatAdapter(config, detailMangaAdapter, loadingAdapter)
         adapter
     }
 
@@ -72,6 +73,9 @@ class DetailMangaFragment(): Fragment(), DIAware {
         viewBinding = FragmentDetailMangaBinding.inflate(inflater, container, false).apply {
             vm = vmDetailManga
             lifecycleOwner = viewLifecycleOwner
+            requestManager = Glide.with(this@DetailMangaFragment)
+            item = manga
+            setUpToolbar(toolbar, showUpIcon = true)
             rcv.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
@@ -81,10 +85,5 @@ class DetailMangaFragment(): Fragment(), DIAware {
         return viewBinding.root.apply {
             transitionName = requireArguments()[EXTRA_TRANSITION_NAME] as String
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        detailMangaHeaderAdapter.submitList(listOf(manga))
     }
 }

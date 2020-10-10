@@ -20,6 +20,6 @@ class DetailMangaViewModel(val di: DI): BaseViewModel() {
     val data: CFlow<List<DetailManga>> get() = _data.filterNotNull().asCommonFlow()
 
     fun setManga(manga: Manga) {
-        _data.value = listOf(DetailMangaHeader(manga))
+//        _data.value = listOf(DetailMangaHeader(manga))
     }
 }

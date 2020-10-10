@@ -165,7 +165,7 @@ fun RecyclerView.loadData(lifecycleOwner: LifecycleOwner, data: CFlow<List<HomeI
         (adapter as ConcatAdapter).adapters.forEach { adapter ->
             when (adapter) {
                 is LoadingAdapter -> {
-                    adapter.loadState = LoadState.NotLoading.Incomplete
+                    adapter.loadState = state
                 }
             }
         }

@@ -36,7 +36,7 @@ fun detailMangaModule(frag: Fragment) = DI.Module("detailManga") {
         DetailMangaAdapter(Glide.with(frag))
     }
     bind<DetailMangaHeaderAdapter>() with provider {
-        DetailMangaHeaderAdapter()
+        DetailMangaHeaderAdapter(Glide.with(frag))
     }
     bind<LoadingAdapter>() with provider {
         LoadingAdapter()

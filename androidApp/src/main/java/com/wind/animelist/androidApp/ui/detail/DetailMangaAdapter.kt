@@ -11,6 +11,7 @@ import com.wind.animelist.androidApp.databinding.ItemDetailMangaHeaderBinding
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import com.wind.animelist.shared.viewmodel.model.DetailManga
 import com.wind.animelist.shared.viewmodel.model.DetailMangaHeader
+import java.lang.IllegalStateException
 
 /**
  * Created by Phong Huynh on 10/8/2020
@@ -58,8 +59,10 @@ class DetailMangaAdapter(private val requestManager: RequestManager) : ListAdapt
                     }
                 }
             }
+            else -> {
+                throw IllegalStateException("must create vh with itemview $viewType")
+            }
         }
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

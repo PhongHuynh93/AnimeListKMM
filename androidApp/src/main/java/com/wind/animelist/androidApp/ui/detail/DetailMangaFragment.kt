@@ -22,11 +22,13 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
+import util.backwardTransition
 
 /**
  * Created by Phong Huynh on 10/8/2020
  */
 private const val EXTRA_DATA = "xData"
+private const val EXTRA_TRANSITION_NAME = "xTransitionName"
 class DetailMangaFragment(): Fragment(), DIAware {
     private lateinit var manga: Manga
     private lateinit var viewBinding: FragmentDetailMangaBinding
@@ -50,15 +52,16 @@ class DetailMangaFragment(): Fragment(), DIAware {
 
 
     companion object {
-        fun newInstance(manga: Manga): DetailMangaFragment {
+        fun newInstance(manga: Manga, transitionName: String): DetailMangaFragment {
             return DetailMangaFragment().apply {
-                arguments = bundleOf(EXTRA_DATA to manga)
+                arguments = bundleOf(EXTRA_DATA to manga, EXTRA_TRANSITION_NAME to transitionName)
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        backwardTransition()
         manga = requireArguments()[EXTRA_DATA] as Manga
     }
 
@@ -75,7 +78,9 @@ class DetailMangaFragment(): Fragment(), DIAware {
                 adapter = concatAdapter
             }
         }
-        return viewBinding.root
+        return viewBinding.root.apply {
+            transitionName = requireArguments()[EXTRA_TRANSITION_NAME] as String
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -3,26 +3,22 @@ package widget
 import android.content.Context
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
-import android.view.View.MeasureSpec
-import androidx.cardview.widget.CardView
-import com.wind.collagePhotoMaker.share.R
+import com.google.android.material.imageview.ShapeableImageView
+import com.wind.animelist.android.R
 
-class RatioCardView @JvmOverloads constructor(
+class RatioImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : CardView(
-    context, attrs, defStyleAttr
-) {
+) : ShapeableImageView(context, attrs, defStyleAttr) {
     // width/height
     private var mRatio = 0f
 
     init {
         val typedArray =
-            getContext().obtainStyledAttributes(attrs, R.styleable.RatioCardView, 0, defStyleAttr)
+            getContext().obtainStyledAttributes(attrs, R.styleable.RatioImageView, 0, defStyleAttr)
         try {
-            val ratio = typedArray.getString(R.styleable.RatioCardView_rcv_dimensionRatio)
+            val ratio = typedArray.getString(R.styleable.RatioImageView_riv_dimensionRatio)
             if (!TextUtils.isEmpty(ratio)) {
                 val wh = ratio!!.split(":").toTypedArray()
                 if (wh.size == 2) {
@@ -51,4 +47,5 @@ class RatioCardView @JvmOverloads constructor(
         mRatio = ratio
         requestLayout()
     }
+
 }

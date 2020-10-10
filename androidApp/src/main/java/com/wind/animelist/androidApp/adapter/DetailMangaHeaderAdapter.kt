@@ -6,13 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.databinding.ItemDetailMangaHeaderBinding
 import com.wind.animelist.shared.domain.model.Manga
+import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 
 /**
  * Created by Phong Huynh on 10/8/2020
  */
-class DetailMangaHeaderAdapter :
+class DetailMangaHeaderAdapter(private val requestManager: RequestManager) :
     ListAdapter<Manga, DetailMangaHeaderAdapter.ViewHolder>(object : DiffUtil
     .ItemCallback<Manga>() {
         override fun areItemsTheSame(oldItem: Manga, newItem: Manga): Boolean {
@@ -31,15 +33,16 @@ class DetailMangaHeaderAdapter :
     var callback: Callback? = null
 
     override fun getItemViewType(position: Int): Int {
-        return Vi
+        return AdapterTypeUtil.TYPE_DETAIL_MANGA_HEADER
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             ItemDetailMangaHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(
-            binding
+            binding.apply {
+                requestManager = this@DetailMangaHeaderAdapter.requestManager
+            }
         ).apply {
             itemView.setOnClickListener { view ->
                 val pos = bindingAdapterPosition

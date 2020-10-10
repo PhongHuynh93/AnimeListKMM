@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,21 +16,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.R
+import com.wind.animelist.androidApp.adapter.LoadingAdapter
+import com.wind.animelist.androidApp.adapter.TitleHeaderAdapter
 import com.wind.animelist.androidApp.adapter.TitleViewHolder
 import com.wind.animelist.androidApp.databinding.*
 import com.wind.animelist.androidApp.di.homeModule
-import com.wind.animelist.shared.viewmodel.model.HomeAnime
-import com.wind.animelist.shared.viewmodel.model.HomeItem
-import com.wind.animelist.shared.viewmodel.model.HomeManga
-import com.wind.animelist.shared.viewmodel.model.Title
-import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.viewmodel.HomeViewModel
 import com.wind.animelist.shared.viewmodel.HomeViewModelFactory
 import com.wind.animelist.shared.viewmodel.LoadState
+import com.wind.animelist.shared.viewmodel.NavViewModel
 import com.wind.animelist.shared.viewmodel.di.homeVModule
+import com.wind.animelist.shared.viewmodel.model.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -40,11 +38,9 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
-import com.wind.animelist.androidApp.adapter.LoadingAdapter
-import com.wind.animelist.androidApp.adapter.TitleHeaderAdapter
-import com.wind.animelist.shared.viewmodel.NavViewModel
 import util.Event
 import util.TYPE_FOOTER
+import util.forwardTransition
 import util.getDimen
 import util.loadmore.LoadMoreHelper
 
@@ -82,6 +78,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        forwardTransition()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -97,7 +98,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
                 }
                 callbackManga = object: HomeMangaHozAdapter.Callback {
                     override fun onClick(view: View, pos: Int, item: Manga) {
-                        vmNav.goToManga.value = Event(item)
+                        view.transitionName = item.id.toString()
+                        vmNav.goToManga.value = Event(view to item)
                     }
                 }
             }

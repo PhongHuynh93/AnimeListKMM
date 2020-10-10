@@ -34,7 +34,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.wind.collagePhotoMaker.share.R
+import com.google.android.material.transition.MaterialSharedAxis
+import com.wind.animelist.android.R
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.text.SimpleDateFormat
 import java.util.*
@@ -522,4 +523,20 @@ fun Bitmap.saveFile(context: Context) {
         }
     } catch (ignored: Exception) {
     }
+}
+
+fun Fragment.forwardTransition() {
+    val backward = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    reenterTransition = backward
+
+    val forward = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+    exitTransition = forward
+}
+
+fun Fragment.backwardTransition() {
+    val forward = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+    enterTransition = forward
+
+    val backward = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    returnTransition = backward
 }

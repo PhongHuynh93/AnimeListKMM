@@ -5,7 +5,7 @@ object Versions {
     const val gradlePlugin: String = "4.0.1"
     const val glide: String = "4.10.0"
     const val supportLibrary: String = "1.1.0"
-    const val material: String = "1.3.0-alpha02"
+    const val material: String = "1.3.0-alpha03"
     const val constraintLayout: String = "2.0.0"
     const val room: String = "2.2.2"
     // ios doesn't have the latest version, so we have 2 versions ktor

@@ -5,7 +5,7 @@ object Versions {
     const val gradlePlugin: String = "4.0.1"
     const val glide: String = "4.10.0"
     const val supportLibrary: String = "1.1.0"
-    const val material: String = "1.3.0-alpha03"
+    const val material: String = "1.2.1"
     const val constraintLayout: String = "2.0.0"
     const val room: String = "2.2.2"
     // ios doesn't have the latest version, so we have 2 versions ktor
@@ -23,7 +23,7 @@ object Libs {
         const val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
         const val page = "androidx.paging:paging-runtime-ktx:3.0.0-alpha06"
         const val core = "androidx.core:core-ktx:1.3.0"
-        const val fragment = "androidx.fragment:fragment-ktx:1.3.0-alpha08"
+        const val fragment = "androidx.fragment:fragment-ktx:1.2.5"
         const val lifeCycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
         const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"

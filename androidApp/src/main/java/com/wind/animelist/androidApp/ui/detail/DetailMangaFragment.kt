@@ -37,6 +37,7 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
+import util.TYPE_FOOTER
 import util.backwardTransition
 import util.getDimen
 import util.setUpToolbar
@@ -112,6 +113,10 @@ class DetailMangaFragment() : Fragment(), DIAware {
                                 when (type) {
                                     AdapterTypeUtil.TYPE_TITLE -> {
                                         outRect.top = space.toInt()
+                                    }
+                                    TYPE_FOOTER -> {
+                                        outRect.top = space.toInt()
+                                        outRect.bottom = space.toInt()
                                     }
                                 }
                             }

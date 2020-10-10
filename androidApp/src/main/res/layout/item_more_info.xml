@@ -24,9 +24,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textStyle="bold"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="@style/MangaHeader"
             android:text="@{title}"
             tools:text="@tools:sample/full_names" />
 

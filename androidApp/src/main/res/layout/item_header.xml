@@ -15,9 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/space_normal"
         android:layout_marginVertical="@dimen/space_pretty_small"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-        android:textColor="?attr/colorAccent"
-        android:textStyle="bold"
+        android:textAppearance="@style/MangaHeader"
         android:text="@{item}"
         tools:text="@tools:sample/full_names" />
 </layout>

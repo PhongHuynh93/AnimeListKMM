@@ -310,16 +310,20 @@ fun FragmentActivity.getHeight(): Int {
 inline fun FragmentManager.inTransaction(useAnim: Boolean = false, func: FragmentTransaction.() -> Unit) {
     beginTransaction().apply {
         if (useAnim) {
-            setCustomAnimations(
-                R.anim.fragment_open_enter,
-                R.anim.fragment_open_exit,
-                R.anim.fragment_close_enter,
-                R.anim.fragment_close_exit
-            )
+            useAnim()
         }
         func()
         commitAllowingStateLoss()
     }
+}
+
+fun FragmentTransaction.useAnim() {
+    setCustomAnimations(
+        R.anim.fragment_open_enter,
+        R.anim.fragment_open_exit,
+        R.anim.fragment_close_enter,
+        R.anim.fragment_close_exit
+    )
 }
 
 fun FragmentActivity.addFragment(
@@ -523,20 +527,4 @@ fun Bitmap.saveFile(context: Context) {
         }
     } catch (ignored: Exception) {
     }
-}
-
-fun Fragment.forwardTransition() {
-    val backward = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-    reenterTransition = backward
-
-    val forward = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-    exitTransition = forward
-}
-
-fun Fragment.backwardTransition() {
-    val forward = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-    enterTransition = forward
-
-    val backward = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-    returnTransition = backward
 }

@@ -38,7 +38,6 @@ import org.kodein.di.android.subDI
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
 import util.TYPE_FOOTER
-import util.backwardTransition
 import util.getDimen
 import util.setUpToolbar
 
@@ -81,7 +80,6 @@ class DetailMangaFragment() : Fragment(), DIAware {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        backwardTransition()
         manga = requireArguments()[EXTRA_DATA] as Manga
     }
 

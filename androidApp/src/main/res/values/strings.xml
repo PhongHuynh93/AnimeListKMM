@@ -4,4 +4,7 @@
     <string name="top_anime">Top Anime</string>
     <string name="home_title">Browse</string>
     <string name="mangaRadio">2:2.6</string>
+    <string name="menu_manga">manga</string>
+    <string name="menu_anime">anime</string>
+    <string name="menu_user">user</string>
 </resources>

@@ -7,9 +7,19 @@ plugins {
     kotlin(Plugins.kotlinExtensions)
     id(Plugins.serialization)
     kotlin(Plugins.kapt)
+    kotlin("native.cocoapods")
 }
 
 kotlin {
+    cocoapods {
+        summary = "A cross-platform anime list"
+        homepage = "https://github.com/PhongHuynh93/AnimeListKMM"
+        ios.deploymentTarget = "13.5"
+        podfile = project.file("../iosApp/Podfile")
+        // The name of the produced framework can be changed.
+        // The name of the Gradle project is used here by default.
+        frameworkName = "shared"
+    }
     // target 1.8 when using kodein
     // https://github.com/Kodein-Framework/Kodein-Samples/blob/master/di/coffee-maker/common/build.gradle.kts
     android {
@@ -19,13 +29,7 @@ kotlin {
             }
         }
     }
-    ios {
-        binaries {
-            framework {
-                baseName = "shared"
-            }
-        }
-    }
+    ios {}
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -98,6 +102,7 @@ kotlin {
         val iosTest by getting
     }
 }
+
 android {
     compileSdkVersion(Configs.compileSdk)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")

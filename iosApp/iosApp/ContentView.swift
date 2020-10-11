@@ -7,7 +7,13 @@ func greet() -> String {
 
 struct ContentView: View {
     var body: some View {
-        Text(greet())
+        NavigationView {
+            List {
+                Text("Top manga")
+                Text("Top novel")
+                Text("Top anime")
+            }.navigationBarTitle("Browse")
+        }
     }
 }
 

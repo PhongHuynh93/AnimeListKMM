@@ -6,6 +6,7 @@ func greet() -> String {
 }
 
 struct ContentView: View {
+    
     var body: some View {
         NavigationView {
             List {

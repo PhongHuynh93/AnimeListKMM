@@ -15,17 +15,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import org.kodein.di.DI
-import org.kodein.di.instance
 
 /**
  * Created by Phong Huynh on 10/8/2020
  */
 @ExperimentalCoroutinesApi
-class DetailMangaViewModel(val di: DI): BaseViewModel() {
-    val getCharacterInMangaUseCase: GetCharacterInMangaUseCase by di.instance()
-    val getMoreInfoUseCase: GetMoreInfoUseCase by di.instance()
-
+class DetailMangaViewModel(
+    private val getCharacterInMangaUseCase: GetCharacterInMangaUseCase,
+    private val getMoreInfoUseCase: GetMoreInfoUseCase
+) : BaseViewModel() {
     private val _data = MutableStateFlow<List<DetailManga>?>(null)
     val data: CFlow<List<DetailManga>> get() = _data.filterNotNull().asCommonFlow()
 
@@ -39,7 +37,7 @@ class DetailMangaViewModel(val di: DI): BaseViewModel() {
         clientScope.launch {
             val id = manga.id
             getMoreInfoUseCase.invoke(GetMoreInfoParam(id)).let {
-                it.data?.let {moreInfo ->
+                it.data?.let { moreInfo ->
                     list.add(DetailMangaMoreInfo(manga.title, moreInfo.text))
                     _data.value = listOf(*list.toTypedArray())
                 }

@@ -17,29 +17,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.databinding.FragmentDetailMangaBinding
-import com.wind.animelist.androidApp.di.detailMangaModule
 import com.wind.animelist.androidApp.ui.adapter.CharacterAdapter
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
 import com.wind.animelist.shared.domain.model.Character
 import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.viewmodel.DetailMangaViewModel
-import com.wind.animelist.shared.viewmodel.DetailMangaViewModelFactory
 import com.wind.animelist.shared.viewmodel.LoadState
-import com.wind.animelist.shared.viewmodel.di.detailMangaVModule
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import com.wind.animelist.shared.viewmodel.model.DetailManga
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.kodein.di.DI
-import org.kodein.di.DIAware
-import org.kodein.di.android.subDI
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import util.TYPE_FOOTER
 import util.getDimen
 import util.setUpToolbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Created by Phong Huynh on 10/8/2020
@@ -48,27 +43,18 @@ private const val EXTRA_DATA = "xData"
 private const val EXTRA_TRANSITION_NAME = "xTransitionName"
 
 @ExperimentalCoroutinesApi
-class DetailMangaFragment() : Fragment(), DIAware {
+class DetailMangaFragment() : Fragment() {
     private lateinit var manga: Manga
     private lateinit var viewBinding: FragmentDetailMangaBinding
-    override val di: DI
-        get() = subDI(parentDI = di()) {
-            import(detailMangaModule(this@DetailMangaFragment))
-        }
-    val vmDetailManga by viewModels<DetailMangaViewModel> {
-        DetailMangaViewModelFactory(subDI(di()) {
-            import(detailMangaVModule)
-        })
-    }
-    val detailMangaAdapter: DetailMangaAdapter by instance()
-    val loadingAdapter: LoadingAdapter by instance()
-    val detailMangaHeaderAdapter: DetailMangaHeaderAdapter by instance()
+    val vmDetailManga by viewModel<DetailMangaViewModel>()
+    val detailMangaAdapter: DetailMangaAdapter by inject { parametersOf(this) }
+    val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
+    val detailMangaHeaderAdapter: DetailMangaHeaderAdapter by inject { parametersOf(this) }
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
         val adapter = ConcatAdapter(config, detailMangaHeaderAdapter, detailMangaAdapter, loadingAdapter)
         adapter
     }
-
 
     companion object {
         fun newInstance(manga: Manga, transitionName: String): DetailMangaFragment {

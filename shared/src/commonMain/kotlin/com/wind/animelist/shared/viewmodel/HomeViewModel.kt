@@ -18,16 +18,15 @@ import com.wind.animelist.shared.viewmodel.model.Title
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
-import org.kodein.di.DI
-import org.kodein.di.instance
 
 /**
  * Created by Phong Huynh on 10/6/2020
  */
 @ExperimentalCoroutinesApi
-class HomeViewModel(val di: DI): BaseViewModel() {
-    val getTopMangaUseCase: GetTopMangaUseCase by di.instance()
-    val getTopAnimeUseCase: GetTopAnimeUseCase by di.instance()
+class HomeViewModel(
+    private val getTopMangaUseCase: GetTopMangaUseCase,
+    private val getTopAnimeUseCase: GetTopAnimeUseCase
+): BaseViewModel() {
     private val _data = MutableStateFlow<List<Home>?>(null)
     val data: CFlow<List<Home>> get() = _data.filterNotNull().asCommonFlow()
     private var list = mutableListOf<Home>()

@@ -76,7 +76,6 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonAndroidMain)
             dependencies {
-                implementation(Libs.Injection.android)
                 implementation(Libs.Android.viewModel)
                 implementation(Libs.Android.liveData)
                 implementation(Libs.Network.android)

@@ -11,7 +11,7 @@ object Versions {
     // ios doesn't have the latest version, so we have 2 versions ktor
     const val ktor = "1.4.1"
     const val ktorIos = "1.3.2"
-    const val injection = "7.1.0"
+    const val injection = "3.0.0-alpha-4"
 }
 
 object Libs {
@@ -32,8 +32,11 @@ object Libs {
         const val std = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     }
     object Injection {
-        const val android = "org.kodein.di:kodein-di-framework-android-x:${Versions.injection}"
-        const val core = "org.kodein.di:kodein-di:${Versions.injection}"
+        const val core = "org.koin:koin-core:${Versions.injection}"
+        object Android {
+            const val android = "org.koin:koin-android:${Versions.injection}"
+            const val androidViewModel = "org.koin:koin-androidx-viewmodel:${Versions.injection}"
+        }
     }
     object Test {
         const val junit = "junit:junit:4.12"

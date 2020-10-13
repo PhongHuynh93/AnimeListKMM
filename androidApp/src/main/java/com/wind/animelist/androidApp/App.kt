@@ -2,20 +2,21 @@ package com.wind.animelist.androidApp
 
 import android.app.Application
 import com.wind.animelist.androidApp.di.appModule
-import org.kodein.di.DI
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.androidXModule
+import com.wind.animelist.shared.di.commonModule
+import com.wind.animelist.shared.di.initKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 
 /**
  * Created by Phong Huynh on 9/26/2020
  */
-class App : Application(), DIAware {
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
-    }
-
-    override val di = DI {
-        import(androidXModule(this@App))
-        import(appModule)
+        initKoin {
+            androidLogger()
+            androidContext(this@App)
+            modules(commonModule, appModule)
+        }
     }
 }

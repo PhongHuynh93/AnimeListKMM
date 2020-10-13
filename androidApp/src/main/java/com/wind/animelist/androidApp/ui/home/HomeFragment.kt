@@ -10,34 +10,28 @@ import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.R
+import com.wind.animelist.androidApp.databinding.*
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleViewHolder
-import com.wind.animelist.androidApp.databinding.*
-import com.wind.animelist.androidApp.di.homeModule
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.viewmodel.HomeViewModel
-import com.wind.animelist.shared.viewmodel.HomeViewModelFactory
 import com.wind.animelist.shared.viewmodel.LoadState
 import com.wind.animelist.shared.viewmodel.NavViewModel
-import com.wind.animelist.shared.viewmodel.di.homeVModule
 import com.wind.animelist.shared.viewmodel.model.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.kodein.di.DI
-import org.kodein.di.DIAware
-import org.kodein.di.android.subDI
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import util.Event
 import util.TYPE_FOOTER
 import util.getDimen
@@ -47,28 +41,19 @@ import util.loadmore.LoadMoreHelper
  * Created by Phong Huynh on 9/26/2020
  */
 @ExperimentalCoroutinesApi
-class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
+class HomeFragment : Fragment() {
     private lateinit var viewBinding: FragmentHomeBinding
-    override val di: DI
-        get() = subDI(parentDI = di()) {
-            import(homeModule(this@HomeFragment))
-        }
-
-    val homeAdapter: HomeAdapter by instance()
-    val loadingAdapter: LoadingAdapter by instance()
-    val titleHeaderAdapter: TitleHeaderAdapter by instance()
+    val homeAdapter: HomeAdapter by inject { parametersOf(this) }
+    val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
+    val titleHeaderAdapter: TitleHeaderAdapter by inject { parametersOf(this) }
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
         val adapter = ConcatAdapter(config, titleHeaderAdapter, homeAdapter, loadingAdapter)
         titleHeaderAdapter.submitList(listOf(getString(R.string.home_title)))
         adapter
     }
-    val vmHome by viewModels<HomeViewModel> {
-        HomeViewModelFactory(subDI(di()) {
-            import(homeVModule)
-        })
-    }
-    val loadMoreHelper: LoadMoreHelper by instance()
+    val vmHome by viewModel<HomeViewModel>()
+    val loadMoreHelper: LoadMoreHelper by inject { parametersOf(this) }
     private val vmNav by activityViewModels<NavViewModel>()
 
     companion object {

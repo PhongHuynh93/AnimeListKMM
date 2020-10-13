@@ -8,6 +8,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.wind.animelist.androidApp.ui.detail.DetailMangaFragment
 import com.wind.animelist.androidApp.ui.home.HomeFragment
 import com.wind.animelist.androidApp.ui.home.MainFragment
+import com.wind.animelist.shared.viewmodel.HomeViewModel
 import com.wind.animelist.shared.viewmodel.NavViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import util.EventObserver

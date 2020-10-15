@@ -18,15 +18,16 @@ import com.wind.animelist.shared.viewmodel.model.Title
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 /**
  * Created by Phong Huynh on 10/6/2020
  */
 @ExperimentalCoroutinesApi
-class HomeViewModel(
-    private val getTopMangaUseCase: GetTopMangaUseCase,
-    private val getTopAnimeUseCase: GetTopAnimeUseCase
-): BaseViewModel() {
+class HomeViewModel: BaseViewModel(), KoinComponent {
+    private val getTopMangaUseCase: GetTopMangaUseCase by inject()
+    private val getTopAnimeUseCase: GetTopAnimeUseCase by inject()
     private val _data = MutableStateFlow<List<Home>?>(null)
     val data: CFlow<List<Home>> get() = _data.filterNotNull().asCommonFlow()
     private var list = mutableListOf<Home>()

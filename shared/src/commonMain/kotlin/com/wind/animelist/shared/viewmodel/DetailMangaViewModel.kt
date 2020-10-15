@@ -15,15 +15,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 /**
  * Created by Phong Huynh on 10/8/2020
  */
 @ExperimentalCoroutinesApi
-class DetailMangaViewModel(
-    private val getCharacterInMangaUseCase: GetCharacterInMangaUseCase,
-    private val getMoreInfoUseCase: GetMoreInfoUseCase
-) : BaseViewModel() {
+class DetailMangaViewModel : BaseViewModel(), KoinComponent {
+    private val getCharacterInMangaUseCase: GetCharacterInMangaUseCase by inject()
+    private val getMoreInfoUseCase: GetMoreInfoUseCase by inject()
     private val _data = MutableStateFlow<List<DetailManga>?>(null)
     val data: CFlow<List<DetailManga>> get() = _data.filterNotNull().asCommonFlow()
 

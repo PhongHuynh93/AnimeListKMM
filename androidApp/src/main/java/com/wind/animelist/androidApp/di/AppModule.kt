@@ -38,6 +38,6 @@ val appModule = module {
     factory { (frag: Fragment) ->
         DetailMangaHeaderAdapter(Glide.with(frag))
     }
-    viewModel { HomeViewModel(get(), get()) }
-    viewModel { DetailMangaViewModel(get(), get()) }
+    viewModel { HomeViewModel() }
+    viewModel { DetailMangaViewModel() }
 }

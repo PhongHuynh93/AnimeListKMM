@@ -81,7 +81,6 @@ kotlin {
                 implementation(Libs.Network.android)
                 implementation(Libs.Network.parserAndroid)
                 implementation(Libs.Network.logAndroid)
-                implementation(Libs.Thread.coreAndroid)
             }
         }
         val androidTest by getting {
@@ -95,7 +94,6 @@ kotlin {
                 implementation(Libs.Network.ios)
                 implementation(Libs.Network.parserIos)
                 implementation(Libs.Network.logIos)
-                implementation(Libs.Thread.coreIos)
             }
         }
         val iosTest by getting

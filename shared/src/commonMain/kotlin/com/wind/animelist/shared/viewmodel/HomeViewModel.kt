@@ -1,6 +1,7 @@
 package com.wind.animelist.shared.viewmodel
 
 import com.wind.animelist.shared.base.BaseViewModel
+import com.wind.animelist.shared.base.ioDispatcher
 import com.wind.animelist.shared.domain.Result
 import com.wind.animelist.shared.domain.data
 import com.wind.animelist.shared.domain.model.Manga
@@ -38,7 +39,7 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
     init {
         clearState()
         // note - rate limited - 2 requests/1s
-        clientScope.launch {
+        clientScope.launch(ioDispatcher) {
             loadAndShowData(listOf(
                 async {
                     getTopMangaUseCase(GetTopMangaParam("manga")) to "Top Manga"

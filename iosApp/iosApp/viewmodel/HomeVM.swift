@@ -14,7 +14,9 @@ class HomeVM: ObservableObject {
     
     init(homeVM: HomeViewModel) {
         homeList = [HomeUI]()
+        print("homeVM first homelist \(homeList)")
         homeVM.data.watch { list in
+            print("homeVH watch list \(list!)")
             var index = 0
             var tempHomeList = [HomeUI]()
             list!.forEach { it in
@@ -22,6 +24,7 @@ class HomeVM: ObservableObject {
                 index += 1
             }
             self.homeList = tempHomeList
+            print("homeVM emit homelist \(self.homeList)")
         }
     }
 }

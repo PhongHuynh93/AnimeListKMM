@@ -1,5 +1,6 @@
 package com.wind.animelist.shared.di
 
+import com.wind.animelist.shared.base.ioDispatcher
 import com.wind.animelist.shared.data.Repository
 import com.wind.animelist.shared.data.RepositoryImpl
 import com.wind.animelist.shared.domain.usecase.GetCharacterInMangaUseCase
@@ -20,9 +21,6 @@ import org.koin.dsl.module
  * Created by Phong Huynh on 10/12/2020
  */
 
-const val bgDispatcherTag = "DefaultDispatcher"
-const val mainDispatcherTag = "MainDispatcher"
-const val mainImmediateDispatcherTag = "MainImmediateDispatcher"
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
     appDeclaration()
     modules(commonModule)
@@ -45,11 +43,8 @@ val commonModule = module {
             }
         }
         RepositoryImpl(httpClient)}
-    single(qualifier = named(bgDispatcherTag)) { Dispatchers.Default }
-    single(qualifier = named(mainDispatcherTag)) { Dispatchers.Main }
-    single(qualifier = named(mainImmediateDispatcherTag)) { Dispatchers.Main.immediate }
-    factory { GetTopMangaUseCase(get(qualifier = named(bgDispatcherTag)), get()) }
-    factory { GetTopAnimeUseCase(get(qualifier = named(bgDispatcherTag)), get()) }
-    factory { GetCharacterInMangaUseCase(get(qualifier = named(bgDispatcherTag)), get()) }
-    factory { GetMoreInfoUseCase(get(qualifier = named(bgDispatcherTag)), get()) }
+    factory { GetTopMangaUseCase(ioDispatcher, get()) }
+    factory { GetTopAnimeUseCase(ioDispatcher, get()) }
+    factory { GetCharacterInMangaUseCase(ioDispatcher, get()) }
+    factory { GetMoreInfoUseCase(ioDispatcher, get()) }
 }

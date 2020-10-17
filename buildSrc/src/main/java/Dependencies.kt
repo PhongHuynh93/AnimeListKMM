@@ -1,7 +1,6 @@
 object Versions {
     const val kotlin = "1.4.10"
     const val kotlinCoroutines = "1.4.0-M1"
-    const val kotlinCoroutinesIos = "1.3.9-native-mt"
     const val gradlePlugin: String = "4.0.1"
     const val glide: String = "4.10.0"
     const val supportLibrary: String = "1.1.0"
@@ -60,7 +59,6 @@ object Libs {
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
         const val coreAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions
             .kotlinCoroutines}"
-        const val coreIos = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutinesIos}"
     }
     object Db {
         const val room = "androidx.room:room-runtime:${Versions.room}"

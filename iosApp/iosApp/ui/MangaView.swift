@@ -12,13 +12,33 @@ import shared
 import KingfisherSwiftUI
 
 struct MangaView: View {
-    let manga: Manga
+    let mangaUI: MangaUI
     var body: some View {
         ZStack() {
-            KFImage(URL(string: manga.imageUrl))
+            KFImage(URL(string: mangaUI.manga.imageUrl))
                 .resizable()
-                .aspectRatio(2/2.6, contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-            Text(manga.title)
+                .aspectRatio(2/2.6, contentMode:.fit)
+                .cornerRadius(12)
+                .overlay(TitleMangaOverlay(title: mangaUI.manga.title))
         }
+    }
+}
+
+private struct TitleMangaOverlay: View {
+    let title: String
+    
+    var gradient: LinearGradient {
+        LinearGradient(gradient: Gradient(colors: [
+            Color.black.opacity(0.9),
+            Color.black.opacity(0)
+        ]), startPoint: .bottom, endPoint: .center)
+    }
+    
+    var body: some View {
+        ZStack(alignment: .bottomLeading) {
+            RoundedRectangle(cornerRadius: 12).fill(gradient)
+            Text(title).bold().lineLimit(2).padding(8)
+        }
+        .foregroundColor(.white)
     }
 }

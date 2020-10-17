@@ -11,9 +11,9 @@ import shared
 
 struct HomeUI: Identifiable {
     let id: Int
-    let home: Home
+    let home: Any
     
-    init(pos: Int, home: Home) {
+    init(pos: Int, home: Any) {
         self.id = pos
         self.home = home
     }

@@ -41,33 +41,20 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
         // note - rate limited - 2 requests/1s
         clientScope.launch(ioDispatcher) {
             loadAndShowData(listOf(
-                async {
-                    getTopMangaUseCase(GetTopMangaParam("manga")) to "Top Manga"
-                },
-                async {
-                    getTopMangaUseCase(GetTopMangaParam("novels")) to "Top Novel"
-                }
+                (getTopMangaUseCase(GetTopMangaParam("manga")) to "Top Manga"),
+                (getTopMangaUseCase(GetTopMangaParam("novels")) to "Top Novel")
             ))
             delay(API_RATE_LIMIT_TIME)
             loadAndShowData(listOf(
-                async {
-                    getTopMangaUseCase(GetTopMangaParam("oneshots")) to "Top One Shot"
-                },
-                async {
-                    getTopMangaUseCase(GetTopMangaParam("doujin")) to "Top Doujin"
-                }
+                (getTopMangaUseCase(GetTopMangaParam("oneshots")) to "Top One Shot"),
+                (getTopMangaUseCase(GetTopMangaParam("doujin")) to "Top Doujin")
             ))
             delay(API_RATE_LIMIT_TIME)
             loadAndShowData(listOf(
-                async {
-                    getTopMangaUseCase(GetTopMangaParam("manhwa")) to "Top Manhwa"
-                },
-                async {
-                    getTopMangaUseCase(GetTopMangaParam("manhua")) to "Top Manhua"
-                }
+                (getTopMangaUseCase(GetTopMangaParam("manhwa")) to "Top Manhwa"),
+                (getTopMangaUseCase(GetTopMangaParam("manhua")) to "Top Manhua")
             ))
             _loadState.value = Complete
-
         }
     }
 
@@ -75,9 +62,8 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
         list.clear()
     }
 
-    private suspend fun loadAndShowData(list: List<Deferred<Pair<Result<List<Manga>>, String>>>) {
+    private fun loadAndShowData(list: List<Pair<Result<List<Manga>>, String>>) {
         val listHome = mutableListOf(*this.list.toTypedArray())
-        list.awaitAll().let { list ->
             for (item in list) {
                 item.first.data?.let {
                     listHome.add(Divider)
@@ -86,7 +72,6 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
                     listHome.add(MangaList(it))
                 }
             }
-        }
         if (listHome.isEmpty()) {
             // TODO: 9/28/2020 show no data
         } else {

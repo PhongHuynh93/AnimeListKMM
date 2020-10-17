@@ -22,6 +22,8 @@
 		DC52E21D253723F3004B18AC /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = DC52E21C253723F3004B18AC /* KingfisherSwiftUI */; };
 		DC52E22225374903004B18AC /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52E22125374903004B18AC /* HomeVM.swift */; };
 		DC52E22925375147004B18AC /* HomeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52E22825375147004B18AC /* HomeUI.swift */; };
+		DC7EEC3B253AEEC7006DD002 /* MangaUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7EEC3A253AEEC7006DD002 /* MangaUI.swift */; };
+		DC7EEC3F253AF344006DD002 /* MangaListUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7EEC3E253AF344006DD002 /* MangaListUI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,8 @@
 		DC52E213253605D1004B18AC /* MangaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaView.swift; sourceTree = "<group>"; };
 		DC52E22125374903004B18AC /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		DC52E22825375147004B18AC /* HomeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUI.swift; sourceTree = "<group>"; };
+		DC7EEC3A253AEEC7006DD002 /* MangaUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaUI.swift; sourceTree = "<group>"; };
+		DC7EEC3E253AF344006DD002 /* MangaListUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListUI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +200,8 @@
 			isa = PBXGroup;
 			children = (
 				DC52E22825375147004B18AC /* HomeUI.swift */,
+				DC7EEC3A253AEEC7006DD002 /* MangaUI.swift */,
+				DC7EEC3E253AF344006DD002 /* MangaListUI.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -360,7 +366,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC7EEC3B253AEEC7006DD002 /* MangaUI.swift in Sources */,
 				7555FF7F242A565900829871 /* AppDelegate.swift in Sources */,
+				DC7EEC3F253AF344006DD002 /* MangaListUI.swift in Sources */,
 				DC52E22225374903004B18AC /* HomeVM.swift in Sources */,
 				DC52E214253605D1004B18AC /* MangaView.swift in Sources */,
 				DC52E22925375147004B18AC /* HomeUI.swift in Sources */,

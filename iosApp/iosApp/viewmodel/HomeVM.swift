@@ -14,17 +14,28 @@ class HomeVM: ObservableObject {
     
     init(homeVM: HomeViewModel) {
         homeList = [HomeUI]()
-        print("homeVM first homelist \(homeList)")
         homeVM.data.watch { list in
-            print("homeVH watch list \(list!)")
-            var index = 0
+            var indexOuter = 0
             var tempHomeList = [HomeUI]()
             list!.forEach { it in
-                tempHomeList.append(HomeUI(pos: index, home: it as! Home))
-                index += 1
+                switch it {
+                case is MangaList:
+                    // convert nsarray into array
+                    var indexInner = 0
+                    var mangaList = [MangaUI]()
+                    (it as! MangaList).list.forEach { it in
+                        mangaList.append(MangaUI(pos: indexInner, manga: it))
+                        indexInner += 1
+                    }
+                    
+                    tempHomeList.append(HomeUI(pos: indexOuter, home: MangaListUI(mangaList: mangaList)))
+                default:
+                    tempHomeList.append(HomeUI(pos: indexOuter, home: it as! Home))
+                }
+                indexOuter += 1
+               
             }
             self.homeList = tempHomeList
-            print("homeVM emit homelist \(self.homeList)")
         }
     }
 }

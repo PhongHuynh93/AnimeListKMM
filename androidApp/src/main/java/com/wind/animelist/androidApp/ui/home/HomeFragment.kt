@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.databinding.*
+import com.wind.animelist.androidApp.model.Divider
+import com.wind.animelist.androidApp.model.Title
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleViewHolder
@@ -133,7 +135,7 @@ fun RecyclerView.loadHome(lifecycleOwner: LifecycleOwner, data: CFlow<List<Home>
             adapters.forEach { adapter ->
                 when (adapter) {
                     is HomeAdapter -> {
-                        adapter.submitList(list)
+                        adapter.setData(list)
                     }
                 }
             }
@@ -234,6 +236,20 @@ class HomeAdapter constructor(
                 vh.binding.executePendingBindings()
             }
         }
+    }
+
+    fun setData(list: List<Home>) {
+        val newHomeList = mutableListOf<Home>()
+        for (item in list) {
+            if (item is MangaList) {
+                newHomeList.add(Divider)
+                newHomeList.add(Title(item.title))
+                newHomeList.add(item)
+            } else {
+                newHomeList.add(item)
+            }
+        }
+        submitList(newHomeList)
     }
 
     inner class HomeMangaHozListViewHolder(val binding: ItemMangaHomePagerBinding) :

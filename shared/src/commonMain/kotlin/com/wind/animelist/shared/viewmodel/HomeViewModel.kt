@@ -12,10 +12,8 @@ import com.wind.animelist.shared.util.API_RATE_LIMIT_TIME
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.util.asCommonFlow
 import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Complete
-import com.wind.animelist.shared.viewmodel.model.Divider
 import com.wind.animelist.shared.viewmodel.model.Home
 import com.wind.animelist.shared.viewmodel.model.MangaList
-import com.wind.animelist.shared.viewmodel.model.Title
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -66,10 +64,8 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
         val listHome = mutableListOf(*this.list.toTypedArray())
             for (item in list) {
                 item.first.data?.let {
-                    listHome.add(Divider)
                     // TODO: 10/6/2020 find the workaround for R in android and ios
-                    listHome.add(Title(item.second))
-                    listHome.add(MangaList(it))
+                    listHome.add(MangaList(it, item.second))
                 }
             }
         if (listHome.isEmpty()) {

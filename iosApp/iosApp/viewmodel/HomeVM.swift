@@ -22,13 +22,15 @@ class HomeVM: ObservableObject {
                 case is MangaList:
                     // convert nsarray into array
                     var indexInner = 0
+                    var oldMangaList = it as! MangaList
                     var mangaList = [MangaUI]()
-                    (it as! MangaList).list.forEach { it in
+            
+                    oldMangaList.list.forEach { it in
                         mangaList.append(MangaUI(pos: indexInner, manga: it))
                         indexInner += 1
                     }
                     
-                    tempHomeList.append(HomeUI(pos: indexOuter, home: MangaListUI(mangaList: mangaList)))
+                    tempHomeList.append(HomeUI(pos: indexOuter, home: MangaListUI(title: oldMangaList.title, mangaList: mangaList)))
                 default:
                     tempHomeList.append(HomeUI(pos: indexOuter, home: it as! Home))
                 }

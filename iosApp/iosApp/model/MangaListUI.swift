@@ -10,9 +10,6 @@ import Foundation
 import shared
 
 struct MangaListUI {
+    let title: String
     let mangaList: [MangaUI]
-    
-    init(mangaList: [MangaUI]) {
-        self.mangaList = mangaList
-    }
 }

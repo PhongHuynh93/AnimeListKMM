@@ -44,11 +44,10 @@ class DetailMangaViewModel : BaseViewModel(), KoinComponent {
                 }
             }
             getCharacterInMangaUseCase.invoke(GetCharacterInMangaParam(id)).let {
-                DetailMangaCharacter(it.successOr(emptyList())).let { mangaCharacter ->
-                    if (mangaCharacter.list.isNotEmpty()) {
-                        list.add(DetailMangaTitle("Character"))
-                        list.add(mangaCharacter)
-                        _data.value = listOf(*list.toTypedArray())
+                it.successOr(emptyList()).let { list ->
+                    if (list.isNotEmpty()) {
+                        this@DetailMangaViewModel.list.add(DetailMangaCharacter("Character", list))
+                        _data.value = listOf(*this@DetailMangaViewModel.list.toTypedArray())
                     }
                 }
             }

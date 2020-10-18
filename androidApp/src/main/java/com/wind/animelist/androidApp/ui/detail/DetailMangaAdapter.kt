@@ -11,6 +11,8 @@ import com.wind.animelist.androidApp.ui.adapter.TitleViewHolder
 import com.wind.animelist.androidApp.databinding.ItemCharacterListBinding
 import com.wind.animelist.androidApp.databinding.ItemMoreInfoBinding
 import com.wind.animelist.androidApp.databinding.ItemTitleBinding
+import com.wind.animelist.androidApp.model.Divider
+import com.wind.animelist.androidApp.model.Title
 import com.wind.animelist.androidApp.ui.adapter.vh.CharacterHozListViewHolder
 import com.wind.animelist.androidApp.ui.adapter.vh.MoreInfoViewHolder
 import com.wind.animelist.shared.viewmodel.model.*
@@ -21,11 +23,11 @@ import com.wind.animelist.shared.viewmodel.model.*
 class DetailMangaAdapter(private val requestManager: RequestManager) : ListAdapter<DetailManga, RecyclerView.ViewHolder>(object : DiffUtil
 .ItemCallback<DetailManga>() {
     override fun areItemsTheSame(oldItem: DetailManga, newItem: DetailManga): Boolean {
-        return oldItem.getType() == newItem.getType()
+        return oldItem === newItem
     }
 
     override fun areContentsTheSame(oldItem: DetailManga, newItem: DetailManga): Boolean {
-        return oldItem == newItem
+        return true
     }
 }) {
 
@@ -81,7 +83,7 @@ class DetailMangaAdapter(private val requestManager: RequestManager) : ListAdapt
         when (getItemViewType(position)) {
             AdapterTypeUtil.TYPE_TITLE -> {
                 val vh2 = vh as TitleViewHolder
-                vh2.binding.text = (item as DetailMangaTitle).text
+                vh2.binding.text = (item as Title).text
                 vh2.binding.executePendingBindings()
             }
             AdapterTypeUtil.TYPE_CHARACTER_LIST -> {
@@ -98,6 +100,19 @@ class DetailMangaAdapter(private val requestManager: RequestManager) : ListAdapt
                 vh2.binding.executePendingBindings()
             }
         }
+    }
+
+    fun setData(list: List<DetailManga>) {
+        val newList = mutableListOf<DetailManga>()
+        for (item in list) {
+            if (item is DetailMangaCharacter) {
+                newList.add(Title(item.title))
+                newList.add(item)
+            } else {
+                newList.add(item)
+            }
+        }
+        submitList(newList)
     }
 
     interface Callback {

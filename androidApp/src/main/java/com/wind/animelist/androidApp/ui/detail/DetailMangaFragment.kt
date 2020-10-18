@@ -140,7 +140,7 @@ fun RecyclerView.loadDetailManga(
             adapters.forEach { adapter ->
                 when (adapter) {
                     is DetailMangaAdapter -> {
-                        adapter.submitList(list)
+                        adapter.setData(list)
                     }
                 }
             }

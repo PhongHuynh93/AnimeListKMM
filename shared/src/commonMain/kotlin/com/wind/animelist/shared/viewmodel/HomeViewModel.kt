@@ -12,6 +12,7 @@ import com.wind.animelist.shared.util.API_RATE_LIMIT_TIME
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.util.asCommonFlow
 import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Complete
+import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Incomplete
 import com.wind.animelist.shared.viewmodel.model.Home
 import com.wind.animelist.shared.viewmodel.model.MangaList
 import kotlinx.coroutines.*
@@ -25,6 +26,8 @@ import org.koin.core.inject
  */
 @ExperimentalCoroutinesApi
 class HomeViewModel: BaseViewModel(), KoinComponent {
+    private var finishGetManhwa: Boolean = false
+    private var finishGetData: Boolean = false
     private val getTopMangaUseCase: GetTopMangaUseCase by inject()
     private val getTopAnimeUseCase: GetTopAnimeUseCase by inject()
     private val _data = MutableStateFlow<List<Home>?>(null)
@@ -48,11 +51,7 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
                 (getTopMangaUseCase(GetTopMangaParam("doujin")) to "Top Doujin")
             ))
             delay(API_RATE_LIMIT_TIME)
-            loadAndShowData(listOf(
-                (getTopMangaUseCase(GetTopMangaParam("manhwa")) to "Top Manhwa"),
-                (getTopMangaUseCase(GetTopMangaParam("manhua")) to "Top Manhua")
-            ))
-            _loadState.value = Complete
+            finishGetData = true
         }
     }
 
@@ -77,6 +76,20 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
     }
 
     fun loadMoreManga() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
+        if (finishGetData) {
+            if (!finishGetManhwa) {
+                clientScope.launch(ioDispatcher) {
+                    loadAndShowData(listOf(
+                        (getTopMangaUseCase(GetTopMangaParam("manhwa")) to "Top Manhwa"),
+                        (getTopMangaUseCase(GetTopMangaParam("manhua")) to "Top Manhua")
+                    ))
+                    finishGetManhwa = true
+                    _loadState.value = Complete
+                }
+            } else {
+                // TODO: 10/19/2020 load the manga news here
+            }
+        }
     }
 }

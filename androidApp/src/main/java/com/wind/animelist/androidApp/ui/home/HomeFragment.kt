@@ -34,9 +34,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import util.Event
-import util.TYPE_FOOTER
-import util.getDimen
+import util.*
 import util.loadmore.LoadMoreHelper
 
 /**
@@ -69,7 +67,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewBinding = FragmentHomeBinding.inflate(inflater, container, false).apply {
-            vm = vmHome
             lifecycleOwner = viewLifecycleOwner
             homeAdapter.apply {
                 callbackAnime = object: HomeAnimeHozAdapter.Callback {
@@ -89,7 +86,7 @@ class HomeFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = concatAdapter
                 val spaceNormal = getDimen(R.dimen.space_normal)
-                val spaceSmall = getDimen(R.dimen.space_small)
+                val spaceLarge = getDimen(R.dimen.space_large)
                 addItemDecoration(object : RecyclerView.ItemDecoration() {
                     override fun getItemOffsets(
                         outRect: Rect,
@@ -105,8 +102,8 @@ class HomeFragment : Fragment() {
                                 outRect.top = spaceNormal.toInt()
                             }
                             TYPE_FOOTER -> {
-                                outRect.top = spaceNormal.toInt()
-                                outRect.bottom = spaceNormal.toInt()
+                                outRect.top = spaceLarge.toInt()
+                                outRect.bottom = spaceLarge.toInt()
                             }
                         }
                         if (pos == concatAdapter.itemCount - 1) {
@@ -114,43 +111,35 @@ class HomeFragment : Fragment() {
                         }
                     }
                 })
+                // 3 for one section (divider + title + hoz list)
+                loadMoreHelper.setVisibleThreshold(3)
                 loadMoreHelper.handleLoadmore(this) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Please implement loadmore",
-                        Toast.LENGTH_SHORT
-                    ).show()
-//                    vmHome.loadMoreManga()
+                    vmHome.loadMoreManga()
                 }
             }
         }
         return viewBinding.root
     }
-}
 
-@BindingAdapter("lifecycle", "data", "loadState")
-fun RecyclerView.loadHome(lifecycleOwner: LifecycleOwner, data: CFlow<List<Home>>?, loadState: CFlow<LoadState>?) {
-    data?.onEach { list ->
-        (adapter as ConcatAdapter).apply {
-            adapters.forEach { adapter ->
-                when (adapter) {
-                    is HomeAdapter -> {
-                        adapter.setData(list)
-                    }
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vmHome.data.onEach { list ->
+            if (list.isEmpty()) {
+                viewBinding.rcv.gone()
+                viewBinding.progressBar.show()
+            } else {
+                viewBinding.rcv.show()
+                viewBinding.progressBar.gone()
+                homeAdapter.setData(list)
             }
-        }
-    }?.launchIn(lifecycleOwner.lifecycleScope)
+            loadMoreHelper.finishLoading()
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    loadState?.onEach { state ->
-        (adapter as ConcatAdapter).adapters.forEach { adapter ->
-            when (adapter) {
-                is LoadingAdapter -> {
-                    adapter.loadState = state
-                }
-            }
-        }
-    }?.launchIn(lifecycleOwner.lifecycleScope)
+        vmHome.loadState.onEach { state ->
+            loadingAdapter.loadState = state
+            loadMoreHelper.loadState = state
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
 }
 
 class HomeAdapter constructor(

@@ -159,7 +159,7 @@ class HomeAdapter constructor(
 ) : ListAdapter<Home, RecyclerView.ViewHolder>(object : DiffUtil
 .ItemCallback<Home>() {
     override fun areItemsTheSame(oldItem: Home, newItem: Home): Boolean {
-        return oldItem === newItem
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: Home, newItem: Home): Boolean {

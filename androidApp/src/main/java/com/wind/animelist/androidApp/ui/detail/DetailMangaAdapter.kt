@@ -23,7 +23,7 @@ import com.wind.animelist.shared.viewmodel.model.*
 class DetailMangaAdapter(private val requestManager: RequestManager) : ListAdapter<DetailManga, RecyclerView.ViewHolder>(object : DiffUtil
 .ItemCallback<DetailManga>() {
     override fun areItemsTheSame(oldItem: DetailManga, newItem: DetailManga): Boolean {
-        return oldItem === newItem
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: DetailManga, newItem: DetailManga): Boolean {

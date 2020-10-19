@@ -6,16 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.R
-import com.wind.animelist.androidApp.databinding.*
+import com.wind.animelist.androidApp.databinding.FragmentHomeBinding
+import com.wind.animelist.androidApp.databinding.ItemAnimeBinding
+import com.wind.animelist.androidApp.databinding.ItemMangaBinding
+import com.wind.animelist.androidApp.databinding.ItemTitleBinding
 import com.wind.animelist.androidApp.model.Divider
 import com.wind.animelist.androidApp.model.Title
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
@@ -27,7 +27,9 @@ import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.viewmodel.HomeViewModel
 import com.wind.animelist.shared.viewmodel.LoadState
 import com.wind.animelist.shared.viewmodel.NavViewModel
-import com.wind.animelist.shared.viewmodel.model.*
+import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
+import com.wind.animelist.shared.viewmodel.model.Home
+import com.wind.animelist.shared.viewmodel.model.MangaList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -36,6 +38,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import util.*
 import util.loadmore.LoadMoreHelper
+import util.recyclerview.HorizontalRecyclerView
 
 /**
  * Created by Phong Huynh on 9/26/2020
@@ -158,6 +161,7 @@ class HomeAdapter constructor(
     private val spaceNormal = applicationContext.getDimen(R.dimen.space_normal).toInt()
     var callbackManga: HomeMangaHozAdapter.Callback? = null
     var callbackAnime: HomeAnimeHozAdapter.Callback? = null
+    private val inflater = LayoutInflater.from(applicationContext)
 
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -175,21 +179,8 @@ class HomeAdapter constructor(
                         .inflate(R.layout.item_divider, parent, false)
                 )
             }
-            AdapterTypeUtil.TYPE_ANIME_LIST -> {
-                val binding = ItemMangaHomePagerBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-                HomeAnimeHozListViewHolder(binding)
-            }
             AdapterTypeUtil.TYPE_MANGA_LIST -> {
-                val binding = ItemMangaHomePagerBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-                HomeMangaHozListViewHolder(binding)
+                HomeMangaHozListViewHolder(inflater.inflate(R.layout.item_manga_home_pager, parent, false))
             }
             AdapterTypeUtil.TYPE_TITLE -> {
                 TitleViewHolder(
@@ -209,15 +200,9 @@ class HomeAdapter constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
         when (getItemViewType(position)) {
-            AdapterTypeUtil.TYPE_ANIME_LIST -> {
-                val homePagerViewHolder = holder as HomeAnimeHozListViewHolder
-                homePagerViewHolder.binding.item = item
-                homePagerViewHolder.binding.executePendingBindings()
-            }
             AdapterTypeUtil.TYPE_MANGA_LIST -> {
                 val homePagerViewHolder = holder as HomeMangaHozListViewHolder
-                homePagerViewHolder.binding.item = item
-                homePagerViewHolder.binding.executePendingBindings()
+                (homePagerViewHolder.rcv.adapter as HomeMangaHozAdapter).submitList((item as MangaList).list)
             }
             AdapterTypeUtil.TYPE_TITLE -> {
                 val vh = holder as TitleViewHolder
@@ -241,10 +226,10 @@ class HomeAdapter constructor(
         submitList(newHomeList)
     }
 
-    inner class HomeMangaHozListViewHolder(val binding: ItemMangaHomePagerBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class HomeMangaHozListViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var rcv = itemView.findViewById<HorizontalRecyclerView>(R.id.rcv)
         init {
-            binding.rcv.apply {
+            rcv.apply {
                 adapter = HomeMangaHozAdapter(requestManager)
                     .apply {
                         callback = callbackManga
@@ -272,45 +257,6 @@ class HomeAdapter constructor(
     }
 
     inner class DividerViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView)
-    inner class HomeAnimeHozListViewHolder(val binding: ItemMangaHomePagerBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        init {
-            binding.rcv.apply {
-                adapter = HomeAnimeHozAdapter(requestManager)
-                    .apply {
-                        callback = callbackAnime
-                    }
-                layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-                setHasFixedSize(true)
-                itemAnimator = null
-                addItemDecoration(object : RecyclerView.ItemDecoration() {
-                    override fun getItemOffsets(
-                        outRect: Rect,
-                        view: View,
-                        parent: RecyclerView,
-                        state: RecyclerView.State
-                    ) {
-                        super.getItemOffsets(outRect, view, parent, state)
-                        outRect.right = spaceNormal
-                        val pos = parent.getChildAdapterPosition(view)
-                        if (pos == 0) {
-                            outRect.left = spaceNormal
-                        }
-                    }
-                })
-            }
-        }
-    }
-}
-
-@BindingAdapter("data")
-fun RecyclerView.loadManga(data: Home?) {
-    data?.let {
-        when (data) {
-            is MangaList -> (adapter as HomeMangaHozAdapter).submitList(data.list)
-            is AnimeList -> (adapter as HomeAnimeHozAdapter).submitList(data.list)
-        }
-    }
 }
 
 class HomeMangaHozAdapter constructor(private val requestManager: RequestManager) :

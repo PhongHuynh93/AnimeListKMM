@@ -11,7 +11,6 @@ import SwiftUI
 import shared
 import KingfisherSwiftUI
 
-let radiusImage: CGFloat = 12.0
 struct MangaView: View {
     let mangaUI: MangaUI
     var body: some View {
@@ -23,7 +22,7 @@ struct MangaView: View {
                     }
                 }
                 .resizable()
-                .aspectRatio(2/2.6, contentMode:.fit)
+                .aspectRatio(mangaRatio, contentMode:.fit)
                 .cornerRadius(radiusImage)
                 .overlay(TitleMangaOverlay(title: mangaUI.manga.title))
         }

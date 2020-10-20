@@ -10,10 +10,11 @@ import Foundation
 import shared
 
 class HomeVM: ObservableObject {
-    @Published var homeList: [HomeUI]
+    @Published var homeList = [HomeUI]()
+    let homeVM: HomeViewModel
     
     init(homeVM: HomeViewModel) {
-        homeList = [HomeUI]()
+        self.homeVM = homeVM
         homeVM.data.watch { list in
             var indexOuter = 0
             var tempHomeList = [HomeUI]()
@@ -22,7 +23,7 @@ class HomeVM: ObservableObject {
                 case is MangaList:
                     // convert nsarray into array
                     var indexInner = 0
-                    var oldMangaList = it as! MangaList
+                    let oldMangaList = it as! MangaList
                     var mangaList = [MangaUI]()
             
                     oldMangaList.list.forEach { it in
@@ -39,5 +40,9 @@ class HomeVM: ObservableObject {
             }
             self.homeList = tempHomeList
         }
+    }
+    
+    deinit {
+        homeVM.onCleared()
     }
 }

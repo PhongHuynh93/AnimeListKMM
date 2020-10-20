@@ -80,7 +80,6 @@ kotlin {
                 implementation(Libs.Android.viewModel)
                 implementation(Libs.Android.liveData)
                 implementation(Libs.Network.android)
-//                implementation(Libs.Network.parserAndroid)
                 implementation(Libs.Network.logAndroid)
             }
         }
@@ -93,8 +92,6 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(Libs.Network.ios)
-//                implementation(Libs.Network.parserIos)
-//                implementation(Libs.Network.logIos)
             }
         }
         val iosTest by getting

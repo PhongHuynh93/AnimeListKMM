@@ -38,7 +38,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import util.*
 import util.loadmore.LoadMoreHelper
-import util.recyclerview.HorizontalRecyclerView
 
 /**
  * Created by Phong Huynh on 9/26/2020
@@ -227,7 +226,7 @@ class HomeAdapter constructor(
     }
 
     inner class HomeMangaHozListViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var rcv = itemView.findViewById<HorizontalRecyclerView>(R.id.rcv)
+        var rcv = itemView.findViewById<RecyclerView>(R.id.rcv)
         init {
             rcv.apply {
                 adapter = HomeMangaHozAdapter(requestManager)

@@ -42,6 +42,7 @@ import util.loadmore.LoadMoreHelper
 /**
  * Created by Phong Huynh on 9/26/2020
  */
+private const val NUMB_ROW = 2
 @ExperimentalCoroutinesApi
 class HomeFragment : Fragment() {
     private lateinit var viewBinding: FragmentHomeBinding
@@ -157,6 +158,7 @@ class HomeAdapter constructor(
         return true
     }
 }) {
+    private val spacePrettySmall = applicationContext.getDimen(R.dimen.space_pretty_small).toInt()
     private val spaceNormal = applicationContext.getDimen(R.dimen.space_normal).toInt()
     private val spaceSmall = applicationContext.getDimen(R.dimen.space_small).toInt()
     var callbackManga: HomeMangaHozAdapter.Callback? = null
@@ -234,7 +236,7 @@ class HomeAdapter constructor(
                     .apply {
                         callback = callbackManga
                     }
-                layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+                layoutManager = GridLayoutManager(context, NUMB_ROW, RecyclerView.HORIZONTAL, false)
                 setHasFixedSize(true)
                 itemAnimator = null
                 addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -245,9 +247,12 @@ class HomeAdapter constructor(
                         state: RecyclerView.State
                     ) {
                         super.getItemOffsets(outRect, view, parent, state)
-                        outRect.right = spaceSmall
+                        outRect.right = spacePrettySmall
                         val pos = parent.getChildAdapterPosition(view)
-                        if (pos == 0) {
+                        if (pos % NUMB_ROW > 0) {
+                            outRect.top = spacePrettySmall / NUMB_ROW
+                        }
+                        if (pos < NUMB_ROW) {
                             outRect.left = spaceNormal
                         }
                     }

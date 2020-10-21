@@ -16,7 +16,7 @@
 
     <widget.RatioCardView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/top_manga_height"
         app:rcv_dimensionRatio="@string/mangaRadio"
         app:cardCornerRadius="@dimen/default_radius"
         app:cardElevation="0dp"
@@ -38,7 +38,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:background="@drawable/bottom_black_gradient" />
 

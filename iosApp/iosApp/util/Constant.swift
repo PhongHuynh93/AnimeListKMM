@@ -11,3 +11,5 @@ import UIKit
 
 let radiusImage = CGFloat(12.0)
 let mangaRatio = CGFloat(2/2.6)
+let ver_text_to_head_dimen = CGFloat(2)
+let ver_between_head = CGFloat(12)

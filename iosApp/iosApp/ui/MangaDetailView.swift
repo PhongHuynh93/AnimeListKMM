@@ -40,20 +40,20 @@ struct MangaDetailView: View {
                             let moreInfo = item as! DetailMangaMoreInfo
                             VStack(alignment: .leading) {
                                 Text(moreInfo.title).font(.largeTitle)
-                                Text((item as! DetailMangaMoreInfo).description())
-                            }
+                                Text((item as! DetailMangaMoreInfo).description()).font(.body).padding(.top, ver_text_to_head_dimen)
+                            }.padding(.horizontal).padding(.top, ver_between_head)
                         case is CharacterListUI:
                             let characterList = item as! CharacterListUI
                             VStack(alignment: .leading) {
-                                Text(characterList.title)
+                                Text(characterList.title).padding(.top, ver_between_head).font(.title)
                                 ScrollView(.horizontal, content: {
-                                    MyHStack(spacing: 16) {
+                                    MyHStack() {
                                         ForEach(characterList.list) { character in
                                             CharacterView(item: character.item)
                                         }.frame(width: 44, height: 44)
                                     }
-                                }).padding(.bottom, 12)
-                            }
+                                })
+                            }.padding(.bottom).padding(.leading)
                         default:
                             Text("Missing type implement")
                         }
@@ -63,46 +63,4 @@ struct MangaDetailView: View {
             
         }
     }
-    
-    //    var body: some View {
-    //        NavigationView {
-    //            MyVStack(alignment: .leading) {
-    //                detailMangaVM.list.forEach { it in
-    //                    let item = it.item
-    //                    switch (item) {
-    //                    case is Manga:
-    //                        let manga = item as! Manga
-    //                        KFImage(URL(string: manga.imageUrl))
-    //                            .placeholder {
-    //                                VStack {
-    //                                    Color.gray
-    //                                }
-    //                            }
-    //                            .resizable()
-    //                            .aspectRatio(mangaRatio, contentMode:.fit)
-    //                    case is DetailMangaMoreInfo:
-    //                        let moreInfo = item as! DetailMangaMoreInfo
-    //                        VStack(alignment: .leading) {
-    //                            Text(moreInfo.title).font(.largeTitle)
-    //                            Text((item as! DetailMangaMoreInfo).description)
-    //                        }
-    //                    //                case is CharacterListUI:
-    //                    //                    let characterList = item as! CharacterListUI
-    //                    //                    VStack(alignment: .leading) {
-    //                    //                        Text(characterList.title)
-    //                    //                        ScrollView(.horizontal, content: {
-    //                    //                            HStack(spacing: 16) {
-    //                    //                                ForEach(characterList.list) { character in
-    //                    //                                    CharacterView(item: character)
-    //                    //                                }.frame(width: 44, height: 44)
-    //                    //                            }
-    //                    //                        }).padding(.bottom, 12)
-    //                    //                    }
-    //                    default:
-    //                        Text("Missing type implement")
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
 }

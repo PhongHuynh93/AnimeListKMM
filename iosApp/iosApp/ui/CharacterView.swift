@@ -13,6 +13,14 @@ import KingfisherSwiftUI
 struct CharacterView: View {
     let item: Character
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        KFImage(URL(string: item.imageUrl))
+            .placeholder {
+                VStack {
+                    Color.gray
+                }
+            }
+            .resizable()
+            .aspectRatio(1, contentMode:.fit)
+            .clipShape(Circle())
     }
 }

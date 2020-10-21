@@ -18,7 +18,7 @@
             tools:visibility="visible"
             android:layout_gravity="center"/>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <widget.VerticalRecyclerView
             android:id="@+id/rcv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

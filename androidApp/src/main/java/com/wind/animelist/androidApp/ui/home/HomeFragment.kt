@@ -158,6 +158,7 @@ class HomeAdapter constructor(
     }
 }) {
     private val spaceNormal = applicationContext.getDimen(R.dimen.space_normal).toInt()
+    private val spaceSmall = applicationContext.getDimen(R.dimen.space_small).toInt()
     var callbackManga: HomeMangaHozAdapter.Callback? = null
     var callbackAnime: HomeAnimeHozAdapter.Callback? = null
     private val inflater = LayoutInflater.from(applicationContext)
@@ -244,7 +245,7 @@ class HomeAdapter constructor(
                         state: RecyclerView.State
                     ) {
                         super.getItemOffsets(outRect, view, parent, state)
-                        outRect.right = spaceNormal
+                        outRect.right = spaceSmall
                         val pos = parent.getChildAdapterPosition(view)
                         if (pos == 0) {
                             outRect.left = spaceNormal

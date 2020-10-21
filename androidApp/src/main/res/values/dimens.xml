@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="top_manga_height">200dp</dimen>
+    <dimen name="top_manga_height">160dp</dimen>
     <dimen name="character_height">68dp</dimen>
     <dimen name="space_to_header">8dp</dimen>
 </resources>

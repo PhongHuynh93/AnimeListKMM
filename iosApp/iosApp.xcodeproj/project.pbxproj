@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,24 @@
 		7555FFA1242A565B00829871 /* iosAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FFA0242A565B00829871 /* iosAppUITests.swift */; };
 		7555FFB2242A642300829871 /* shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7555FFB1242A642300829871 /* shared.framework */; };
 		7555FFB3242A642300829871 /* shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7555FFB1242A642300829871 /* shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DC52E214253605D1004B18AC /* MangaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52E213253605D1004B18AC /* MangaView.swift */; };
+		DC52E21B253723F3004B18AC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DC52E21A253723F3004B18AC /* Kingfisher */; };
+		DC52E21D253723F3004B18AC /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = DC52E21C253723F3004B18AC /* KingfisherSwiftUI */; };
+		DC52E22225374903004B18AC /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52E22125374903004B18AC /* HomeVM.swift */; };
+		DC52E22925375147004B18AC /* HomeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52E22825375147004B18AC /* HomeUI.swift */; };
+		DC7EEC3B253AEEC7006DD002 /* MangaUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7EEC3A253AEEC7006DD002 /* MangaUI.swift */; };
+		DC7EEC3F253AF344006DD002 /* MangaListUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7EEC3E253AF344006DD002 /* MangaListUI.swift */; };
+		DCC5B44F253C2AAA00F8EC22 /* MangaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B44E253C2AAA00F8EC22 /* MangaListView.swift */; };
+		DCC5B453253C2BC300F8EC22 /* MangaDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B452253C2BC300F8EC22 /* MangaDetailView.swift */; };
+		DCC5B457253C337B00F8EC22 /* DetailMangaVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B456253C337B00F8EC22 /* DetailMangaVM.swift */; };
+		DCC5B45B253C3CB500F8EC22 /* DetailMangaUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B45A253C3CB500F8EC22 /* DetailMangaUI.swift */; };
+		DCC5B468253C426800F8EC22 /* CharacterUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B467253C426800F8EC22 /* CharacterUI.swift */; };
+		DCC5B46C253C430D00F8EC22 /* CharacterListUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B46B253C430D00F8EC22 /* CharacterListUI.swift */; };
+		DCC5B475253C637200F8EC22 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B474253C637100F8EC22 /* Constant.swift */; };
+		DCC5B479253C696500F8EC22 /* CharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B478253C696500F8EC22 /* CharacterView.swift */; };
+		DCC5B481253C904D00F8EC22 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B480253C904D00F8EC22 /* LazyView.swift */; };
+		DCC5B489253C94EA00F8EC22 /* MyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B488253C94EA00F8EC22 /* MyVStack.swift */; };
+		DCC5B48D253C953400F8EC22 /* MyHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B48C253C953400F8EC22 /* MyHStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +84,22 @@
 		7555FFA0242A565B00829871 /* iosAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppUITests.swift; sourceTree = "<group>"; };
 		7555FFA2242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7555FFB1242A642300829871 /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = "../shared/build/xcode-frameworks/shared.framework"; sourceTree = "<group>"; };
+		DC52E213253605D1004B18AC /* MangaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaView.swift; sourceTree = "<group>"; };
+		DC52E22125374903004B18AC /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
+		DC52E22825375147004B18AC /* HomeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUI.swift; sourceTree = "<group>"; };
+		DC7EEC3A253AEEC7006DD002 /* MangaUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaUI.swift; sourceTree = "<group>"; };
+		DC7EEC3E253AF344006DD002 /* MangaListUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListUI.swift; sourceTree = "<group>"; };
+		DCC5B44E253C2AAA00F8EC22 /* MangaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListView.swift; sourceTree = "<group>"; };
+		DCC5B452253C2BC300F8EC22 /* MangaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaDetailView.swift; sourceTree = "<group>"; };
+		DCC5B456253C337B00F8EC22 /* DetailMangaVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMangaVM.swift; sourceTree = "<group>"; };
+		DCC5B45A253C3CB500F8EC22 /* DetailMangaUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMangaUI.swift; sourceTree = "<group>"; };
+		DCC5B467253C426800F8EC22 /* CharacterUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterUI.swift; sourceTree = "<group>"; };
+		DCC5B46B253C430D00F8EC22 /* CharacterListUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListUI.swift; sourceTree = "<group>"; };
+		DCC5B474253C637100F8EC22 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		DCC5B478253C696500F8EC22 /* CharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterView.swift; sourceTree = "<group>"; };
+		DCC5B480253C904D00F8EC22 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
+		DCC5B488253C94EA00F8EC22 /* MyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyVStack.swift; sourceTree = "<group>"; };
+		DCC5B48C253C953400F8EC22 /* MyHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +107,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC52E21D253723F3004B18AC /* KingfisherSwiftUI in Frameworks */,
+				DC52E21B253723F3004B18AC /* Kingfisher in Frameworks */,
 				7555FFB2242A642300829871 /* shared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,6 +154,10 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				DCC5B473253C635F00F8EC22 /* util */,
+				DC52E23025375412004B18AC /* model */,
+				DC52E220253748DF004B18AC /* viewmodel */,
+				DC52E2122536059B004B18AC /* ui */,
 				7555FF7E242A565900829871 /* AppDelegate.swift */,
 				7555FF80242A565900829871 /* SceneDelegate.swift */,
 				7555FF82242A565900829871 /* ContentView.swift */,
@@ -163,6 +203,50 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DC52E2122536059B004B18AC /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				DC52E213253605D1004B18AC /* MangaView.swift */,
+				DCC5B44E253C2AAA00F8EC22 /* MangaListView.swift */,
+				DCC5B452253C2BC300F8EC22 /* MangaDetailView.swift */,
+				DCC5B478253C696500F8EC22 /* CharacterView.swift */,
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
+		DC52E220253748DF004B18AC /* viewmodel */ = {
+			isa = PBXGroup;
+			children = (
+				DC52E22125374903004B18AC /* HomeVM.swift */,
+				DCC5B456253C337B00F8EC22 /* DetailMangaVM.swift */,
+			);
+			path = viewmodel;
+			sourceTree = "<group>";
+		};
+		DC52E23025375412004B18AC /* model */ = {
+			isa = PBXGroup;
+			children = (
+				DC52E22825375147004B18AC /* HomeUI.swift */,
+				DC7EEC3A253AEEC7006DD002 /* MangaUI.swift */,
+				DC7EEC3E253AF344006DD002 /* MangaListUI.swift */,
+				DCC5B45A253C3CB500F8EC22 /* DetailMangaUI.swift */,
+				DCC5B467253C426800F8EC22 /* CharacterUI.swift */,
+				DCC5B46B253C430D00F8EC22 /* CharacterListUI.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		DCC5B473253C635F00F8EC22 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				DCC5B474253C637100F8EC22 /* Constant.swift */,
+				DCC5B480253C904D00F8EC22 /* LazyView.swift */,
+				DCC5B488253C94EA00F8EC22 /* MyVStack.swift */,
+				DCC5B48C253C953400F8EC22 /* MyHStack.swift */,
+			);
+			path = util;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -181,6 +265,10 @@
 			dependencies = (
 			);
 			name = iosApp;
+			packageProductDependencies = (
+				DC52E21A253723F3004B18AC /* Kingfisher */,
+				DC52E21C253723F3004B18AC /* KingfisherSwiftUI */,
+			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* iosApp.app */;
 			productType = "com.apple.product-type.application";
@@ -228,7 +316,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = orgName;
 				TargetAttributes = {
 					7555FF7A242A565900829871 = {
@@ -253,6 +341,9 @@
 				Base,
 			);
 			mainGroup = 7555FF72242A565900829871;
+			packageReferences = (
+				DC52E219253723F3004B18AC /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -316,9 +407,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC7EEC3B253AEEC7006DD002 /* MangaUI.swift in Sources */,
 				7555FF7F242A565900829871 /* AppDelegate.swift in Sources */,
+				DCC5B48D253C953400F8EC22 /* MyHStack.swift in Sources */,
+				DCC5B481253C904D00F8EC22 /* LazyView.swift in Sources */,
+				DCC5B475253C637200F8EC22 /* Constant.swift in Sources */,
+				DC7EEC3F253AF344006DD002 /* MangaListUI.swift in Sources */,
+				DCC5B489253C94EA00F8EC22 /* MyVStack.swift in Sources */,
+				DCC5B468253C426800F8EC22 /* CharacterUI.swift in Sources */,
+				DCC5B45B253C3CB500F8EC22 /* DetailMangaUI.swift in Sources */,
+				DCC5B479253C696500F8EC22 /* CharacterView.swift in Sources */,
+				DCC5B457253C337B00F8EC22 /* DetailMangaVM.swift in Sources */,
+				DC52E22225374903004B18AC /* HomeVM.swift in Sources */,
+				DCC5B46C253C430D00F8EC22 /* CharacterListUI.swift in Sources */,
+				DC52E214253605D1004B18AC /* MangaView.swift in Sources */,
+				DC52E22925375147004B18AC /* HomeUI.swift in Sources */,
 				7555FF81242A565900829871 /* SceneDelegate.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				DCC5B453253C2BC300F8EC22 /* MangaDetailView.swift in Sources */,
+				DCC5B44F253C2AAA00F8EC22 /* MangaListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,6 +498,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -451,6 +559,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -639,6 +748,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DC52E219253723F3004B18AC /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.15.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DC52E21A253723F3004B18AC /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC52E219253723F3004B18AC /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		DC52E21C253723F3004B18AC /* KingfisherSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC52E219253723F3004B18AC /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = KingfisherSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7555FF73242A565900829871 /* Project object */;
 }

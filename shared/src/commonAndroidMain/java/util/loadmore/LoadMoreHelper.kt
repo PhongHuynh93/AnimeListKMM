@@ -1,6 +1,7 @@
 package util.loadmore
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,23 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commitNow
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.wind.animelist.shared.viewmodel.LoadState
+import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Complete
 
 /**
  * Created by Phong Huynh on 10/6/2020
  */
 class LoadMoreHelper(private val fragmentManager: FragmentManager) {
+    var loadState: LoadState = LoadState.Loading
+        set(value) {
+            Log.e("load", "load state $value")
+            field = value
+            if (value == Complete) {
+                frag.get().removeLoadMore()
+            } else {
+                frag.get().loading = false
+            }
+        }
     private var frag: util.Lazy<LoadMoreHelperFragment>
     private val tag: String = LoadMoreHelper::class.java.simpleName
 
@@ -47,19 +60,20 @@ class LoadMoreHelper(private val fragmentManager: FragmentManager) {
     }
 
     fun handleLoadmore(rcv: RecyclerView, callback: () -> Unit) {
-        frag.get().handleLoadmore(rcv, callback)
-    }
-
-    fun setLoading(loading: Boolean) {
-        frag.get().loading = loading
+        frag.get().handleLoadMore(rcv, callback)
     }
 
     fun setVisibleThreshold(visibleThreshold: Int) {
         frag.get().visibleThreshold = visibleThreshold
     }
+
+    fun finishLoading() {
+        frag.get().loading = false
+    }
 }
 
 class LoadMoreHelperFragment : Fragment() {
+    private var rcv: RecyclerView? = null
     var loading = false
     var visibleThreshold = 5
 
@@ -77,7 +91,8 @@ class LoadMoreHelperFragment : Fragment() {
         return null
     }
 
-    fun handleLoadmore(rcv: RecyclerView, callback: () -> Unit) {
+    fun handleLoadMore(rcv: RecyclerView, callback: () -> Unit) {
+        this.rcv = rcv
         if (rcv.layoutManager is LinearLayoutManager) {
             val linearLayoutManager = rcv.layoutManager as LinearLayoutManager
             rcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -87,15 +102,14 @@ class LoadMoreHelperFragment : Fragment() {
                     val lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
                     if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                         callback.invoke()
-                        loading = true;
+                        loading = true
                     }
                 }
             })
         }
     }
-}
 
-@FunctionalInterface
-interface OnLoadMoreListener {
-    fun onLoadMore()
+    fun removeLoadMore() {
+        rcv?.clearOnScrollListeners()
+    }
 }

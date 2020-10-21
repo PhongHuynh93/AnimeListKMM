@@ -7,9 +7,19 @@ plugins {
     kotlin(Plugins.kotlinExtensions)
     id(Plugins.serialization)
     kotlin(Plugins.kapt)
+    kotlin("native.cocoapods")
 }
 
 kotlin {
+    cocoapods {
+        summary = "A cross-platform anime list"
+        homepage = "https://github.com/PhongHuynh93/AnimeListKMM"
+        ios.deploymentTarget = "13.5"
+        podfile = project.file("../iosApp/Podfile")
+        // The name of the produced framework can be changed.
+        // The name of the Gradle project is used here by default.
+        frameworkName = "shared"
+    }
     // target 1.8 when using kodein
     // https://github.com/Kodein-Framework/Kodein-Samples/blob/master/di/coffee-maker/common/build.gradle.kts
     android {
@@ -19,13 +29,7 @@ kotlin {
             }
         }
     }
-    ios {
-        binaries {
-            framework {
-                baseName = "shared"
-            }
-        }
-    }
+    ios {}
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -33,7 +37,8 @@ kotlin {
                 implementation(Libs.Thread.core)
                 implementation(Libs.Network.core)
                 implementation(Libs.Network.core2)
-                implementation(Libs.Network.parserCore)
+                implementation(Libs.Network.parser)
+                implementation(Libs.Network.parser2)
                 implementation(Libs.Network.logCore)
                 implementation(Libs.Network.logCore2)
             }
@@ -72,13 +77,10 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonAndroidMain)
             dependencies {
-                implementation(Libs.Injection.android)
                 implementation(Libs.Android.viewModel)
                 implementation(Libs.Android.liveData)
                 implementation(Libs.Network.android)
-                implementation(Libs.Network.parserAndroid)
                 implementation(Libs.Network.logAndroid)
-                implementation(Libs.Thread.coreAndroid)
             }
         }
         val androidTest by getting {
@@ -90,14 +92,12 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(Libs.Network.ios)
-                implementation(Libs.Network.parserIos)
-                implementation(Libs.Network.logIos)
-                implementation(Libs.Thread.coreIos)
             }
         }
         val iosTest by getting
     }
 }
+
 android {
     compileSdkVersion(Configs.compileSdk)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")

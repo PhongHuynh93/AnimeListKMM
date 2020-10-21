@@ -4,14 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="lifecycleOwner"
-            type="androidx.lifecycle.LifecycleOwner" />
-
-        <variable
-            name="vm"
-            type="com.wind.animelist.shared.viewmodel.HomeViewModel" />
     </data>
 
     <FrameLayout
@@ -23,7 +15,6 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             tools:visibility="visible"
             android:layout_gravity="center"/>
 
@@ -31,9 +22,8 @@
             android:id="@+id/rcv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:data="@{vm.data}"
-            app:lifecycle="@{lifecycleOwner}"
-            app:loadState="@{vm.loadState}"
+            android:visibility="gone"
+            tools:visibility="visible"
             tools:context=".MainActivity" />
     </FrameLayout>
 

@@ -5,9 +5,6 @@ plugins {
     kotlin(Plugins.kapt)
 }
 
-group = "com.wind.animelist"
-version = "1.0-SNAPSHOT"
-
 repositories {
     gradlePluginPortal()
     google()
@@ -32,7 +29,9 @@ dependencies {
     implementation(Libs.Android.viewModel)
 
     // injection
-    implementation(Libs.Injection.android)
+    implementation(Libs.Injection.core)
+    implementation(Libs.Injection.Android.android)
+    implementation(Libs.Injection.Android.androidViewModel)
 
     // glide
     implementation(Libs.Glide.glide1)

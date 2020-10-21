@@ -319,10 +319,10 @@ inline fun FragmentManager.inTransaction(useAnim: Boolean = false, func: Fragmen
 
 fun FragmentTransaction.useAnim() {
     setCustomAnimations(
-        R.anim.fragment_open_enter,
-        R.anim.fragment_open_exit,
-        R.anim.fragment_close_enter,
-        R.anim.fragment_close_exit
+        R.anim.slide_in_right,
+        R.anim.slide_out_left,
+        R.anim.slide_in_left,
+        R.anim.slide_out_right
     )
 }
 

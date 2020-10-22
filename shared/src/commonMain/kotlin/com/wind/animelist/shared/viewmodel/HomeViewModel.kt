@@ -48,7 +48,7 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
             delay(API_RATE_LIMIT_TIME)
             loadAndShowData(listOf(
                 (getTopMangaUseCase(GetTopMangaParam("oneshots")) to "Top One Shot"),
-                (getTopMangaUseCase(GetTopMangaParam("doujin")) to "Top Doujin")
+//                (getTopMangaUseCase(GetTopMangaParam("doujin")) to "Top Doujin")
             ))
             delay(API_RATE_LIMIT_TIME)
             finishGetData = true

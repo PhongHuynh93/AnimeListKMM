@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/space_normal"
-        android:layout_marginVertical="@dimen/space_pretty_small"
+        android:layout_marginBottom="@dimen/space_pretty_small"
+        android:layout_marginTop="@dimen/space_large"
         android:textAppearance="@style/MangaHeader"
         android:text="@{item}"
         tools:text="@tools:sample/full_names" />

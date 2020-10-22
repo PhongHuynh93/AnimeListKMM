@@ -8,7 +8,7 @@ import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.androidApp.ui.detail.DetailMangaAdapter
 import com.wind.animelist.androidApp.ui.detail.DetailMangaHeaderAdapter
 import com.wind.animelist.shared.viewmodel.DetailMangaViewModel
-import com.wind.animelist.shared.viewmodel.HomeViewModel
+import com.wind.animelist.shared.viewmodel.HomeMangaViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -38,6 +38,6 @@ val appModule = module {
     factory { (frag: Fragment) ->
         DetailMangaHeaderAdapter(Glide.with(frag))
     }
-    viewModel { HomeViewModel() }
+    viewModel { HomeMangaViewModel() }
     viewModel { DetailMangaViewModel() }
 }

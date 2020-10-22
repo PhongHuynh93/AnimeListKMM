@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.R
-import com.wind.animelist.androidApp.databinding.FragmentHomeBinding
 import com.wind.animelist.androidApp.databinding.ItemAnimeBinding
 import com.wind.animelist.androidApp.databinding.ItemMangaBinding
 import com.wind.animelist.androidApp.databinding.ItemTitleBinding
@@ -23,7 +22,7 @@ import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleViewHolder
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.domain.model.Manga
-import com.wind.animelist.shared.viewmodel.HomeViewModel
+import com.wind.animelist.shared.viewmodel.HomeMangaViewModel
 import com.wind.animelist.shared.viewmodel.NavViewModel
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import com.wind.animelist.shared.viewmodel.model.Home
@@ -36,14 +35,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import util.*
 import util.loadmore.LoadMoreHelper
+import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
  * Created by Phong Huynh on 9/26/2020
  */
 private const val NUMB_ROW = 2
 @ExperimentalCoroutinesApi
-class HomeMangaFragment : Fragment() {
-    private lateinit var viewBinding: FragmentHomeBinding
+class HomeMangaFragment : Fragment(R.layout.fragment_home) {
     val homeAdapter: HomeAdapter by inject { parametersOf(this) }
     val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
     val titleHeaderAdapter: TitleHeaderAdapter by inject { parametersOf(this) }
@@ -53,7 +52,7 @@ class HomeMangaFragment : Fragment() {
         titleHeaderAdapter.submitList(listOf(getString(R.string.home_title_manga)))
         adapter
     }
-    val vmHome by viewModel<HomeViewModel>()
+    val vmHome by viewModel<HomeMangaViewModel>()
     val loadMoreHelper: LoadMoreHelper by inject { parametersOf(this) }
     private val vmNav by activityViewModels<NavViewModel>()
 
@@ -63,74 +62,64 @@ class HomeMangaFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = FragmentHomeBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = viewLifecycleOwner
-            homeAdapter.apply {
-                callbackAnime = object: HomeAnimeHozAdapter.Callback {
-                    override fun onClick(view: View, pos: Int, item: Anime) {
-                        vmNav.goToAnime.value = Event(item)
-                    }
-                }
-                callbackManga = object: HomeMangaHozAdapter.Callback {
-                    override fun onClick(view: View, pos: Int, item: Manga) {
-                        view.transitionName = item.id.toString()
-                        vmNav.goToManga.value = Event(view to item)
-                    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        homeAdapter.apply {
+            callbackAnime = object: HomeAnimeHozAdapter.Callback {
+                override fun onClick(view: View, pos: Int, item: Anime) {
+                    vmNav.goToAnime.value = Event(item)
                 }
             }
-            rcv.apply {
-                setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(requireContext())
-                adapter = concatAdapter
-                val spaceNormal = getDimen(R.dimen.space_normal)
-                val spaceLarge = getDimen(R.dimen.space_large)
-                addItemDecoration(object : RecyclerView.ItemDecoration() {
-                    override fun getItemOffsets(
-                        outRect: Rect,
-                        view: View,
-                        parent: RecyclerView,
-                        state: RecyclerView.State
-                    ) {
-                        super.getItemOffsets(outRect, view, parent, state)
-                        val pos = parent.getChildAdapterPosition(view)
-                        val posBinding = parent.getChildViewHolder(view).bindingAdapterPosition
-                        when (concatAdapter.getItemViewType(pos)) {
-                            AdapterTypeUtil.TYPE_DIVIDER -> if (posBinding > 0) {
-                                outRect.top = spaceNormal.toInt()
-                            }
-                            TYPE_FOOTER -> {
-                                outRect.top = spaceLarge.toInt()
-                                outRect.bottom = spaceLarge.toInt()
-                            }
-                        }
-                        if (pos == concatAdapter.itemCount - 1) {
-                            outRect.bottom = spaceNormal.toInt()
-                        }
-                    }
-                })
-                // 3 for one section (divider + title + hoz list)
-                loadMoreHelper.setVisibleThreshold(3)
-                loadMoreHelper.handleLoadmore(this) {
-                    vmHome.loadMoreManga()
+            callbackManga = object: HomeMangaHozAdapter.Callback {
+                override fun onClick(view: View, pos: Int, item: Manga) {
+                    view.transitionName = item.id.toString()
+                    vmNav.goToManga.value = Event(view to item)
                 }
             }
         }
-        return viewBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        rcv.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = concatAdapter
+            val spaceNormal = getDimen(R.dimen.space_normal)
+            val spaceLarge = getDimen(R.dimen.space_large)
+            addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    super.getItemOffsets(outRect, view, parent, state)
+                    val pos = parent.getChildAdapterPosition(view)
+                    val posBinding = parent.getChildViewHolder(view).bindingAdapterPosition
+                    when (concatAdapter.getItemViewType(pos)) {
+                        AdapterTypeUtil.TYPE_DIVIDER -> if (posBinding > 0) {
+                            outRect.top = spaceNormal.toInt()
+                        }
+                        TYPE_FOOTER -> {
+                            outRect.top = spaceLarge.toInt()
+                            outRect.bottom = spaceLarge.toInt()
+                        }
+                    }
+                    if (pos == concatAdapter.itemCount - 1) {
+                        outRect.bottom = spaceNormal.toInt()
+                    }
+                }
+            })
+            // 3 for one section (divider + title + hoz list)
+            loadMoreHelper.setVisibleThreshold(3)
+            loadMoreHelper.handleLoadmore(this) {
+                vmHome.loadMoreManga()
+            }
+        }
         vmHome.data.onEach { list ->
             if (list.isEmpty()) {
-                viewBinding.rcv.gone()
-                viewBinding.progressBar.show()
+                rcv.gone()
+                progressBar.show()
             } else {
-                viewBinding.rcv.show()
-                viewBinding.progressBar.gone()
+                rcv.show()
+                progressBar.gone()
                 homeAdapter.setData(list)
             }
             loadMoreHelper.finishLoading()

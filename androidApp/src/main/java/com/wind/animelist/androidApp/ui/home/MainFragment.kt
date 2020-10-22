@@ -28,9 +28,9 @@ class MainFragment: Fragment(R.layout.fragment_main) {
 
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-                    0 -> HomeFragment()
-                    1 -> HomeFragment()
-                    else -> HomeFragment()
+                    0 -> HomeMangaFragment()
+                    1 -> HomeMangaFragment()
+                    else -> HomeMangaFragment()
                 }
             }
         }

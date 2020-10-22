@@ -23,9 +23,7 @@ import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleViewHolder
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.domain.model.Manga
-import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.viewmodel.HomeViewModel
-import com.wind.animelist.shared.viewmodel.LoadState
 import com.wind.animelist.shared.viewmodel.NavViewModel
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import com.wind.animelist.shared.viewmodel.model.Home
@@ -44,7 +42,7 @@ import util.loadmore.LoadMoreHelper
  */
 private const val NUMB_ROW = 2
 @ExperimentalCoroutinesApi
-class HomeFragment : Fragment() {
+class HomeMangaFragment : Fragment() {
     private lateinit var viewBinding: FragmentHomeBinding
     val homeAdapter: HomeAdapter by inject { parametersOf(this) }
     val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
@@ -52,7 +50,7 @@ class HomeFragment : Fragment() {
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
         val adapter = ConcatAdapter(config, titleHeaderAdapter, homeAdapter, loadingAdapter)
-        titleHeaderAdapter.submitList(listOf(getString(R.string.home_title)))
+        titleHeaderAdapter.submitList(listOf(getString(R.string.home_title_manga)))
         adapter
     }
     val vmHome by viewModel<HomeViewModel>()
@@ -60,8 +58,8 @@ class HomeFragment : Fragment() {
     private val vmNav by activityViewModels<NavViewModel>()
 
     companion object {
-        fun newInstance(): HomeFragment {
-            return HomeFragment()
+        fun newInstance(): HomeMangaFragment {
+            return HomeMangaFragment()
         }
     }
 

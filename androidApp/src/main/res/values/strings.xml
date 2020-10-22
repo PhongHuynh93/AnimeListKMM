@@ -2,7 +2,8 @@
     <string name="app_name">MyAnimeList</string>
     <string name="top_manga">Top manga</string>
     <string name="top_anime">Top Anime</string>
-    <string name="home_title">Browse</string>
+    <string name="home_title_manga">Manga</string>
+    <string name="home_title_anime">Anime</string>
     <string name="mangaRadio">2:2.9</string>
     <string name="menu_manga">manga</string>
     <string name="menu_anime">anime</string>

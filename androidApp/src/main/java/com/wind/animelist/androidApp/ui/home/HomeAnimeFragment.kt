@@ -21,9 +21,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import util.Event
-import util.TYPE_FOOTER
-import util.getDimen
+import util.*
 import util.loadmore.LoadMoreHelper
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -38,7 +36,7 @@ class HomeAnimeFragment : Fragment(R.layout.fragment_home) {
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
         val adapter = ConcatAdapter(config, titleHeaderAdapter, homeAnimeAdapter, loadingAdapter)
-        titleHeaderAdapter.submitList(listOf(getString(R.string.home_title_manga)))
+        titleHeaderAdapter.submitList(listOf(getString(R.string.home_title_anime)))
         adapter
     }
     private val vmHome by viewModel<HomeAnimeViewModel>()
@@ -91,17 +89,17 @@ class HomeAnimeFragment : Fragment(R.layout.fragment_home) {
                 vmHome.loadMore()
             }
         }
-//        vmHome.data.onEach { list ->
-//            if (list.isEmpty()) {
-//                rcv.gone()
-//                progressBar.show()
-//            } else {
-//                rcv.show()
-//                progressBar.gone()
-//                homeAnimeAdapter.setData(list)
-//            }
-//            loadMoreHelper.finishLoading()
-//        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        vmHome.data.onEach { list ->
+            if (list.isEmpty()) {
+                rcv.gone()
+                progressBar.show()
+            } else {
+                rcv.show()
+                progressBar.gone()
+                homeAnimeAdapter.setData(list)
+            }
+            loadMoreHelper.finishLoading()
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vmHome.loadState.onEach { state ->
             loadingAdapter.loadState = state

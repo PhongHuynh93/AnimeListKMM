@@ -43,17 +43,17 @@ import kotlinx.android.synthetic.main.fragment_home.*
 private const val NUMB_ROW = 2
 @ExperimentalCoroutinesApi
 class HomeMangaFragment : Fragment(R.layout.fragment_home) {
-    val homeAdapter: HomeAdapter by inject { parametersOf(this) }
-    val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
-    val titleHeaderAdapter: TitleHeaderAdapter by inject { parametersOf(this) }
+    private val homeAdapter: HomeAdapter by inject { parametersOf(this) }
+    private val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
+    private val titleHeaderAdapter: TitleHeaderAdapter by inject { parametersOf(this) }
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
         val adapter = ConcatAdapter(config, titleHeaderAdapter, homeAdapter, loadingAdapter)
         titleHeaderAdapter.submitList(listOf(getString(R.string.home_title_manga)))
         adapter
     }
-    val vmHome by viewModel<HomeMangaViewModel>()
-    val loadMoreHelper: LoadMoreHelper by inject { parametersOf(this) }
+    private val vmHome by viewModel<HomeMangaViewModel>()
+    private val loadMoreHelper: LoadMoreHelper by inject { parametersOf(this) }
     private val vmNav by activityViewModels<NavViewModel>()
 
     companion object {

@@ -7,10 +7,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.wind.animelist.androidApp.R
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * Created by Phong Huynh on 10/10/2020
  */
+@ExperimentalCoroutinesApi
 class MainFragment: Fragment(R.layout.fragment_main) {
     companion object {
         fun newInstance(): MainFragment {
@@ -29,8 +31,9 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
                     0 -> HomeMangaFragment()
-                    1 -> HomeMangaFragment()
-                    else -> HomeMangaFragment()
+                    1 -> HomeAnimeFragment()
+                    // FIXME: 10/22/2020 add the else case
+                    else -> Fragment()
                 }
             }
         }

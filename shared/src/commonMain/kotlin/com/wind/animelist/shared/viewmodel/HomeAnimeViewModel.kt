@@ -67,8 +67,7 @@ class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
         this.list = listHome
     }
 
-    fun loadMoreManga() {
-        // TODO("Not yet implemented")
+    fun loadMore() {
         if (finishGetData) {
             if (!finishGetMovie) {
                 clientScope.launch(ioDispatcher) {

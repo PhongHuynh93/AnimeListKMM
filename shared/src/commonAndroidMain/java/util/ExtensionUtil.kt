@@ -15,6 +15,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
@@ -528,3 +529,6 @@ fun Bitmap.saveFile(context: Context) {
     } catch (ignored: Exception) {
     }
 }
+
+val Context.inflater: LayoutInflater
+    get() = LayoutInflater.from(this)

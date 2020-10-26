@@ -36,6 +36,8 @@
 		DCC5B489253C94EA00F8EC22 /* MyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B488253C94EA00F8EC22 /* MyVStack.swift */; };
 		DCC5B48D253C953400F8EC22 /* MyHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B48C253C953400F8EC22 /* MyHStack.swift */; };
 		DCC5B4972545CE6600F8EC22 /* ExtensionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4962545CE6600F8EC22 /* ExtensionUtil.swift */; };
+		DCC5B49F2547255700F8EC22 /* HomeMangaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B49E2547255700F8EC22 /* HomeMangaView.swift */; };
+		DCC5B4A52547256800F8EC22 /* HomeAnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4A42547256800F8EC22 /* HomeAnimeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,8 @@
 		DCC5B488253C94EA00F8EC22 /* MyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyVStack.swift; sourceTree = "<group>"; };
 		DCC5B48C253C953400F8EC22 /* MyHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHStack.swift; sourceTree = "<group>"; };
 		DCC5B4962545CE6600F8EC22 /* ExtensionUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUtil.swift; sourceTree = "<group>"; };
+		DCC5B49E2547255700F8EC22 /* HomeMangaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMangaView.swift; sourceTree = "<group>"; };
+		DCC5B4A42547256800F8EC22 /* HomeAnimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAnimeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,9 +212,10 @@
 		DC52E2122536059B004B18AC /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				DCC5B49D2547252C00F8EC22 /* detail */,
+				DCC5B49C2547251D00F8EC22 /* home */,
 				DC52E213253605D1004B18AC /* MangaView.swift */,
 				DCC5B44E253C2AAA00F8EC22 /* MangaListView.swift */,
-				DCC5B452253C2BC300F8EC22 /* MangaDetailView.swift */,
 				DCC5B478253C696500F8EC22 /* CharacterView.swift */,
 			);
 			path = ui;
@@ -248,6 +253,23 @@
 				DCC5B4962545CE6600F8EC22 /* ExtensionUtil.swift */,
 			);
 			path = util;
+			sourceTree = "<group>";
+		};
+		DCC5B49C2547251D00F8EC22 /* home */ = {
+			isa = PBXGroup;
+			children = (
+				DCC5B49E2547255700F8EC22 /* HomeMangaView.swift */,
+				DCC5B4A42547256800F8EC22 /* HomeAnimeView.swift */,
+			);
+			path = home;
+			sourceTree = "<group>";
+		};
+		DCC5B49D2547252C00F8EC22 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				DCC5B452253C2BC300F8EC22 /* MangaDetailView.swift */,
+			);
+			path = detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -411,10 +433,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC7EEC3B253AEEC7006DD002 /* MangaUI.swift in Sources */,
+				DCC5B49F2547255700F8EC22 /* HomeMangaView.swift in Sources */,
 				7555FF7F242A565900829871 /* AppDelegate.swift in Sources */,
 				DCC5B48D253C953400F8EC22 /* MyHStack.swift in Sources */,
 				DCC5B481253C904D00F8EC22 /* LazyView.swift in Sources */,
 				DCC5B475253C637200F8EC22 /* Constant.swift in Sources */,
+				DCC5B4A52547256800F8EC22 /* HomeAnimeView.swift in Sources */,
 				DC7EEC3F253AF344006DD002 /* MangaListUI.swift in Sources */,
 				DCC5B489253C94EA00F8EC22 /* MyVStack.swift in Sources */,
 				DCC5B468253C426800F8EC22 /* CharacterUI.swift in Sources */,

@@ -45,4 +45,12 @@ class HomeVM: ObservableObject {
     deinit {
         homeVM.onCleared()
     }
+    
+    func onItemAppear(itemId: Int) {
+        print("onItemAppear")
+        if (homeList.last!.id == itemId) {
+            print("loadmore")
+            homeVM.loadMore()
+        }
+    }
 }

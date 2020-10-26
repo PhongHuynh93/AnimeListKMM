@@ -28,16 +28,10 @@ struct ContentView: View {
                                 }.padding(.bottom, 10)
                                 
                             }
-
-//                            MyHStack(spacing: 10) {
-//                                ForEach(mangaChunkList) { mangaItem in
-//                                    NavigationLink(destination: LazyView(MangaDetailView(manga: mangaItem.manga))) {
-//                                        MangaView(mangaUI: mangaItem)
-//                                    }
-//                                }
-//                            }
-                            
-                        })
+                        }).onAppear {
+                            let itemId = home.id
+                            homeVM.onItemAppear(itemId: itemId)
+                        }
                         
                     }
                 default:

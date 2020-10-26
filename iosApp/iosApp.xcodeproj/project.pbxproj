@@ -35,6 +35,7 @@
 		DCC5B481253C904D00F8EC22 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B480253C904D00F8EC22 /* LazyView.swift */; };
 		DCC5B489253C94EA00F8EC22 /* MyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B488253C94EA00F8EC22 /* MyVStack.swift */; };
 		DCC5B48D253C953400F8EC22 /* MyHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B48C253C953400F8EC22 /* MyHStack.swift */; };
+		DCC5B4972545CE6600F8EC22 /* ExtensionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4962545CE6600F8EC22 /* ExtensionUtil.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +101,7 @@
 		DCC5B480253C904D00F8EC22 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		DCC5B488253C94EA00F8EC22 /* MyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyVStack.swift; sourceTree = "<group>"; };
 		DCC5B48C253C953400F8EC22 /* MyHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHStack.swift; sourceTree = "<group>"; };
+		DCC5B4962545CE6600F8EC22 /* ExtensionUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUtil.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +245,7 @@
 				DCC5B480253C904D00F8EC22 /* LazyView.swift */,
 				DCC5B488253C94EA00F8EC22 /* MyVStack.swift */,
 				DCC5B48C253C953400F8EC22 /* MyHStack.swift */,
+				DCC5B4962545CE6600F8EC22 /* ExtensionUtil.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				DCC5B489253C94EA00F8EC22 /* MyVStack.swift in Sources */,
 				DCC5B468253C426800F8EC22 /* CharacterUI.swift in Sources */,
 				DCC5B45B253C3CB500F8EC22 /* DetailMangaUI.swift in Sources */,
+				DCC5B4972545CE6600F8EC22 /* ExtensionUtil.swift in Sources */,
 				DCC5B479253C696500F8EC22 /* CharacterView.swift in Sources */,
 				DCC5B457253C337B00F8EC22 /* DetailMangaVM.swift in Sources */,
 				DC52E22225374903004B18AC /* HomeVM.swift in Sources */,

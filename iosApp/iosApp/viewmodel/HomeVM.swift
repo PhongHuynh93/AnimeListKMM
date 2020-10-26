@@ -11,9 +11,9 @@ import shared
 
 class HomeVM: ObservableObject {
     @Published var homeList = [HomeUI]()
-    let homeVM: HomeViewModel
+    let homeVM: HomeMangaViewModel
     
-    init(homeVM: HomeViewModel) {
+    init(homeVM: HomeMangaViewModel) {
         self.homeVM = homeVM
         homeVM.data.watch { list in
             var indexOuter = 0

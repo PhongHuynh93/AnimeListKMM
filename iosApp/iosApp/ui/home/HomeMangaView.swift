@@ -10,7 +10,7 @@ import SwiftUI
 import shared
 
 struct HomeMangaView: View {
-    @ObservedObject var homeVM = HomeVM(homeVM: HomeMangaViewModel())
+    @ObservedObject var homeVM = HomeMangaVM(homeVM: HomeMangaViewModel())
     
     var body: some View {
         NavigationView {

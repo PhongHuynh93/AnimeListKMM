@@ -10,11 +10,10 @@ import Foundation
 import shared
 
 struct HomeUI: Identifiable {
-    let id: Int
+    let id = UUID()
     let home: Any
     
-    init(pos: Int, home: Any) {
-        self.id = pos
+    init(home: Any) {
         self.home = home
     }
 }

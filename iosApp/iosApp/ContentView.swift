@@ -4,12 +4,12 @@ import shared
 struct ContentView: View {
     var body: some View {
         TabView {
-            HomeMangaView()
+            LazyView(HomeMangaView())
                 .tabItem {
                     Image(systemName: "heart.fill")
                     Text("Manga")
                 }
-            HomeAnimeView()
+            LazyView(HomeAnimeView())
                 .tabItem {
                     Image(systemName: "heart.fill")
                     Text("Anime")

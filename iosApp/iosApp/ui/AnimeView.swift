@@ -1,8 +1,8 @@
 //
-//  MangaView.swift
+//  AnimeView.swift
 //  iosApp
 //
-//  Created by Coder on 10/13/20.
+//  Created by Coder on 10/27/20.
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
@@ -11,11 +11,11 @@ import SwiftUI
 import shared
 import KingfisherSwiftUI
 
-struct MangaView: View {
-    let mangaUI: MangaUI
+struct AnimeView: View {
+    let item: AnimeUI
     var body: some View {
         ZStack() {
-            KFImage(URL(string: mangaUI.manga.imageUrl))
+            KFImage(URL(string: item.item.imageUrl))
                 .placeholder {
                     VStack {
                         Color.gray
@@ -24,7 +24,7 @@ struct MangaView: View {
                 .resizable()
                 .aspectRatio(mangaRatio, contentMode:.fit)
                 .cornerRadius(radiusImage)
-                .overlay(TitleOverlayCardView(title: mangaUI.manga.title))
+                .overlay(TitleOverlayCardView(title: item.item.title))
         }
     }
 }

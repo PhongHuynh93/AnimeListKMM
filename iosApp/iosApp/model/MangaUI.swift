@@ -10,11 +10,10 @@ import Foundation
 import shared
 
 struct MangaUI: Identifiable {
-    let id: Int
+    let id = UUID()
     let manga: Manga
     
-    init(pos: Int, manga: Manga) {
-        self.id = pos
+    init(manga: Manga) {
         self.manga = manga
     }
 }

@@ -18,7 +18,6 @@ import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.adapter.BaseGridViewHolder
 import com.wind.animelist.androidApp.databinding.FragmentMoreBinding
 import com.wind.animelist.androidApp.databinding.ItemBaseGridBinding
-import com.wind.animelist.androidApp.di.moreModule
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.shared.domain.mapper.parseSubType
@@ -28,50 +27,39 @@ import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.viewmodel.MoreViewModel
 import com.wind.animelist.shared.viewmodel.LoadState
-import com.wind.animelist.shared.viewmodel.MoreViewModelFactory
 import com.wind.animelist.shared.viewmodel.NavViewModel
-import com.wind.animelist.shared.viewmodel.di.moreVModule
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import kotlinx.coroutines.flow.onEach
-import org.kodein.di.DI
-import org.kodein.di.DIAware
-import org.kodein.di.android.subDI
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import util.Event
 import util.TYPE_FOOTER
 import util.getDimen
 import util.loadmore.LoadMoreHelper
 import util.setUpToolbar
 
-class MoreFragment : Fragment(R.layout.fragment_more), DIAware {
+class MoreFragment : Fragment() {
     private lateinit var viewBinding: FragmentMoreBinding
-    override val di: DI
-        get() = subDI(parentDI = di()) {
-            import(moreModule(this@MoreFragment))
-        }
-    val loadMoreHelper: LoadMoreHelper by instance()
-    val moreAdapter: MoreAdapter by instance()
-    val loadingAdapter: LoadingAdapter by instance()
-    val titleHeaderAdapter: TitleHeaderAdapter by instance()
-    var title : String = ""
-    var _type : String = ""
+
+    private val loadMoreHelper: LoadMoreHelper by inject { parametersOf(this) }
+    private val moreAdapter: MoreAdapter by inject { parametersOf(this) }
+    private val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
+    private val titleHeaderAdapter: TitleHeaderAdapter by inject { parametersOf(this) }
+    private var title: String = ""
+    private var _type: String = ""
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
         val adapter = ConcatAdapter(config, moreAdapter, loadingAdapter)
         titleHeaderAdapter.submitList(listOf(title))
         adapter
     }
-    val vmMore by viewModels<MoreViewModel> {
-        MoreViewModelFactory(subDI(di()) {
-            import(moreVModule)
-        }, _type)
-    }
+    val vmMore by viewModels<MoreViewModel>()
 
     private val vmNav by activityViewModels<NavViewModel>()
     var callbackDetail: MoreAdapter.Callback? = null
+
     companion object {
-        fun newInstance(title : String): MoreFragment {
+        fun newInstance(title: String): MoreFragment {
             val fragment = MoreFragment()
             fragment.title = title
             fragment._type = parseSubType(title) as String
@@ -87,7 +75,7 @@ class MoreFragment : Fragment(R.layout.fragment_more), DIAware {
             vm = vmMore
             lifecycleOwner = viewLifecycleOwner
             moreAdapter.apply {
-                callbackDetail = object: MoreAdapter.Callback {
+                callbackDetail = object : MoreAdapter.Callback {
                     override fun onClick(view: View, pos: Int, item: BaseModel) {
                         if (item is Manga) {
                             view.transitionName = item.id.toString()
@@ -175,7 +163,11 @@ class MoreFragment : Fragment(R.layout.fragment_more), DIAware {
 
 
 @BindingAdapter("lifecycle", "data", "loadState")
-fun RecyclerView.loadMore(lifecycleOwner: LifecycleOwner, data: CFlow<List<BaseModel>>?, loadState: CFlow<LoadState>?) {
+fun RecyclerView.loadMore(
+    lifecycleOwner: LifecycleOwner,
+    data: CFlow<List<BaseModel>>?,
+    loadState: CFlow<LoadState>?
+) {
     data?.let {
         it.watch {
             (adapter as ConcatAdapter).apply {
@@ -201,7 +193,10 @@ fun RecyclerView.loadMore(lifecycleOwner: LifecycleOwner, data: CFlow<List<BaseM
     }
 }
 
-class MoreAdapter constructor(private val applicationContext: Context, private val requestManager: RequestManager) : ListAdapter<BaseModel, RecyclerView.ViewHolder>(object : DiffUtil
+class MoreAdapter constructor(
+    private val applicationContext: Context,
+    private val requestManager: RequestManager
+) : ListAdapter<BaseModel, RecyclerView.ViewHolder>(object : DiffUtil
 .ItemCallback<BaseModel>() {
     override fun areItemsTheSame(oldItem: BaseModel, newItem: BaseModel): Boolean {
         return oldItem === newItem
@@ -212,8 +207,9 @@ class MoreAdapter constructor(private val applicationContext: Context, private v
     }
 }) {
     private val spaceNormal = applicationContext.getDimen(R.dimen.space_normal).toInt()
-    private lateinit var onItemClickListener : View.OnClickListener
+    private lateinit var onItemClickListener: View.OnClickListener
     var callback: Callback? = null
+
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
@@ -222,6 +218,7 @@ class MoreAdapter constructor(private val applicationContext: Context, private v
     interface Callback {
         fun onClick(view: View, pos: Int, item: BaseModel)
     }
+
     override fun getItemViewType(position: Int): Int {
         return AdapterTypeUtil.TYPE_ANIME_GRID
     }
@@ -229,7 +226,8 @@ class MoreAdapter constructor(private val applicationContext: Context, private v
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             AdapterTypeUtil.TYPE_ANIME_GRID -> {
-                val animeBinding = ItemBaseGridBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val animeBinding =
+                    ItemBaseGridBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 BaseGridViewHolder(animeBinding)
             }
             else -> {
@@ -247,11 +245,11 @@ class MoreAdapter constructor(private val applicationContext: Context, private v
         }
     }
 
-    fun setOnItemClickListener(itemClickLitesner : View.OnClickListener) {
+    fun setOnItemClickListener(itemClickLitesner: View.OnClickListener) {
         onItemClickListener = itemClickLitesner
     }
 
-    fun setCallbackDetail(cb : Callback) {
+    fun setCallbackDetail(cb: Callback) {
         callback = cb
     }
 

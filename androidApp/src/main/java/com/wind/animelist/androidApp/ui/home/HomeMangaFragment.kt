@@ -2,12 +2,15 @@ package com.wind.animelist.androidApp.ui.home
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.wind.animelist.androidApp.R
+import com.wind.animelist.androidApp.databinding.FragmentHomeBinding
 import com.wind.animelist.androidApp.ui.adapter.*
 import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.viewmodel.HomeMangaViewModel
@@ -21,19 +24,19 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import util.*
 import util.loadmore.LoadMoreHelper
-import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
  * Created by Phong Huynh on 9/26/2020
  */
 @ExperimentalCoroutinesApi
-class HomeMangaFragment : Fragment(R.layout.fragment_home) {
+class HomeMangaFragment : Fragment() {
     companion object {
         fun newInstance(): HomeMangaFragment {
             return HomeMangaFragment()
         }
     }
 
+    private lateinit var viewBinding: FragmentHomeBinding
     private val homeMangaAdapter: HomeMangaAdapter by inject { parametersOf(this) }
     private val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
     private val titleHeaderAdapter: TitleHeaderAdapter by inject { parametersOf(this) }
@@ -47,6 +50,16 @@ class HomeMangaFragment : Fragment(R.layout.fragment_home) {
     private val loadMoreHelper: LoadMoreHelper by inject { parametersOf(this) }
     private val vmNav by activityViewModels<NavViewModel>()
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewBinding = FragmentHomeBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
+        return viewBinding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeMangaAdapter.apply {
@@ -57,7 +70,7 @@ class HomeMangaFragment : Fragment(R.layout.fragment_home) {
                 }
             }
         }
-        rcv.apply {
+        viewBinding.rcv.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
             adapter = concatAdapter
@@ -95,19 +108,17 @@ class HomeMangaFragment : Fragment(R.layout.fragment_home) {
         }
         vmHome.data.onEach { list ->
             if (list.isEmpty()) {
-                rcv.gone()
-                progressBar.show()
+                viewBinding.rcv.gone()
+                viewBinding.progressBar.show()
             } else {
-                rcv.show()
-                progressBar.gone()
+                viewBinding.rcv.show()
+                viewBinding.progressBar.gone()
                 homeMangaAdapter.setData(list)
             }
-            loadMoreHelper.finishLoading()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vmHome.loadState.onEach { state ->
             loadingAdapter.loadState = state
-            loadMoreHelper.loadState = state
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

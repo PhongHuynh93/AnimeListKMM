@@ -2,6 +2,7 @@ package com.wind.animelist.androidApp.di
 
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.wind.animelist.androidApp.home.MoreAdapter
 import com.wind.animelist.androidApp.ui.adapter.HomeAnimeAdapter
 import com.wind.animelist.androidApp.ui.adapter.HomeMangaAdapter
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
@@ -28,6 +29,10 @@ val appModule = module {
     factory { (frag: Fragment) ->
         val applicationContext = frag.requireContext().applicationContext
         HomeAnimeAdapter(applicationContext, Glide.with(frag))
+    }
+    factory { (frag: Fragment) ->
+        val applicationContext = frag.requireContext().applicationContext
+        MoreAdapter(applicationContext, Glide.with(frag))
     }
     factory { (_: Fragment) ->
         LoadingAdapter()

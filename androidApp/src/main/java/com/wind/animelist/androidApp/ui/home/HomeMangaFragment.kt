@@ -8,16 +8,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.databinding.FragmentHomeBinding
-import com.wind.animelist.androidApp.ui.adapter.*
+import com.wind.animelist.androidApp.ui.adapter.HomeMangaAdapter
+import com.wind.animelist.androidApp.ui.adapter.HomeMangaHozAdapter
+import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
+import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.viewmodel.HomeMangaViewModel
 import com.wind.animelist.shared.viewmodel.NavViewModel
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -106,19 +111,24 @@ class HomeMangaFragment : Fragment() {
                 vmHome.loadMore()
             }
         }
-        vmHome.data.onEach { list ->
-            if (list.isEmpty()) {
-                viewBinding.rcv.gone()
-                viewBinding.progressBar.show()
-            } else {
-                viewBinding.rcv.show()
-                viewBinding.progressBar.gone()
-                homeMangaAdapter.setData(list)
-            }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        vmHome.loadState.onEach { state ->
-            loadingAdapter.loadState = state
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            vmHome.data.onEach { list ->
+                if (list.isEmpty()) {
+                    viewBinding.rcv.gone()
+                    viewBinding.progressBar.show()
+                } else {
+                    viewBinding.rcv.show()
+                    viewBinding.progressBar.gone()
+                    homeMangaAdapter.setData(list)
+                }
+            }.collect()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            vmHome.loadState.onEach { state ->
+                loadingAdapter.loadState = state
+            }.collect()
+        }
     }
 }

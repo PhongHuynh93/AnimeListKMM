@@ -9,33 +9,29 @@
 import Foundation
 import shared
 
-class HomeVM: ObservableObject {
+class HomeMangaVM: ObservableObject {
     @Published var homeList = [HomeUI]()
-    let homeVM: HomeViewModel
+    let homeVM: HomeMangaViewModel
     
-    init(homeVM: HomeViewModel) {
+    init(homeVM: HomeMangaViewModel) {
         self.homeVM = homeVM
         homeVM.data.watch { list in
-            var indexOuter = 0
             var tempHomeList = [HomeUI]()
             list!.forEach { it in
                 switch it {
                 case is MangaList:
                     // convert nsarray into array
-                    var indexInner = 0
                     let oldMangaList = it as! MangaList
                     var mangaList = [MangaUI]()
             
                     oldMangaList.list.forEach { it in
-                        mangaList.append(MangaUI(pos: indexInner, manga: it))
-                        indexInner += 1
+                        mangaList.append(MangaUI(manga: it))
                     }
                     
-                    tempHomeList.append(HomeUI(pos: indexOuter, home: MangaListUI(title: oldMangaList.title, mangaList: mangaList)))
+                    tempHomeList.append(HomeUI(home: MangaListUI(title: oldMangaList.title, mangaList: mangaList)))
                 default:
-                    tempHomeList.append(HomeUI(pos: indexOuter, home: it as! Home))
+                    tempHomeList.append(HomeUI(home: it as! Home))
                 }
-                indexOuter += 1
                
             }
             self.homeList = tempHomeList
@@ -44,5 +40,13 @@ class HomeVM: ObservableObject {
     
     deinit {
         homeVM.onCleared()
+    }
+    
+    func onItemAppear(itemId: UUID) {
+        print("onItemAppear")
+        if (homeList.last!.id == itemId) {
+            print("loadmore")
+            homeVM.loadMore()
+        }
     }
 }

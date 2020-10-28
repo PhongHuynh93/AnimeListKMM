@@ -1,18 +1,19 @@
 import SwiftUI
 import shared
 
-func greet() -> String {
-    return Greeting().greeting()
-}
-
 struct ContentView: View {
     var body: some View {
-        Text(greet())
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+        TabView {
+            LazyView(HomeMangaView())
+                .tabItem {
+                    Image(systemName: "heart.fill")
+                    Text("Manga")
+                }
+            LazyView(HomeAnimeView())
+                .tabItem {
+                    Image(systemName: "heart.fill")
+                    Text("Anime")
+                }
+        }
     }
 }

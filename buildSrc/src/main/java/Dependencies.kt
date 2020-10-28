@@ -1,7 +1,6 @@
 object Versions {
     const val kotlin = "1.4.10"
-    const val kotlinCoroutines = "1.3.9"
-    const val kotlinCoroutinesIos = "1.3.5"
+    const val kotlinCoroutines = "1.3.9-native-mt-2"
     const val gradlePlugin: String = "4.0.1"
     const val glide: String = "4.10.0"
     const val supportLibrary: String = "1.1.0"
@@ -9,9 +8,10 @@ object Versions {
     const val constraintLayout: String = "2.0.0"
     const val room: String = "2.2.2"
     // ios doesn't have the latest version, so we have 2 versions ktor
-    const val ktor = "1.4.1"
-    const val ktorIos = "1.3.2"
-    const val injection = "7.1.0"
+    const val ktor = "1.4.0"
+//    const val ktorIos = "1.3.2"
+    const val kotlinxSerialization = "1.0.0-RC"
+    const val injection = "3.0.0-alpha-4"
 }
 
 object Libs {
@@ -32,8 +32,11 @@ object Libs {
         const val std = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     }
     object Injection {
-        const val android = "org.kodein.di:kodein-di-framework-android-x:${Versions.injection}"
-        const val core = "org.kodein.di:kodein-di:${Versions.injection}"
+        const val core = "org.koin:koin-core:${Versions.injection}"
+        object Android {
+            const val android = "org.koin:koin-android:${Versions.injection}"
+            const val androidViewModel = "org.koin:koin-androidx-viewmodel:${Versions.injection}"
+        }
     }
     object Test {
         const val junit = "junit:junit:4.12"
@@ -57,8 +60,6 @@ object Libs {
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
         const val coreAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions
             .kotlinCoroutines}"
-        const val coreIos = "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${Versions
-            .kotlinCoroutinesIos}"
     }
     object Db {
         const val room = "androidx.room:room-runtime:${Versions.room}"
@@ -78,14 +79,14 @@ object Libs {
         // log
         const val logAndroid = "io.ktor:ktor-client-logging-jvm:${Versions.ktor}"
         const val logCore = "io.ktor:ktor-client-logging:${Versions.ktor}"
-        const val logIos = "io.ktor:ktor-client-logging-native:${Versions.ktorIos}"
+//        const val logIos = "io.ktor:ktor-client-logging-native:${Versions.ktorIos}"
         const val logCore2 = "ch.qos.logback:logback-classic:1.2.3"
 
         // proguard for android
 //        https://github.com/Kotlin/kotlinx.serialization#android
-        const val parserCore = "io.ktor:ktor-client-serialization:${Versions.ktor}"
-        const val parserAndroid = "io.ktor:ktor-client-serialization-jvm:${Versions.ktor}"
-        const val parserIos = "io.ktor:ktor-client-serialization-native:${Versions.ktorIos}"
+        const val parser = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinxSerialization}"
+        const val parser2 = "io.ktor:ktor-client-serialization:${Versions.ktor}"
+//        const val parserIos = "io.ktor:ktor-client-serialization-native:${Versions.ktorIos}"
     }
 }
 

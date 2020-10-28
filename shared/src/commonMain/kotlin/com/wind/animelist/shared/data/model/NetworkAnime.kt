@@ -21,7 +21,7 @@ data class NetworkAnime(
     @SerialName("rank")
     val rank: Int?,
     @SerialName("score")
-    val score: Int?,
+    val score: Float?,
     @SerialName("start_date")
     val startDate: String?,
     @SerialName("title")

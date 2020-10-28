@@ -11,12 +11,11 @@ buildscript {
         classpath(ClassPaths.serialization)
     }
 }
-group = "com.wind.animelist"
-version = "1.0-SNAPSHOT"
 
 allprojects {
     repositories {
         google()
         jcenter()
+        maven(url = "https://dl.bintray.com/ekito/koin")
     }
 }

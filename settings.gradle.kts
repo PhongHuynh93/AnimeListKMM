@@ -14,7 +14,7 @@ pluginManagement {
     }
 }
 rootProject.name = "AnimeList"
-
+enableFeaturePreview("GRADLE_METADATA")
 
 include(":androidApp")
 include(":shared")

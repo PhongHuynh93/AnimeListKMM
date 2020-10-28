@@ -24,6 +24,7 @@ import org.koin.core.inject
  */
 @ExperimentalCoroutinesApi
 class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
+    private var doing: Boolean = false
     private var finishGetSpecial: Boolean = false
     private var finishGetMovie: Boolean = false
     private var finishGetData: Boolean = false
@@ -36,6 +37,7 @@ class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
 
     // TODO: 10/6/2020 handle error and loading here
     init {
+        doing = true
         clearState()
         // note - rate limited - 2 requests/1s
         clientScope.launch(ioDispatcher) {
@@ -44,6 +46,7 @@ class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
                 (getTopAnimeUseCase(GetTopAnimeParam("upcoming")) to "Top Upcoming")
             ))
             finishGetData = true
+            doing = false
         }
     }
 
@@ -68,6 +71,8 @@ class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
     }
 
     fun loadMore() {
+        if (doing || _loadState.value == Complete) return
+        doing = true
         if (finishGetData) {
             if (!finishGetMovie) {
                 clientScope.launch(ioDispatcher) {
@@ -76,6 +81,7 @@ class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
                         (getTopAnimeUseCase(GetTopAnimeParam("movie")) to "Top Movie")
                     ))
                     finishGetMovie = true
+                    doing = false
                 }
             } else if (!finishGetSpecial) {
                 clientScope.launch(ioDispatcher) {
@@ -85,6 +91,7 @@ class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
                     ))
                     finishGetSpecial = true
                     _loadState.value = Complete
+                    doing = false
                 }
             } else {
                 // TODO: 10/19/2020 load the manga news here

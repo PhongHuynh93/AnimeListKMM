@@ -9,13 +9,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 /**
  * Created by Phong Huynh on 9/28/2020
  */
+data class GetTopAnimeParam(val subType: String)
 class GetTopAnimeUseCase constructor(
     dispatcher: CoroutineDispatcher,
     private val repository: Repository
-) : UseCase<Unit, List<Anime>>(dispatcher) {
+) : UseCase<GetTopAnimeParam, List<Anime>>(dispatcher) {
 
-    override suspend fun execute(parameters: Unit): List<Anime> {
-        return repository.getTopAnime().data
+    override suspend fun execute(parameters: GetTopAnimeParam): List<Anime> {
+        return repository.getTopAnime(parameters.subType).data
             .map {
                 AnimeDataMapper().map(it)
             }.filter {

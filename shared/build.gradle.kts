@@ -110,6 +110,11 @@ android {
         versionCode = Configs.versionCode
         versionName = Configs.versionName
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 val packForXcode by tasks.creating(Sync::class) {
     group = "build"

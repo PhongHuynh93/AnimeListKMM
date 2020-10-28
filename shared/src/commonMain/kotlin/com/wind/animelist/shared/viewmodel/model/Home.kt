@@ -21,7 +21,8 @@ data class MangaList(
 }
 
 data class AnimeList(
-    val list: List<Anime>
+    val list: List<Anime>,
+    val title: String
 ): Home {
     override fun getType(): Int {
         return AdapterTypeUtil.TYPE_ANIME_LIST

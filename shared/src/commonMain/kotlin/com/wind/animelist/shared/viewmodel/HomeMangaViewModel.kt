@@ -25,11 +25,10 @@ import org.koin.core.inject
  * Created by Phong Huynh on 10/6/2020
  */
 @ExperimentalCoroutinesApi
-class HomeViewModel: BaseViewModel(), KoinComponent {
+class HomeMangaViewModel: BaseViewModel(), KoinComponent {
     private var finishGetManhwa: Boolean = false
     private var finishGetData: Boolean = false
     private val getTopMangaUseCase: GetTopMangaUseCase by inject()
-    private val getTopAnimeUseCase: GetTopAnimeUseCase by inject()
     private val _data = MutableStateFlow<List<Home>?>(null)
     val data: CFlow<List<Home>> get() = _data.filterNotNull().asCommonFlow()
     private var list = mutableListOf<Home>()
@@ -48,7 +47,7 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
             delay(API_RATE_LIMIT_TIME)
             loadAndShowData(listOf(
                 (getTopMangaUseCase(GetTopMangaParam("oneshots")) to "Top One Shot"),
-                (getTopMangaUseCase(GetTopMangaParam("doujin")) to "Top Doujin")
+//                (getTopMangaUseCase(GetTopMangaParam("doujin")) to "Top Doujin")
             ))
             delay(API_RATE_LIMIT_TIME)
             finishGetData = true
@@ -64,7 +63,7 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
             for (item in list) {
                 item.first.data?.let {
                     // TODO: 10/6/2020 find the workaround for R in android and ios
-                    listHome.add(MangaList(it, item.second))
+                    listHome.add(MangaList(it.shuffled(), item.second))
                 }
             }
         if (listHome.isEmpty()) {
@@ -75,8 +74,7 @@ class HomeViewModel: BaseViewModel(), KoinComponent {
         this.list = listHome
     }
 
-    fun loadMoreManga() {
-        // TODO("Not yet implemented")
+    fun loadMore() {
         if (finishGetData) {
             if (!finishGetManhwa) {
                 clientScope.launch(ioDispatcher) {

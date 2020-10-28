@@ -20,7 +20,7 @@
 		DC52E214253605D1004B18AC /* MangaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52E213253605D1004B18AC /* MangaView.swift */; };
 		DC52E21B253723F3004B18AC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DC52E21A253723F3004B18AC /* Kingfisher */; };
 		DC52E21D253723F3004B18AC /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = DC52E21C253723F3004B18AC /* KingfisherSwiftUI */; };
-		DC52E22225374903004B18AC /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52E22125374903004B18AC /* HomeVM.swift */; };
+		DC52E22225374903004B18AC /* HomeMangaVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52E22125374903004B18AC /* HomeMangaVM.swift */; };
 		DC52E22925375147004B18AC /* HomeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC52E22825375147004B18AC /* HomeUI.swift */; };
 		DC7EEC3B253AEEC7006DD002 /* MangaUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7EEC3A253AEEC7006DD002 /* MangaUI.swift */; };
 		DC7EEC3F253AF344006DD002 /* MangaListUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7EEC3E253AF344006DD002 /* MangaListUI.swift */; };
@@ -35,6 +35,14 @@
 		DCC5B481253C904D00F8EC22 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B480253C904D00F8EC22 /* LazyView.swift */; };
 		DCC5B489253C94EA00F8EC22 /* MyVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B488253C94EA00F8EC22 /* MyVStack.swift */; };
 		DCC5B48D253C953400F8EC22 /* MyHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B48C253C953400F8EC22 /* MyHStack.swift */; };
+		DCC5B4972545CE6600F8EC22 /* ExtensionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4962545CE6600F8EC22 /* ExtensionUtil.swift */; };
+		DCC5B49F2547255700F8EC22 /* HomeMangaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B49E2547255700F8EC22 /* HomeMangaView.swift */; };
+		DCC5B4A52547256800F8EC22 /* HomeAnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4A42547256800F8EC22 /* HomeAnimeView.swift */; };
+		DCC5B4AB254728B700F8EC22 /* HomeAnimeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4AA254728B700F8EC22 /* HomeAnimeVM.swift */; };
+		DCC5B4AF254729F800F8EC22 /* AnimeListUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4AE254729F800F8EC22 /* AnimeListUI.swift */; };
+		DCC5B4B32548666500F8EC22 /* AnimeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4B22548666500F8EC22 /* AnimeUI.swift */; };
+		DCC5B4B7254867DD00F8EC22 /* TitleOverlayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4B6254867DD00F8EC22 /* TitleOverlayCardView.swift */; };
+		DCC5B4BB2548681300F8EC22 /* AnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4BA2548681300F8EC22 /* AnimeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,7 +93,7 @@
 		7555FFA2242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7555FFB1242A642300829871 /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = "../shared/build/xcode-frameworks/shared.framework"; sourceTree = "<group>"; };
 		DC52E213253605D1004B18AC /* MangaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaView.swift; sourceTree = "<group>"; };
-		DC52E22125374903004B18AC /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
+		DC52E22125374903004B18AC /* HomeMangaVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMangaVM.swift; sourceTree = "<group>"; };
 		DC52E22825375147004B18AC /* HomeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUI.swift; sourceTree = "<group>"; };
 		DC7EEC3A253AEEC7006DD002 /* MangaUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaUI.swift; sourceTree = "<group>"; };
 		DC7EEC3E253AF344006DD002 /* MangaListUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListUI.swift; sourceTree = "<group>"; };
@@ -100,6 +108,14 @@
 		DCC5B480253C904D00F8EC22 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		DCC5B488253C94EA00F8EC22 /* MyVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyVStack.swift; sourceTree = "<group>"; };
 		DCC5B48C253C953400F8EC22 /* MyHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHStack.swift; sourceTree = "<group>"; };
+		DCC5B4962545CE6600F8EC22 /* ExtensionUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUtil.swift; sourceTree = "<group>"; };
+		DCC5B49E2547255700F8EC22 /* HomeMangaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMangaView.swift; sourceTree = "<group>"; };
+		DCC5B4A42547256800F8EC22 /* HomeAnimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAnimeView.swift; sourceTree = "<group>"; };
+		DCC5B4AA254728B700F8EC22 /* HomeAnimeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAnimeVM.swift; sourceTree = "<group>"; };
+		DCC5B4AE254729F800F8EC22 /* AnimeListUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListUI.swift; sourceTree = "<group>"; };
+		DCC5B4B22548666500F8EC22 /* AnimeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeUI.swift; sourceTree = "<group>"; };
+		DCC5B4B6254867DD00F8EC22 /* TitleOverlayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleOverlayCardView.swift; sourceTree = "<group>"; };
+		DCC5B4BA2548681300F8EC22 /* AnimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,10 +222,13 @@
 		DC52E2122536059B004B18AC /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				DCC5B49D2547252C00F8EC22 /* detail */,
+				DCC5B49C2547251D00F8EC22 /* home */,
 				DC52E213253605D1004B18AC /* MangaView.swift */,
 				DCC5B44E253C2AAA00F8EC22 /* MangaListView.swift */,
-				DCC5B452253C2BC300F8EC22 /* MangaDetailView.swift */,
 				DCC5B478253C696500F8EC22 /* CharacterView.swift */,
+				DCC5B4B6254867DD00F8EC22 /* TitleOverlayCardView.swift */,
+				DCC5B4BA2548681300F8EC22 /* AnimeView.swift */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -217,8 +236,9 @@
 		DC52E220253748DF004B18AC /* viewmodel */ = {
 			isa = PBXGroup;
 			children = (
-				DC52E22125374903004B18AC /* HomeVM.swift */,
+				DC52E22125374903004B18AC /* HomeMangaVM.swift */,
 				DCC5B456253C337B00F8EC22 /* DetailMangaVM.swift */,
+				DCC5B4AA254728B700F8EC22 /* HomeAnimeVM.swift */,
 			);
 			path = viewmodel;
 			sourceTree = "<group>";
@@ -232,6 +252,8 @@
 				DCC5B45A253C3CB500F8EC22 /* DetailMangaUI.swift */,
 				DCC5B467253C426800F8EC22 /* CharacterUI.swift */,
 				DCC5B46B253C430D00F8EC22 /* CharacterListUI.swift */,
+				DCC5B4AE254729F800F8EC22 /* AnimeListUI.swift */,
+				DCC5B4B22548666500F8EC22 /* AnimeUI.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -243,8 +265,26 @@
 				DCC5B480253C904D00F8EC22 /* LazyView.swift */,
 				DCC5B488253C94EA00F8EC22 /* MyVStack.swift */,
 				DCC5B48C253C953400F8EC22 /* MyHStack.swift */,
+				DCC5B4962545CE6600F8EC22 /* ExtensionUtil.swift */,
 			);
 			path = util;
+			sourceTree = "<group>";
+		};
+		DCC5B49C2547251D00F8EC22 /* home */ = {
+			isa = PBXGroup;
+			children = (
+				DCC5B49E2547255700F8EC22 /* HomeMangaView.swift */,
+				DCC5B4A42547256800F8EC22 /* HomeAnimeView.swift */,
+			);
+			path = home;
+			sourceTree = "<group>";
+		};
+		DCC5B49D2547252C00F8EC22 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				DCC5B452253C2BC300F8EC22 /* MangaDetailView.swift */,
+			);
+			path = detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -407,25 +447,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCC5B4B7254867DD00F8EC22 /* TitleOverlayCardView.swift in Sources */,
 				DC7EEC3B253AEEC7006DD002 /* MangaUI.swift in Sources */,
+				DCC5B49F2547255700F8EC22 /* HomeMangaView.swift in Sources */,
 				7555FF7F242A565900829871 /* AppDelegate.swift in Sources */,
 				DCC5B48D253C953400F8EC22 /* MyHStack.swift in Sources */,
 				DCC5B481253C904D00F8EC22 /* LazyView.swift in Sources */,
 				DCC5B475253C637200F8EC22 /* Constant.swift in Sources */,
+				DCC5B4A52547256800F8EC22 /* HomeAnimeView.swift in Sources */,
 				DC7EEC3F253AF344006DD002 /* MangaListUI.swift in Sources */,
 				DCC5B489253C94EA00F8EC22 /* MyVStack.swift in Sources */,
 				DCC5B468253C426800F8EC22 /* CharacterUI.swift in Sources */,
 				DCC5B45B253C3CB500F8EC22 /* DetailMangaUI.swift in Sources */,
+				DCC5B4972545CE6600F8EC22 /* ExtensionUtil.swift in Sources */,
 				DCC5B479253C696500F8EC22 /* CharacterView.swift in Sources */,
+				DCC5B4B32548666500F8EC22 /* AnimeUI.swift in Sources */,
 				DCC5B457253C337B00F8EC22 /* DetailMangaVM.swift in Sources */,
-				DC52E22225374903004B18AC /* HomeVM.swift in Sources */,
+				DC52E22225374903004B18AC /* HomeMangaVM.swift in Sources */,
 				DCC5B46C253C430D00F8EC22 /* CharacterListUI.swift in Sources */,
+				DCC5B4BB2548681300F8EC22 /* AnimeView.swift in Sources */,
+				DCC5B4AF254729F800F8EC22 /* AnimeListUI.swift in Sources */,
 				DC52E214253605D1004B18AC /* MangaView.swift in Sources */,
 				DC52E22925375147004B18AC /* HomeUI.swift in Sources */,
 				7555FF81242A565900829871 /* SceneDelegate.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				DCC5B453253C2BC300F8EC22 /* MangaDetailView.swift in Sources */,
 				DCC5B44F253C2AAA00F8EC22 /* MangaListView.swift in Sources */,
+				DCC5B4AB254728B700F8EC22 /* HomeAnimeVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

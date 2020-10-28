@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/action_manga"
         android:title="@string/menu_manga"
-        android:icon="@drawable/ic_baseline_menu_book_24" />
+        android:icon="@drawable/ic_manga" />
     <item android:id="@+id/action_anime"
         android:title="@string/menu_anime"
-        android:icon="@drawable/ic_baseline_menu_book_24" />
+        android:icon="@drawable/ic_anime" />
     <item android:id="@+id/action_user"
         android:title="@string/menu_user"
-        android:icon="@drawable/ic_baseline_people_alt_24" />
+        android:icon="@drawable/ic_user" />
 </menu>

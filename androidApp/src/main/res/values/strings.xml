@@ -5,7 +5,7 @@
     <string name="home_title_manga">Manga</string>
     <string name="home_title_anime">Anime</string>
     <string name="mangaRadio">2:2.9</string>
-    <string name="menu_manga">manga</string>
-    <string name="menu_anime">anime</string>
-    <string name="menu_user">user</string>
+    <string name="menu_manga">Manga</string>
+    <string name="menu_anime">Anime</string>
+    <string name="menu_user">User</string>
 </resources>

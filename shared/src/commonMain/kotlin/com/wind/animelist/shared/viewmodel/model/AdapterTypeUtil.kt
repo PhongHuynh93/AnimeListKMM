@@ -14,4 +14,5 @@ object AdapterTypeUtil {
     const val TYPE_CHARACTER_LIST = 5
     const val TYPE_MORE_INFO = 6
     const val TYPE_DETAIL_MANGA_HEADER = 7
+    const val TYPE_ANIME_GRID = 5
 }

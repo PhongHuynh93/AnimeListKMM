@@ -4,5 +4,6 @@
 <!--    4dp-->
     <color name="colorSurface">#17FFFFFF</color>
     <color name="colorAccent">#FFE082</color>
+    <color name="colorToolbar">#EDEDED</color>
 
 </resources>

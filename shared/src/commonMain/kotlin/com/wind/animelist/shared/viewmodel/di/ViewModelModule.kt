@@ -22,6 +22,15 @@ val homeVModule = DI.Module("homeVM") {
     }
 }
 
+val moreVModule = DI.Module("moreVM") {
+    bind<GetTopMangaUseCase>() with provider {
+        GetTopMangaUseCase(instance(ioDispatcherTag), instance())
+    }
+    bind<GetTopAnimeUseCase>() with provider {
+        GetTopAnimeUseCase(instance(ioDispatcherTag), instance())
+    }
+}
+
 val detailMangaVModule = DI.Module("detailMangaVM") {
     bind<GetCharacterInMangaUseCase>() with provider {
         GetCharacterInMangaUseCase(instance(ioDispatcherTag), instance())

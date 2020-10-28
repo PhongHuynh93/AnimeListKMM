@@ -6,6 +6,11 @@ import com.wind.animelist.shared.util.Parcelize
 /**
  * Created by Phong Huynh on 10/3/2020
  */
-data class Manga (override val id: Int, override val imageUrl: String, override val title: String): BaseModel(id, imageUrl, title) {
-
+@Parcelize
+open class BaseModel(
+    open val id: Int,
+    open val imageUrl: String,
+    open val title: String,
+): Parcelable {
+    fun isValid() = id > 0
 }

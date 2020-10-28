@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="Wind.Theme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorToolbar">@color/colorToolbar</item>
+    </style>
+
+</resources>

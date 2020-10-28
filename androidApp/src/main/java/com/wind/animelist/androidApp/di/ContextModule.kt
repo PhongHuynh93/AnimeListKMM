@@ -10,6 +10,7 @@ import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.androidApp.ui.detail.DetailMangaAdapter
 import com.wind.animelist.androidApp.ui.detail.DetailMangaHeaderAdapter
+import com.wind.animelist.androidApp.home.MoreAdapter
 import util.loadmore.LoadMoreHelper
 
 /**
@@ -40,5 +41,21 @@ fun detailMangaModule(frag: Fragment) = DI.Module("detailManga") {
     }
     bind<LoadingAdapter>() with provider {
         LoadingAdapter()
+    }
+}
+
+fun moreModule(frag: Fragment) = DI.Module("more") {
+    bind<MoreAdapter>() with provider {
+        val applicationContext = frag.requireContext().applicationContext
+        MoreAdapter(applicationContext, Glide.with(frag))
+    }
+    bind<LoadingAdapter>() with provider {
+        LoadingAdapter()
+    }
+    bind<TitleHeaderAdapter>() with provider {
+        TitleHeaderAdapter()
+    }
+    bind<LoadMoreHelper>() with provider {
+        LoadMoreHelper(frag.childFragmentManager)
     }
 }

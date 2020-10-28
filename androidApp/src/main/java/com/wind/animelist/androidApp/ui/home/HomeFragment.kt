@@ -3,6 +3,7 @@ package com.wind.animelist.androidApp.ui.home
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.text.TextUtils.replace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,17 +11,20 @@ import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
+import com.google.android.material.transition.MaterialContainerTransform
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleViewHolder
 import com.wind.animelist.androidApp.databinding.*
 import com.wind.animelist.androidApp.di.homeModule
+import com.wind.animelist.androidApp.home.MoreFragment
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.util.CFlow
@@ -42,6 +46,7 @@ import util.Event
 import util.TYPE_FOOTER
 import util.getDimen
 import util.loadmore.LoadMoreHelper
+import util.useAnim
 
 /**
  * Created by Phong Huynh on 9/26/2020
@@ -49,6 +54,15 @@ import util.loadmore.LoadMoreHelper
 @ExperimentalCoroutinesApi
 class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
     private lateinit var viewBinding: FragmentHomeBinding
+    private var onItemClickListener = View.OnClickListener {
+        activity?.supportFragmentManager?.commit {
+            useAnim()
+            replace(R.id.root, MoreFragment.newInstance(it.transitionName)).apply {
+                sharedElementEnterTransition = MaterialContainerTransform()
+            }
+            addToBackStack(null)
+        }
+    }
     override val di: DI
         get() = subDI(parentDI = di()) {
             import(homeModule(this@HomeFragment))
@@ -84,6 +98,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), DIAware {
         viewBinding = FragmentHomeBinding.inflate(inflater, container, false).apply {
             vm = vmHome
             lifecycleOwner = viewLifecycleOwner
+            homeAdapter.setOnItemClickListener(onItemClickListener)
             homeAdapter.apply {
                 callbackAnime = object: HomeAnimeHozAdapter.Callback {
                     override fun onClick(view: View, pos: Int, item: Anime) {
@@ -182,7 +197,7 @@ class HomeAdapter constructor(
     private val spaceNormal = applicationContext.getDimen(R.dimen.space_normal).toInt()
     var callbackManga: HomeMangaHozAdapter.Callback? = null
     var callbackAnime: HomeAnimeHozAdapter.Callback? = null
-
+    private lateinit var onItemClickListener : View.OnClickListener
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
@@ -230,6 +245,10 @@ class HomeAdapter constructor(
         }
     }
 
+    fun setOnItemClickListener(itemClickLitesner : View.OnClickListener) {
+        onItemClickListener = itemClickLitesner
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
         when (getItemViewType(position)) {
@@ -246,6 +265,10 @@ class HomeAdapter constructor(
             AdapterTypeUtil.TYPE_TITLE -> {
                 val vh = holder as TitleViewHolder
                 vh.binding.text = (item as Title).text
+                vh.binding.more.setOnClickListener {
+                    it.transitionName = (item as Title).text
+                    onItemClickListener.onClick(it)
+                }
                 vh.binding.executePendingBindings()
             }
         }

@@ -99,6 +99,9 @@ class HomeMangaFragment : Fragment() {
                             outRect.top = spaceLarge.toInt()
                             outRect.bottom = spaceLarge.toInt()
                         }
+                        AdapterTypeUtil.TYPE_TITLE -> {
+                            outRect.left = spaceNormal.toInt()
+                        }
                     }
                     if (pos == concatAdapter.itemCount - 1) {
                         outRect.bottom = spaceNormal.toInt()

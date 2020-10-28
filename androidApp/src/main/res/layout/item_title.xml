@@ -1,44 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="text"
             type="String" />
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <RelativeLayout
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/space_pretty_small"
+            android:text="@{text}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            tools:text="@tools:sample/full_names" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_normal"
-                android:paddingVertical="@dimen/space_pretty_small"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:text="@{text}"
-                tools:text="@tools:sample/full_names" />
-
-            <TextView
-                android:id="@+id/more"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="20dp"
-                android:layout_alignParentEnd="true"
-                android:textSize="14sp"
-                android:textColor="@color/colorAccent"
-                android:textStyle="italic"
-                android:layout_marginStart="@dimen/space_normal"
-                android:paddingVertical="@dimen/space_pretty_small"
-                android:text="@string/more"/>
-        </RelativeLayout>
-
-    </FrameLayout>
+        <TextView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBaseline="@+id/textView"
+            android:paddingHorizontal="@dimen/space_normal"
+            android:paddingVertical="@dimen/space_small"
+            android:text="@string/more"
+            android:gravity="center"
+            android:textColor="?attr/colorAccent"
+            android:textSize="14sp" />
+    </RelativeLayout>
 
 </layout>

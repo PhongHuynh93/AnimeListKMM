@@ -2,7 +2,10 @@ package com.wind.animelist.androidApp.util
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
+import androidx.databinding.BindingAdapter
 import com.wind.animelist.androidApp.R
+import util.doOnApplyWindowInsets
 import util.getDimen
 
 /**
@@ -12,4 +15,34 @@ val Context.spacePrettySmall
     get() = getDimen(R.dimen.space_pretty_small).toInt()
 val Context.spaceNormal
     get() = getDimen(R.dimen.space_normal).toInt()
+
+
+@BindingAdapter(
+    "paddingLeftSystemWindowInsets",
+    "paddingTopSystemWindowInsets",
+    "paddingRightSystemWindowInsets",
+    "paddingBottomSystemWindowInsets",
+    requireAll = false
+)
+fun applySystemWindows(
+    view: View,
+    applyLeft: Boolean,
+    applyTop: Boolean,
+    applyRight: Boolean,
+    applyBottom: Boolean
+) {
+    view.doOnApplyWindowInsets { view, insets, padding ->
+        val left = if (applyLeft) insets.systemWindowInsetLeft else 0
+        val top = if (applyTop) insets.systemWindowInsetTop else 0
+        val right = if (applyRight) insets.systemWindowInsetRight else 0
+        val bottom = if (applyBottom) insets.systemWindowInsetBottom else 0
+
+        view.setPadding(
+            padding.left + left,
+            padding.top + top,
+            padding.right + right,
+            padding.bottom + bottom
+        )
+    }
+}
 

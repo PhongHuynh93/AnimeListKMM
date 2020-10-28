@@ -10,6 +10,7 @@ import com.wind.animelist.androidApp.ui.home.MainFragment
 import com.wind.animelist.shared.viewmodel.NavViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import util.EventObserver
+import util.fullScreen
 import util.useAnim
 
 @ExperimentalCoroutinesApi
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity(R.layout.fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fullScreen()
         if (savedInstanceState == null) {
             supportFragmentManager.commit(true) {
                 add(R.id.root, MainFragment.newInstance())

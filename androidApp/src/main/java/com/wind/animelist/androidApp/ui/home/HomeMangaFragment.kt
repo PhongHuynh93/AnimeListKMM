@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.databinding.FragmentHomeBinding
+import com.wind.animelist.androidApp.model.TitleManga
 import com.wind.animelist.androidApp.ui.adapter.HomeMangaAdapter
 import com.wind.animelist.androidApp.ui.adapter.HomeMangaHozAdapter
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
+import com.wind.animelist.androidApp.viewmodel.NavViewModel
 import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.viewmodel.HomeMangaViewModel
-import com.wind.animelist.shared.viewmodel.NavViewModel
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -71,7 +72,12 @@ class HomeMangaFragment : Fragment() {
             callbackManga = object: HomeMangaHozAdapter.Callback {
                 override fun onClick(view: View, pos: Int, item: Manga) {
                     view.transitionName = item.id.toString()
-                    vmNav.goToManga.value = Event(view to item)
+                    vmNav.goToManga.value = Event(item)
+                }
+            }
+            callback = object: HomeMangaAdapter.Callback {
+                override fun onClickMore(list: TitleManga) {
+                    vmNav.goToMoreManga.value = Event(list)
                 }
             }
         }

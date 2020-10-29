@@ -44,7 +44,7 @@ class MainFragment: Fragment() {
 
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-                    0 -> HomeMangaFragment()
+                    0 -> HomeMangaFragment.newInstance()
                     1 -> HomeAnimeFragment()
                     // FIXME: 10/22/2020 add the else case
                     else -> Fragment()

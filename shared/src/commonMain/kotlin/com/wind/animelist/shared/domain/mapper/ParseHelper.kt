@@ -1,5 +1,6 @@
 package com.wind.animelist.shared.domain.mapper
 
+// TODO: 10/29/2020 check this again
 fun parseSubType(title : String) : Any {
     val type = title.toLowerCase().trim()
     return if(type == "top manga") {

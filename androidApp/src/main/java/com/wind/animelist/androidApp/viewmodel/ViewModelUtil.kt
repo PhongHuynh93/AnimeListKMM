@@ -1,12 +1,10 @@
-package com.wind.animelist.shared.viewmodel
+package com.wind.animelist.androidApp.viewmodel
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import com.wind.animelist.androidApp.model.TitleManga
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.domain.model.Manga
-import util.DisableDragBottomSheetBehavior
 import util.Event
 
 /**
@@ -16,7 +14,10 @@ class NavViewModel : ViewModel() {
     val goToAnime: MutableLiveData<Event<Anime>> by lazy {
         MutableLiveData<Event<Anime>>()
     }
-    val goToManga: MutableLiveData<Event<Pair<View, Manga>>> by lazy {
-        MutableLiveData<Event<Pair<View, Manga>>>()
+    val goToManga: MutableLiveData<Event<Manga>> by lazy {
+        MutableLiveData<Event<Manga>>()
+    }
+    val goToMoreManga: MutableLiveData<Event<TitleManga>> by lazy {
+        MutableLiveData<Event<TitleManga>>()
     }
 }

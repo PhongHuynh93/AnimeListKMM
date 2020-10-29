@@ -39,16 +39,15 @@ import util.setUpToolbar
  * Created by Phong Huynh on 10/8/2020
  */
 private const val EXTRA_DATA = "xData"
-private const val EXTRA_TRANSITION_NAME = "xTransitionName"
 
 @ExperimentalCoroutinesApi
 class DetailMangaFragment() : Fragment() {
     private lateinit var manga: Manga
     private lateinit var viewBinding: FragmentDetailMangaBinding
-    val vmDetailManga by viewModel<DetailMangaViewModel>()
-    val detailMangaAdapter: DetailMangaAdapter by inject { parametersOf(this) }
-    val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
-    val detailMangaHeaderAdapter: DetailMangaHeaderAdapter by inject { parametersOf(this) }
+    private val vmDetailManga by viewModel<DetailMangaViewModel>()
+    private val detailMangaAdapter: DetailMangaAdapter by inject { parametersOf(this) }
+    private val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
+    private val detailMangaHeaderAdapter: DetailMangaHeaderAdapter by inject { parametersOf(this) }
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
         val adapter = ConcatAdapter(config, detailMangaHeaderAdapter, detailMangaAdapter, loadingAdapter)
@@ -56,9 +55,9 @@ class DetailMangaFragment() : Fragment() {
     }
 
     companion object {
-        fun newInstance(manga: Manga, transitionName: String): DetailMangaFragment {
+        fun newInstance(manga: Manga): DetailMangaFragment {
             return DetailMangaFragment().apply {
-                arguments = bundleOf(EXTRA_DATA to manga, EXTRA_TRANSITION_NAME to transitionName)
+                arguments = bundleOf(EXTRA_DATA to manga)
             }
         }
     }
@@ -117,9 +116,7 @@ class DetailMangaFragment() : Fragment() {
                 })
             }
         }
-        return viewBinding.root.apply {
-            transitionName = requireArguments()[EXTRA_TRANSITION_NAME] as String
-        }
+        return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -17,9 +17,9 @@ import com.wind.animelist.androidApp.ui.adapter.HomeAnimeAdapter
 import com.wind.animelist.androidApp.ui.adapter.HomeAnimeHozAdapter
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
+import com.wind.animelist.androidApp.viewmodel.NavViewModel
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.viewmodel.HomeAnimeViewModel
-import com.wind.animelist.shared.viewmodel.NavViewModel
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect

@@ -1,7 +1,6 @@
 package util.loadmore
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commitNow
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.wind.animelist.shared.viewmodel.LoadState
-import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Complete
 
 /**
  * Created by Phong Huynh on 10/6/2020

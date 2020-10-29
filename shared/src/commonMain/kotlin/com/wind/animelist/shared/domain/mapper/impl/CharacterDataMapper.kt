@@ -11,8 +11,8 @@ class CharacterDataMapper : Mapper<NetworkCharacter, Character> {
     override fun map(input: NetworkCharacter): Character {
         return Character(
             id = input.id ?: 0,
+            name = input.name.orEmpty(),
             imageUrl = input.imageUrl.orEmpty(),
-            title = input.name.orEmpty(),
             role = input.role.orEmpty()
         )
     }

@@ -12,6 +12,7 @@ import com.wind.animelist.androidApp.ui.detail.DetailMangaHeaderAdapter
 import com.wind.animelist.shared.viewmodel.DetailMangaViewModel
 import com.wind.animelist.shared.viewmodel.HomeAnimeViewModel
 import com.wind.animelist.shared.viewmodel.HomeMangaViewModel
+import com.wind.animelist.shared.viewmodel.MoreMangaViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -52,4 +53,5 @@ val appModule = module {
     viewModel { HomeMangaViewModel() }
     viewModel { HomeAnimeViewModel() }
     viewModel { DetailMangaViewModel() }
+    viewModel { MoreMangaViewModel() }
 }

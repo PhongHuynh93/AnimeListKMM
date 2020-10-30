@@ -10,7 +10,7 @@ import io.ktor.http.*
  */
 interface Repository {
     suspend fun getTopAnime(subType: String): TopList<NetworkAnime>
-    suspend fun getTopManga(subType: String): TopList<NetworkManga>
+    suspend fun getTopManga(subType: String, page: Int): TopList<NetworkManga>
     suspend fun getMangaCharacter(id: Int): CharacterList<NetworkCharacter>
     suspend fun getMoreInfo(id: Int): NetworkMoreInfo
 }
@@ -30,9 +30,9 @@ internal class RepositoryImpl internal constructor(private val client: HttpClien
         }
     }
 
-    override suspend fun getTopManga(subType: String): TopList<NetworkManga> {
+    override suspend fun getTopManga(subType: String, page: Int): TopList<NetworkManga> {
         return client.get {
-            apiUrl("v3/top/manga/1/$subType")
+            apiUrl("v3/top/manga/$page/$subType")
         }
     }
 

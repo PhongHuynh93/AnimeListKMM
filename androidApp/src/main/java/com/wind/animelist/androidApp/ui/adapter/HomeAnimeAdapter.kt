@@ -11,7 +11,6 @@ import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.databinding.ItemTitleBinding
 import com.wind.animelist.androidApp.model.Divider
 import com.wind.animelist.androidApp.model.TitleAnime
-import com.wind.animelist.androidApp.model.TitleManga
 import com.wind.animelist.androidApp.ui.adapter.vh.DividerViewHolder
 import com.wind.animelist.androidApp.ui.adapter.vh.HomeAnimeHozListViewHolder
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
@@ -81,7 +80,7 @@ class HomeAnimeAdapter constructor(
             }
             AdapterTypeUtil.TYPE_TITLE -> {
                 val vh = holder as TitleViewHolder
-                vh.binding.text = (item as TitleManga).text
+                vh.binding.text = (item as TitleAnime).text
                 vh.binding.executePendingBindings()
             }
         }

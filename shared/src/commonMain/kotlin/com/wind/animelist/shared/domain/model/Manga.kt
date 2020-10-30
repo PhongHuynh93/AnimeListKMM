@@ -13,4 +13,7 @@ data class Manga(
     val title: String,
 ): Parcelable {
     fun isValid() = id > 0
+    override fun toString(): String {
+        return id.toString()
+    }
 }

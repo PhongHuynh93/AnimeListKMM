@@ -3,14 +3,15 @@ package com.wind.animelist.androidApp.home
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.R
@@ -25,17 +26,17 @@ import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.viewmodel.MoreMangaViewModel
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
-import util.Event
-import util.TYPE_FOOTER
-import util.getDimen
+import util.*
 import util.loadmore.LoadMoreHelper
-import util.setUpToolbar
 
 
 private const val EXTRA_DATA = "xData"
 
+@ExperimentalCoroutinesApi
 class MoreMangaFragment : Fragment() {
     private lateinit var viewBinding: FragmentMoreBinding
     private val titleManga: TitleManga by lazy {
@@ -48,12 +49,11 @@ class MoreMangaFragment : Fragment() {
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
         val adapter = ConcatAdapter(config, moreAdapter, loadingAdapter)
-        titleHeaderAdapter.submitList(listOf(titleManga.text))
-        moreAdapter.setData(titleManga.list)
+        titleHeaderAdapter.submitList(listOf(titleManga.mangaList.title))
+        moreAdapter.setData(titleManga.mangaList.list)
         adapter
     }
 
-    @ExperimentalCoroutinesApi
     private val vmMore by viewModels<MoreMangaViewModel>()
 
     private val vmNav by activityViewModels<NavViewModel>()
@@ -65,6 +65,11 @@ class MoreMangaFragment : Fragment() {
                 arguments = bundleOf(EXTRA_DATA to titleManga)
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        vmMore.setInfo(titleManga.mangaList.list, titleManga.mangaList.loadMoreInfo, titleManga.mangaList.page)
     }
 
     override fun onCreateView(
@@ -81,7 +86,7 @@ class MoreMangaFragment : Fragment() {
                 }
                 moreAdapter.setCallbackDetail(callbackDetail as MoreAdapter.Callback)
             }
-            setUpToolbar(toolbar, titleManga.text, showUpIcon = true)
+            setUpToolbar(toolbar, titleManga.mangaList.title, showUpIcon = true)
             rcv.apply {
                 setHasFixedSize(true)
                 layoutManager = GridLayoutManager(requireContext(), 3)
@@ -118,6 +123,7 @@ class MoreMangaFragment : Fragment() {
                                 outRect.bottom = spacing
                             }
 
+                            // TODO: 10/30/2020 make it in another class
                             AdapterTypeUtil.TYPE_MANGA_GRID -> {
                                 val column: Int = posBinding % spanCount // item column
 
@@ -143,17 +149,37 @@ class MoreMangaFragment : Fragment() {
                         }
                     }
                 })
+                loadMoreHelper.setVisibleThreshold(spanCount * 3)
                 loadMoreHelper.handleLoadmore(this) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Please implement loadmore",
-                        Toast.LENGTH_SHORT
-                    ).show()
-//                    vmHome.loadMoreManga()
+                    vmMore.loadMore()
                 }
             }
         }
         return viewBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.e("TAG", "setInfo: ${titleManga.mangaList.list}")
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            vmMore.data.onEach { list ->
+                Log.e("TAG", "onViewCreated: $list")
+                if (list.isEmpty()) {
+                    viewBinding.rcv.gone()
+                    viewBinding.progressBar.show()
+                } else {
+                    viewBinding.rcv.show()
+                    viewBinding.progressBar.gone()
+                    moreAdapter.setData(list)
+                }
+            }.collect()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            vmMore.loadState.onEach { state ->
+                loadingAdapter.loadState = state
+            }.collect()
+        }
     }
 }
 

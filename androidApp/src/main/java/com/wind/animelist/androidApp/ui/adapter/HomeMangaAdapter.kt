@@ -86,7 +86,7 @@ class HomeMangaAdapter constructor(
             }
             AdapterTypeUtil.TYPE_TITLE -> {
                 val vh = holder as TitleViewHolder
-                vh.binding.text = (item as TitleManga).text
+                vh.binding.text = (item as TitleManga).mangaList.title
                 vh.binding.executePendingBindings()
             }
         }
@@ -97,7 +97,7 @@ class HomeMangaAdapter constructor(
         for (item in list) {
             if (item is MangaList) {
                 newHomeList.add(Divider)
-                newHomeList.add(TitleManga(item.title, item.list))
+                newHomeList.add(TitleManga(item))
                 newHomeList.add(item)
             } else {
                 newHomeList.add(item)

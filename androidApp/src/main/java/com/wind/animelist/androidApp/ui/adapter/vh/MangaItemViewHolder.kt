@@ -6,4 +6,4 @@ import com.wind.animelist.androidApp.databinding.ItemMangaBinding
 /**
  * Created by Phong Huynh on 10/29/2020
  */
-class MangaItemViewModel(val binding: ItemMangaBinding) : RecyclerView.ViewHolder(binding.root)
+class MangaItemViewHolder(val binding: ItemMangaBinding) : RecyclerView.ViewHolder(binding.root)

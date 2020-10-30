@@ -16,13 +16,17 @@ import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.databinding.FragmentMoreBinding
-import com.wind.animelist.androidApp.databinding.ItemMangaBinding
+import com.wind.animelist.androidApp.databinding.ItemAnimeBinding
+import com.wind.animelist.androidApp.model.TitleAnime
 import com.wind.animelist.androidApp.model.TitleManga
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
+import com.wind.animelist.androidApp.ui.adapter.vh.AnimeItemViewHolder
 import com.wind.animelist.androidApp.ui.adapter.vh.MangaItemViewHolder
 import com.wind.animelist.androidApp.viewmodel.NavViewModel
+import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.domain.model.Manga
+import com.wind.animelist.shared.viewmodel.MoreAnimeViewModel
 import com.wind.animelist.shared.viewmodel.MoreMangaViewModel
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,39 +41,39 @@ import util.loadmore.LoadMoreHelper
 private const val EXTRA_DATA = "xData"
 
 @ExperimentalCoroutinesApi
-class MoreMangaFragment : Fragment() {
+class MoreAnimeFragment : Fragment() {
     private lateinit var viewBinding: FragmentMoreBinding
-    private val titleManga: TitleManga by lazy {
+    private val titleManga: TitleAnime by lazy {
         requireArguments().getParcelable(EXTRA_DATA)!!
     }
     private val loadMoreHelper: LoadMoreHelper by inject { parametersOf(this) }
-    private val moreAdapter: MoreAdapter by inject { parametersOf(this) }
+    private val moreAdapter: MoreAnimeAdapter by inject { parametersOf(this) }
     private val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
     private val titleHeaderAdapter: TitleHeaderAdapter by inject { parametersOf(this) }
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
         val adapter = ConcatAdapter(config, moreAdapter, loadingAdapter)
-        titleHeaderAdapter.submitList(listOf(titleManga.mangaList.title))
-        moreAdapter.setData(titleManga.mangaList.list)
+        titleHeaderAdapter.submitList(listOf(titleManga.animeList.title))
+        moreAdapter.setData(titleManga.animeList.list)
         adapter
     }
 
-    private val vmMore by viewModels<MoreMangaViewModel>()
+    private val vmMore by viewModels<MoreAnimeViewModel>()
 
     private val vmNav by activityViewModels<NavViewModel>()
-    var callbackDetail: MoreAdapter.Callback? = null
+    var callbackDetail: MoreAnimeAdapter.Callback? = null
 
     companion object {
-        fun newInstance(titleManga: TitleManga): MoreMangaFragment {
-            return MoreMangaFragment().apply {
-                arguments = bundleOf(EXTRA_DATA to titleManga)
+        fun newInstance(data: TitleAnime): MoreAnimeFragment {
+            return MoreAnimeFragment().apply {
+                arguments = bundleOf(EXTRA_DATA to data)
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        vmMore.setInfo(titleManga.mangaList.list, titleManga.mangaList.loadMoreInfo, titleManga.mangaList.page)
+        vmMore.setInfo(titleManga.animeList.list, titleManga.animeList.loadMoreInfo, titleManga.animeList.page)
     }
 
     override fun onCreateView(
@@ -79,14 +83,14 @@ class MoreMangaFragment : Fragment() {
         viewBinding = FragmentMoreBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             moreAdapter.apply {
-                callbackDetail = object : MoreAdapter.Callback {
-                    override fun onClick(pos: Int, item: Manga) {
-                        vmNav.goToManga.value = Event(item)
+                callbackDetail = object : MoreAnimeAdapter.Callback {
+                    override fun onClick(pos: Int, item: Anime) {
+                        vmNav.goToAnime.value = Event(item)
                     }
                 }
-                moreAdapter.setCallbackDetail(callbackDetail as MoreAdapter.Callback)
+                moreAdapter.setCallbackDetail(callbackDetail as MoreAnimeAdapter.Callback)
             }
-            setUpToolbar(toolbar, titleManga.mangaList.title, showUpIcon = true)
+            setUpToolbar(toolbar, titleManga.animeList.title, showUpIcon = true)
             rcv.apply {
                 setHasFixedSize(true)
                 layoutManager = GridLayoutManager(requireContext(), 3)
@@ -160,10 +164,8 @@ class MoreMangaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("TAG", "setInfo: ${titleManga.mangaList.list}")
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             vmMore.data.onEach { list ->
-                Log.e("TAG", "onViewCreated: $list")
                 if (list.isEmpty()) {
                     viewBinding.rcv.gone()
                     viewBinding.progressBar.show()
@@ -183,16 +185,16 @@ class MoreMangaFragment : Fragment() {
     }
 }
 
-class MoreAdapter constructor(
+class MoreAnimeAdapter constructor(
     private val applicationContext: Context,
     private val requestManager: RequestManager
-) : ListAdapter<Manga, RecyclerView.ViewHolder>(object : DiffUtil
-.ItemCallback<Manga>() {
-    override fun areItemsTheSame(oldItem: Manga, newItem: Manga): Boolean {
+) : ListAdapter<Anime, RecyclerView.ViewHolder>(object : DiffUtil
+.ItemCallback<Anime>() {
+    override fun areItemsTheSame(oldItem: Anime, newItem: Anime): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Manga, newItem: Manga): Boolean {
+    override fun areContentsTheSame(oldItem: Anime, newItem: Anime): Boolean {
         return oldItem == newItem
     }
 }) {
@@ -206,9 +208,9 @@ class MoreAdapter constructor(
         return AdapterTypeUtil.TYPE_MANGA_GRID
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MangaItemViewHolder {
-        val binding = ItemMangaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MangaItemViewHolder(binding).apply {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeItemViewHolder {
+        val binding = ItemAnimeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return AnimeItemViewHolder(binding).apply {
             itemView.setOnClickListener { view ->
                 val pos = bindingAdapterPosition
                 if (pos >= 0) {
@@ -226,18 +228,18 @@ class MoreAdapter constructor(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
-        val vh = holder as MangaItemViewHolder
+        val vh = holder as AnimeItemViewHolder
         vh.binding.item = item
         holder.binding.requestManager = requestManager
         holder.binding.executePendingBindings()
     }
 
-    fun setData(data: List<Manga>) {
+    fun setData(data: List<Anime>) {
         submitList(data)
     }
 
     @FunctionalInterface
     interface Callback {
-        fun onClick(pos: Int, item: Manga)
+        fun onClick(pos: Int, item: Anime)
     }
 }

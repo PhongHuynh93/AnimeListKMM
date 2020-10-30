@@ -2,6 +2,7 @@ package com.wind.animelist.androidApp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.wind.animelist.androidApp.model.TitleAnime
 import com.wind.animelist.androidApp.model.TitleManga
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.domain.model.Manga
@@ -19,5 +20,8 @@ class NavViewModel : ViewModel() {
     }
     val goToMoreManga: MutableLiveData<Event<TitleManga>> by lazy {
         MutableLiveData<Event<TitleManga>>()
+    }
+    val goToMoreAnime: MutableLiveData<Event<TitleAnime>> by lazy {
+        MutableLiveData<Event<TitleAnime>>()
     }
 }

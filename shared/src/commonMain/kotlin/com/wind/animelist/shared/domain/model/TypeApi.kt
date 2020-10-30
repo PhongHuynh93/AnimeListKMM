@@ -5,6 +5,7 @@ package com.wind.animelist.shared.domain.model
  */
 interface TypeAPI {
     fun getType(): String
+    // manga
     object TopManga: TypeAPI {
         override fun getType() = "manga"
     }
@@ -19,5 +20,24 @@ interface TypeAPI {
     }
     object TopManhu: TypeAPI {
         override fun getType() = "manhua"
+    }
+    // anime
+    object TopAiring: TypeAPI {
+        override fun getType() = "airing"
+    }
+    object TopUpcoming: TypeAPI {
+        override fun getType() = "upcoming"
+    }
+    object TopTv: TypeAPI {
+        override fun getType() = "tv"
+    }
+    object TopMovie: TypeAPI {
+        override fun getType() = "movie"
+    }
+    object TopOva: TypeAPI {
+        override fun getType() = "ova"
+    }
+    object TopSpecial: TypeAPI {
+        override fun getType() = "special"
     }
 }

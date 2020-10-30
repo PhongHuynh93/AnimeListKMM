@@ -36,6 +36,7 @@ class HomeAnimeAdapter constructor(
     }
 }) {
     var callbackAnime: HomeAnimeHozAdapter.Callback? = null
+    var callback: Callback? = null
 
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -63,7 +64,13 @@ class HomeAnimeAdapter constructor(
                         parent,
                         false
                     )
-                )
+                ).apply {
+                    binding.more.apply {
+                        setOnClickListener {
+                            callback?.onClickMore((getItem(bindingAdapterPosition) as TitleAnime))
+                        }
+                    }
+                }
             }
             else -> {
                 throw IllegalStateException("Not support viewType $viewType")
@@ -80,7 +87,7 @@ class HomeAnimeAdapter constructor(
             }
             AdapterTypeUtil.TYPE_TITLE -> {
                 val vh = holder as TitleViewHolder
-                vh.binding.text = (item as TitleAnime).text
+                vh.binding.text = (item as TitleAnime).animeList.title
                 vh.binding.executePendingBindings()
             }
         }
@@ -91,12 +98,16 @@ class HomeAnimeAdapter constructor(
         for (item in list) {
             if (item is AnimeList) {
                 newHomeList.add(Divider)
-                newHomeList.add(TitleAnime(item.title, item.list))
+                newHomeList.add(TitleAnime(item))
                 newHomeList.add(item)
             } else {
                 newHomeList.add(item)
             }
         }
         submitList(newHomeList)
+    }
+
+    interface Callback {
+        fun onClickMore(list: TitleAnime)
     }
 }

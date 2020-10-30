@@ -2,20 +2,20 @@ package com.wind.animelist.shared.viewmodel
 
 import com.wind.animelist.shared.base.BaseViewModel
 import com.wind.animelist.shared.base.ioDispatcher
-import com.wind.animelist.shared.domain.Result
 import com.wind.animelist.shared.domain.data
-import com.wind.animelist.shared.domain.model.Anime
+import com.wind.animelist.shared.domain.model.LoadMoreInfo
+import com.wind.animelist.shared.domain.model.TypeAPI
 import com.wind.animelist.shared.domain.usecase.GetTopAnimeParam
 import com.wind.animelist.shared.domain.usecase.GetTopAnimeUseCase
-import com.wind.animelist.shared.domain.usecase.GetTopMangaParam
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.util.asCommonFlow
 import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Complete
 import com.wind.animelist.shared.viewmodel.model.AnimeList
 import com.wind.animelist.shared.viewmodel.model.Home
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -41,10 +41,8 @@ class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
         clearState()
         // note - rate limited - 2 requests/1s
         clientScope.launch(ioDispatcher) {
-            loadAndShowData(listOf(
-                (getTopAnimeUseCase(GetTopAnimeParam("airing")) to "Top Airing"),
-                (getTopAnimeUseCase(GetTopAnimeParam("upcoming")) to "Top Upcoming")
-            ))
+            loadAndShowData(TypeAPI.TopAiring, true)
+            loadAndShowData(TypeAPI.TopUpcoming, false)
             finishGetData = true
             doing = false
         }
@@ -54,14 +52,25 @@ class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
         list.clear()
     }
 
-    private fun loadAndShowData(list: List<Pair<Result<List<Anime>>, String>>) {
+    private suspend fun loadAndShowData(apiType: TypeAPI, isRefreshing: Boolean) {
         val listHome = mutableListOf(*this.list.toTypedArray())
-            for (item in list) {
-                item.first.data?.let {
-                    // TODO: 10/6/2020 find the workaround for R in android and ios
-                    listHome.add(AnimeList(it.shuffled(), item.second))
+        val item = getTopAnimeUseCase(GetTopAnimeParam(apiType.getType(), 1, false))
+
+        item.data?.let {
+            // TODO: 10/6/2020 find the workaround for R in android and ios
+            val title = when (apiType) {
+                TypeAPI.TopAiring -> "Top Airing"
+                TypeAPI.TopUpcoming -> "Top Upcoming"
+                TypeAPI.TopTv -> "Top TV"
+                TypeAPI.TopMovie -> "Top Movie"
+                TypeAPI.TopOva -> "Top Ova"
+                TypeAPI.TopSpecial -> "Top Special"
+                else -> {
+                    ""
                 }
             }
+            listHome.add(AnimeList(title, it.shuffled(), LoadMoreInfo(apiType.getType()), 1))
+        }
         if (listHome.isEmpty()) {
             // TODO: 9/28/2020 show no data
         } else {
@@ -76,19 +85,15 @@ class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
         if (finishGetData) {
             if (!finishGetMovie) {
                 clientScope.launch(ioDispatcher) {
-                    loadAndShowData(listOf(
-                        (getTopAnimeUseCase(GetTopAnimeParam("tv")) to "Top TV"),
-                        (getTopAnimeUseCase(GetTopAnimeParam("movie")) to "Top Movie")
-                    ))
+                    loadAndShowData(TypeAPI.TopTv, false)
+                    loadAndShowData(TypeAPI.TopMovie, false)
                     finishGetMovie = true
                     doing = false
                 }
             } else if (!finishGetSpecial) {
                 clientScope.launch(ioDispatcher) {
-                    loadAndShowData(listOf(
-                        (getTopAnimeUseCase(GetTopAnimeParam("ova")) to "Top Ova"),
-                        (getTopAnimeUseCase(GetTopAnimeParam("special")) to "Top Special")
-                    ))
+                    loadAndShowData(TypeAPI.TopOva, false)
+                    loadAndShowData(TypeAPI.TopSpecial, false)
                     finishGetSpecial = true
                     _loadState.value = Complete
                     doing = false

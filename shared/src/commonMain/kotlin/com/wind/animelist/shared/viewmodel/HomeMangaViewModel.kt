@@ -41,10 +41,10 @@ class HomeMangaViewModel : BaseViewModel(), KoinComponent {
         clearState()
         // note - rate limited - 2 requests/1s
         clientScope.launch(ioDispatcher) {
-            loadAndShowData(TypeAPI.TopManga)
-            loadAndShowData(TypeAPI.TopNovels)
+            loadAndShowData(TypeAPI.TopManga, true)
+            loadAndShowData(TypeAPI.TopNovels, false)
             delay(API_RATE_LIMIT_TIME)
-            loadAndShowData(TypeAPI.TopOneShots)
+            loadAndShowData(TypeAPI.TopOneShots, false)
             delay(API_RATE_LIMIT_TIME)
             doing = false
         }
@@ -54,9 +54,9 @@ class HomeMangaViewModel : BaseViewModel(), KoinComponent {
         list.clear()
     }
 
-    private suspend fun loadAndShowData(apiType: TypeAPI) {
+    private suspend fun loadAndShowData(apiType: TypeAPI, isRefreshing: Boolean) {
         val listHome = mutableListOf(*this.list.toTypedArray())
-        val item = getTopMangaUseCase(GetTopMangaParam(apiType.getType(), 1, false))
+        val item = getTopMangaUseCase(GetTopMangaParam(apiType.getType(), 1, isRefreshing))
         item.data?.let {
             // TODO: 10/6/2020 find the workaround for R in android and ios
             val title = when (apiType) {
@@ -83,8 +83,8 @@ class HomeMangaViewModel : BaseViewModel(), KoinComponent {
         if (doing || _loadState.value == Complete) return
         doing = true
         clientScope.launch(ioDispatcher) {
-            loadAndShowData(TypeAPI.TopManhwa)
-            loadAndShowData(TypeAPI.TopManhu)
+            loadAndShowData(TypeAPI.TopManhwa, false)
+            loadAndShowData(TypeAPI.TopManhu, false)
             _loadState.value = Complete
             doing = false
         }

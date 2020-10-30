@@ -26,10 +26,13 @@ data class MangaList(
     }
 }
 
+@Parcelize
 data class AnimeList(
+    val title: String,
     val list: List<Anime>,
-    val title: String
-): Home {
+    val loadMoreInfo: LoadMoreInfo,
+    val page: Int
+): Home, Parcelable {
     override fun getType(): Int {
         return AdapterTypeUtil.TYPE_ANIME_LIST
     }

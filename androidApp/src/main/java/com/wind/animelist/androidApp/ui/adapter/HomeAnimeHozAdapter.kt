@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.databinding.ItemAnimeBinding
+import com.wind.animelist.androidApp.ui.adapter.vh.AnimeItemViewHolder
 import com.wind.animelist.shared.domain.model.Anime
 
 /**
@@ -15,7 +16,7 @@ import com.wind.animelist.shared.domain.model.Anime
  */
 
 class HomeAnimeHozAdapter constructor(private val requestManager: RequestManager) :
-    ListAdapter<Anime, HomeAnimeHozAdapter.ViewHolder>(object : DiffUtil
+    ListAdapter<Anime, AnimeItemViewHolder>(object : DiffUtil
     .ItemCallback<Anime>() {
         override fun areItemsTheSame(oldItem: Anime, newItem: Anime): Boolean {
             return oldItem.id == newItem.id
@@ -32,9 +33,9 @@ class HomeAnimeHozAdapter constructor(private val requestManager: RequestManager
 
     var callback: Callback? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeItemViewHolder {
         val binding = ItemAnimeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding).apply {
+        return AnimeItemViewHolder(binding).apply {
             itemView.setOnClickListener { view ->
                 val pos = bindingAdapterPosition
                 if (pos >= 0) {
@@ -46,7 +47,7 @@ class HomeAnimeHozAdapter constructor(private val requestManager: RequestManager
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AnimeItemViewHolder, position: Int) {
         val item = getItem(position)
         holder.binding.item = item
         holder.binding.requestManager = requestManager
@@ -57,6 +58,4 @@ class HomeAnimeHozAdapter constructor(private val requestManager: RequestManager
     interface Callback {
         fun onClick(view: View, pos: Int, item: Anime)
     }
-
-    inner class ViewHolder(val binding: ItemAnimeBinding) : RecyclerView.ViewHolder(binding.root)
 }

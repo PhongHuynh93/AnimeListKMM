@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.databinding.FragmentHomeBinding
+import com.wind.animelist.androidApp.model.TitleAnime
 import com.wind.animelist.androidApp.ui.adapter.HomeAnimeAdapter
 import com.wind.animelist.androidApp.ui.adapter.HomeAnimeHozAdapter
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
@@ -65,6 +66,11 @@ class HomeAnimeFragment : Fragment() {
             callbackAnime = object: HomeAnimeHozAdapter.Callback {
                 override fun onClick(view: View, pos: Int, item: Anime) {
                     vmNav.goToAnime.value = Event(item)
+                }
+            }
+            callback = object: HomeAnimeAdapter.Callback {
+                override fun onClickMore(list: TitleAnime) {
+                    vmNav.goToMoreAnime.value = Event(list)
                 }
             }
         }

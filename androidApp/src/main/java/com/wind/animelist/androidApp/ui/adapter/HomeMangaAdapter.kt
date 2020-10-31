@@ -10,7 +10,7 @@ import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.databinding.ItemTitleBinding
 import com.wind.animelist.androidApp.model.Divider
-import com.wind.animelist.androidApp.model.Title
+import com.wind.animelist.androidApp.model.TitleManga
 import com.wind.animelist.androidApp.ui.adapter.vh.DividerViewHolder
 import com.wind.animelist.androidApp.ui.adapter.vh.HomeMangaHozListViewHolder
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
@@ -35,6 +35,7 @@ class HomeMangaAdapter constructor(
     }
 }) {
     var callbackManga: HomeMangaHozAdapter.Callback? = null
+    var callback: Callback? = null
 
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -62,7 +63,13 @@ class HomeMangaAdapter constructor(
                         parent,
                         false
                     )
-                )
+                ).apply {
+                    binding.more.apply {
+                        setOnClickListener {
+                            callback?.onClickMore((getItem(bindingAdapterPosition) as TitleManga))
+                        }
+                    }
+                }
             }
             else -> {
                 throw IllegalStateException("Not support viewType $viewType")
@@ -79,7 +86,7 @@ class HomeMangaAdapter constructor(
             }
             AdapterTypeUtil.TYPE_TITLE -> {
                 val vh = holder as TitleViewHolder
-                vh.binding.text = (item as Title).text
+                vh.binding.text = (item as TitleManga).mangaList.title
                 vh.binding.executePendingBindings()
             }
         }
@@ -90,7 +97,7 @@ class HomeMangaAdapter constructor(
         for (item in list) {
             if (item is MangaList) {
                 newHomeList.add(Divider)
-                newHomeList.add(Title(item.title))
+                newHomeList.add(TitleManga(item))
                 newHomeList.add(item)
             } else {
                 newHomeList.add(item)
@@ -99,4 +106,7 @@ class HomeMangaAdapter constructor(
         submitList(newHomeList)
     }
 
+    interface Callback {
+        fun onClickMore(list: TitleManga)
+    }
 }

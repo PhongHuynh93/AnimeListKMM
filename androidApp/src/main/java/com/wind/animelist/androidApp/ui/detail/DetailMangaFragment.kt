@@ -6,27 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.wind.animelist.androidApp.R
 import com.wind.animelist.androidApp.databinding.FragmentDetailMangaBinding
-import com.wind.animelist.androidApp.ui.adapter.CharacterAdapter
 import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
-import com.wind.animelist.shared.domain.model.Character
 import com.wind.animelist.shared.domain.model.Manga
-import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.viewmodel.DetailMangaViewModel
-import com.wind.animelist.shared.viewmodel.LoadState
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
-import com.wind.animelist.shared.viewmodel.model.DetailManga
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,26 +30,26 @@ import util.setUpToolbar
  * Created by Phong Huynh on 10/8/2020
  */
 private const val EXTRA_DATA = "xData"
-private const val EXTRA_TRANSITION_NAME = "xTransitionName"
 
 @ExperimentalCoroutinesApi
 class DetailMangaFragment() : Fragment() {
     private lateinit var manga: Manga
     private lateinit var viewBinding: FragmentDetailMangaBinding
-    val vmDetailManga by viewModel<DetailMangaViewModel>()
-    val detailMangaAdapter: DetailMangaAdapter by inject { parametersOf(this) }
-    val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
-    val detailMangaHeaderAdapter: DetailMangaHeaderAdapter by inject { parametersOf(this) }
+    private val vmDetailManga by viewModel<DetailMangaViewModel>()
+    private val detailMangaAdapter: DetailMangaAdapter by inject { parametersOf(this) }
+    private val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
+    private val detailMangaHeaderAdapter: DetailMangaHeaderAdapter by inject { parametersOf(this) }
     private val concatAdapter: ConcatAdapter by lazy {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
-        val adapter = ConcatAdapter(config, detailMangaHeaderAdapter, detailMangaAdapter, loadingAdapter)
+        val adapter =
+            ConcatAdapter(config, detailMangaHeaderAdapter, detailMangaAdapter, loadingAdapter)
         adapter
     }
 
     companion object {
-        fun newInstance(manga: Manga, transitionName: String): DetailMangaFragment {
+        fun newInstance(manga: Manga): DetailMangaFragment {
             return DetailMangaFragment().apply {
-                arguments = bundleOf(EXTRA_DATA to manga, EXTRA_TRANSITION_NAME to transitionName)
+                arguments = bundleOf(EXTRA_DATA to manga)
             }
         }
     }
@@ -66,6 +57,7 @@ class DetailMangaFragment() : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         manga = requireArguments()[EXTRA_DATA] as Manga
+        vmDetailManga.setManga(manga)
     }
 
     override fun onCreateView(
@@ -73,10 +65,7 @@ class DetailMangaFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewBinding = FragmentDetailMangaBinding.inflate(inflater, container, false).apply {
-            vm = vmDetailManga
             lifecycleOwner = viewLifecycleOwner
-            requestManager = Glide.with(this@DetailMangaFragment)
-            item = manga
             detailMangaHeaderAdapter.submitList(listOf(manga))
             setUpToolbar(toolbar, showUpIcon = true)
             rcv.apply {
@@ -117,49 +106,19 @@ class DetailMangaFragment() : Fragment() {
                 })
             }
         }
-        return viewBinding.root.apply {
-            transitionName = requireArguments()[EXTRA_TRANSITION_NAME] as String
-        }
+        return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vmDetailManga.setManga(manga)
-    }
-}
-
-@BindingAdapter("lifecycle", "data", "loadState")
-fun RecyclerView.loadDetailManga(
-    lifecycleOwner: LifecycleOwner,
-    data: CFlow<List<DetailManga>>?,
-    loadState: CFlow<LoadState>?
-) {
-    data?.onEach { list ->
-        (adapter as ConcatAdapter).apply {
-            adapters.forEach { adapter ->
-                when (adapter) {
-                    is DetailMangaAdapter -> {
-                        adapter.setData(list)
-                    }
-                }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            vmDetailManga.data.onEach { list ->
+                detailMangaAdapter.setData(list)
+            }
+            vmDetailManga.loadState.onEach { state ->
+                loadingAdapter.loadState = state
             }
         }
-    }?.launchIn(lifecycleOwner.lifecycleScope)
 
-    loadState?.onEach { state ->
-        (adapter as ConcatAdapter).adapters.forEach { adapter ->
-            when (adapter) {
-                is LoadingAdapter -> {
-                    adapter.loadState = state
-                }
-            }
-        }
-    }?.launchIn(lifecycleOwner.lifecycleScope)
-}
-
-@BindingAdapter("data")
-fun RecyclerView.loadCharacterList(list: List<Character>?) {
-    list?.let {
-        (adapter as CharacterAdapter).submitList(it)
     }
 }

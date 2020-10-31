@@ -2,15 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="item"
-            type="java.util.List&lt;com.wind.animelist.shared.domain.model.Character&gt;" />
-    </data>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/character_height"
-        app:data="@{item}"/>
+        android:layout_height="@dimen/character_height" />
 </layout>

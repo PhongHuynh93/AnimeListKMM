@@ -56,6 +56,10 @@ class CharacterAdapter(private val requestManager: RequestManager) : ListAdapter
         holder.binding.executePendingBindings()
     }
 
+    fun setData(list: List<Character>) {
+        submitList(list)
+    }
+
     interface Callback {
         fun onClick(view: View, pos: Int, item: Character)
     }

@@ -1,8 +1,8 @@
 //
-//  MangaListView.swift
+//  AnimeListView.swift
 //  iosApp
 //
-//  Created by Coder on 10/18/20.
+//  Created by Coder on 10/31/20.
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
@@ -10,23 +10,23 @@ import Foundation
 import SwiftUI
 import shared
 
-struct MangaListView: View {
-    @ObservedObject var vm: MoreMangaVM
+struct AnimeListView: View {
+    @ObservedObject var vm: MoreAnimeVM
     private let title: String
     
-    init(mangaListUI: MangaListUI) {
-        vm = MoreMangaVM(mangaListUI: mangaListUI)
-        title = mangaListUI.title
+    init(listUI: AnimeListUI) {
+        vm = MoreAnimeVM(listUI: listUI)
+        title = listUI.title
     }
     
     var body: some View {
         List {
             ForEach(0..<vm.list.count, id: \.self) { index in
                 HStack {
-                    ForEach(vm.list[index]) { mangaUI in
-                        MangaView(mangaUI: mangaUI)
+                    ForEach(vm.list[index]) { animeUI in
+                        AnimeView(item: animeUI)
                             .onAppear {
-                                let itemId = mangaUI.id
+                                let itemId = animeUI.id
                                 vm.onItemAppear(itemId: itemId)
                             }
                     }

@@ -6,5 +6,6 @@
     <color name="text_shadow">#7F000000</color>
     <color name="divider">#1A000000</color>
     <color name="colorSurface">#EDEDED</color>
+    <color name="colorToolbar">#7F000000</color>
 
 </resources>

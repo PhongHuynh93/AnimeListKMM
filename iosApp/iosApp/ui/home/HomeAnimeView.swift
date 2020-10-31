@@ -19,7 +19,7 @@ struct HomeAnimeView: View {
                 switch home {
                 case is AnimeListUI:
                     MyVStack(alignment: .leading) {
-                        NavigationLink(destination: LazyView(MangaListView())) {
+                        NavigationLink(destination: LazyView(AnimeListView(listUI: home as! AnimeListUI))) {
                             Text((home as! AnimeListUI).title).padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                         }
                         let chunkList = (home as! AnimeListUI).list.chunked(into: 2)
@@ -48,6 +48,7 @@ struct HomeAnimeView: View {
                 
             }
             .navigationBarTitle("Anime")
+            .listSeparatorStyle(style: .singleLine)
         }
     }
 }

@@ -28,7 +28,7 @@ class HomeAnimeVM: ObservableObject {
                         list.append(AnimeUI(item: it))
                     }
                     
-                    tempHomeList.append(HomeUI(home: AnimeListUI(title: oldList.title, list: list)))
+                    tempHomeList.append(HomeUI(home: AnimeListUI(title: oldList.title, list: list, loadMoreInfo: oldList.loadMoreInfo, page: Int(oldList.page))))
                 default:
                     break
                 }

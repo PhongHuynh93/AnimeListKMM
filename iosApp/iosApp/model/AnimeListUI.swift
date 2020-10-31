@@ -12,4 +12,6 @@ import shared
 struct AnimeListUI {
     let title: String
     let list: [AnimeUI]
+    let loadMoreInfo: LoadMoreInfo
+    let page: Int
 }

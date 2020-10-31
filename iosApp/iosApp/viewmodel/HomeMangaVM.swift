@@ -28,7 +28,7 @@ class HomeMangaVM: ObservableObject {
                         mangaList.append(MangaUI(manga: it))
                     }
                     
-                    tempHomeList.append(HomeUI(home: MangaListUI(title: oldMangaList.title, mangaList: mangaList)))
+                    tempHomeList.append(HomeUI(home: MangaListUI(title: oldMangaList.title, mangaList: mangaList, loadMoreInfo: oldMangaList.loadMoreInfo, page: Int(oldMangaList.page))))
                 default:
                     tempHomeList.append(HomeUI(home: it as! Home))
                 }

@@ -2,7 +2,9 @@ package com.wind.animelist.androidApp.ui.home
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,26 +12,31 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wind.animelist.androidApp.R
-import com.wind.animelist.androidApp.ui.adapter.*
+import com.wind.animelist.androidApp.databinding.FragmentHomeBinding
+import com.wind.animelist.androidApp.model.TitleAnime
+import com.wind.animelist.androidApp.ui.adapter.HomeAnimeAdapter
+import com.wind.animelist.androidApp.ui.adapter.HomeAnimeHozAdapter
+import com.wind.animelist.androidApp.ui.adapter.LoadingAdapter
+import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
+import com.wind.animelist.androidApp.viewmodel.NavViewModel
 import com.wind.animelist.shared.domain.model.Anime
 import com.wind.animelist.shared.viewmodel.HomeAnimeViewModel
-import com.wind.animelist.shared.viewmodel.NavViewModel
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import util.*
 import util.loadmore.LoadMoreHelper
-import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
  * Created by Phong Huynh on 10/22/2020
  */
 @ExperimentalCoroutinesApi
-class HomeAnimeFragment : Fragment(R.layout.fragment_home) {
+class HomeAnimeFragment : Fragment() {
+    private lateinit var viewBinding: FragmentHomeBinding
     private val homeAnimeAdapter: HomeAnimeAdapter by inject { parametersOf(this) }
     private val loadingAdapter: LoadingAdapter by inject { parametersOf(this) }
     private val titleHeaderAdapter: TitleHeaderAdapter by inject { parametersOf(this) }
@@ -43,6 +50,15 @@ class HomeAnimeFragment : Fragment(R.layout.fragment_home) {
     private val loadMoreHelper: LoadMoreHelper by inject { parametersOf(this) }
     private val vmNav by activityViewModels<NavViewModel>()
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        viewBinding = FragmentHomeBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
+        return viewBinding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,8 +68,13 @@ class HomeAnimeFragment : Fragment(R.layout.fragment_home) {
                     vmNav.goToAnime.value = Event(item)
                 }
             }
+            callback = object: HomeAnimeAdapter.Callback {
+                override fun onClickMore(list: TitleAnime) {
+                    vmNav.goToMoreAnime.value = Event(list)
+                }
+            }
         }
-        rcv.apply {
+        viewBinding.rcv.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
             adapter = concatAdapter
@@ -77,6 +98,9 @@ class HomeAnimeFragment : Fragment(R.layout.fragment_home) {
                             outRect.top = spaceLarge.toInt()
                             outRect.bottom = spaceLarge.toInt()
                         }
+                        AdapterTypeUtil.TYPE_TITLE -> {
+                            outRect.left = spaceNormal.toInt()
+                        }
                     }
                     if (pos == concatAdapter.itemCount - 1) {
                         outRect.bottom = spaceNormal.toInt()
@@ -89,21 +113,24 @@ class HomeAnimeFragment : Fragment(R.layout.fragment_home) {
                 vmHome.loadMore()
             }
         }
-        vmHome.data.onEach { list ->
-            if (list.isEmpty()) {
-                rcv.gone()
-                progressBar.show()
-            } else {
-                rcv.show()
-                progressBar.gone()
-                homeAnimeAdapter.setData(list)
-            }
-            loadMoreHelper.finishLoading()
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        vmHome.loadState.onEach { state ->
-            loadingAdapter.loadState = state
-            loadMoreHelper.loadState = state
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            vmHome.data.onEach { list ->
+                if (list.isEmpty()) {
+                    viewBinding.rcv.gone()
+                    viewBinding.progressBar.show()
+                } else {
+                    viewBinding.rcv.show()
+                    viewBinding.progressBar.gone()
+                    homeAnimeAdapter.setData(list)
+                }
+            }.collect()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            vmHome.loadState.onEach { state ->
+                loadingAdapter.loadState = state
+            }.collect()
+        }
     }
 }

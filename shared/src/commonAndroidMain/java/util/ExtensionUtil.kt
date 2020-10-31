@@ -446,7 +446,7 @@ fun Fragment.setUpToolbar(toolbar: Toolbar, title: String? = null, showUpIcon: B
             }
         }
         if (showUpIcon) {
-            toolbar.navigationIcon?.tint(context!!.getColorAttr(R.attr.colorOnPrimary))
+            toolbar.navigationIcon?.tint(context!!.getColorAttr(R.attr.colorAccent))
             toolbar.setNavigationOnClickListener {
                 appActivity.onBackPressed()
             }

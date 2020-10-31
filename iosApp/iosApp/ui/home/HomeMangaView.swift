@@ -48,6 +48,7 @@ struct HomeMangaView: View {
                 
             }
             .navigationBarTitle("Manga")
+            .listSeparatorStyle(style: .singleLine)
         }
     }
 }

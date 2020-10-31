@@ -48,6 +48,7 @@ struct HomeAnimeView: View {
                 
             }
             .navigationBarTitle("Anime")
+            .listSeparatorStyle(style: .singleLine)
         }
     }
 }

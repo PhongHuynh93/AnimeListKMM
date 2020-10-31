@@ -54,7 +54,6 @@ class MoreAnimeFragment : Fragment() {
         val config = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
         val adapter = ConcatAdapter(config, moreAdapter, loadingAdapter)
         titleHeaderAdapter.submitList(listOf(titleManga.animeList.title))
-        moreAdapter.setData(titleManga.animeList.list)
         adapter
     }
 

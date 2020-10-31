@@ -43,6 +43,7 @@
 		DCC5B4B32548666500F8EC22 /* AnimeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4B22548666500F8EC22 /* AnimeUI.swift */; };
 		DCC5B4B7254867DD00F8EC22 /* TitleOverlayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4B6254867DD00F8EC22 /* TitleOverlayCardView.swift */; };
 		DCC5B4BB2548681300F8EC22 /* AnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4BA2548681300F8EC22 /* AnimeView.swift */; };
+		DCC5B4BF254D0D2300F8EC22 /* ListSeparatorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4BE254D0D2300F8EC22 /* ListSeparatorStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,7 @@
 		DCC5B4B22548666500F8EC22 /* AnimeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeUI.swift; sourceTree = "<group>"; };
 		DCC5B4B6254867DD00F8EC22 /* TitleOverlayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleOverlayCardView.swift; sourceTree = "<group>"; };
 		DCC5B4BA2548681300F8EC22 /* AnimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeView.swift; sourceTree = "<group>"; };
+		DCC5B4BE254D0D2300F8EC22 /* ListSeparatorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSeparatorStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +268,7 @@
 				DCC5B488253C94EA00F8EC22 /* MyVStack.swift */,
 				DCC5B48C253C953400F8EC22 /* MyHStack.swift */,
 				DCC5B4962545CE6600F8EC22 /* ExtensionUtil.swift */,
+				DCC5B4BE254D0D2300F8EC22 /* ListSeparatorStyle.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				7555FF81242A565900829871 /* SceneDelegate.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				DCC5B453253C2BC300F8EC22 /* MangaDetailView.swift in Sources */,
+				DCC5B4BF254D0D2300F8EC22 /* ListSeparatorStyle.swift in Sources */,
 				DCC5B44F253C2AAA00F8EC22 /* MangaListView.swift in Sources */,
 				DCC5B4AB254728B700F8EC22 /* HomeAnimeVM.swift in Sources */,
 			);

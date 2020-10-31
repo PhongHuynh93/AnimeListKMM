@@ -37,6 +37,7 @@ class MoreMangaViewModel() : BaseViewModel(), KoinComponent {
         this.loadMoreInfo = loadMoreInfo
         currentPage = loadedPage
         this.list.addAll(list)
+        _data.value = list
     }
 
     fun loadMore() {

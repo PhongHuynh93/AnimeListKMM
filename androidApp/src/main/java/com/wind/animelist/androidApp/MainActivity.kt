@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.wind.animelist.androidApp.home.MoreAnimeFragment
 import com.wind.animelist.androidApp.home.MoreMangaFragment
+import com.wind.animelist.androidApp.ui.detail.DetailAnimeFragment
 import com.wind.animelist.androidApp.ui.detail.DetailMangaFragment
 import com.wind.animelist.androidApp.ui.home.MainFragment
 import com.wind.animelist.androidApp.viewmodel.NavViewModel
@@ -30,6 +31,13 @@ class MainActivity : AppCompatActivity(R.layout.fragment) {
             supportFragmentManager.commit(true) {
                 useAnim()
                 replace(R.id.root, DetailMangaFragment.newInstance(it))
+                addToBackStack(null)
+            }
+        })
+        vmNav.goToAnime.observe(this, EventObserver {
+            supportFragmentManager.commit(true) {
+                useAnim()
+                replace(R.id.root, DetailAnimeFragment.newInstance(it))
                 addToBackStack(null)
             }
         })

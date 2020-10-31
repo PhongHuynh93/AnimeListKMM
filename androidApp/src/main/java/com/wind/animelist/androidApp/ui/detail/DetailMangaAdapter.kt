@@ -11,6 +11,7 @@ import com.wind.animelist.androidApp.databinding.ItemCharacterListBinding
 import com.wind.animelist.androidApp.databinding.ItemMoreInfoBinding
 import com.wind.animelist.androidApp.databinding.ItemTitleBinding
 import com.wind.animelist.androidApp.model.Title
+import com.wind.animelist.androidApp.ui.adapter.CharacterAdapter
 import com.wind.animelist.androidApp.ui.adapter.TitleViewHolder
 import com.wind.animelist.androidApp.ui.adapter.vh.CharacterHozListViewHolder
 import com.wind.animelist.androidApp.ui.adapter.vh.MoreInfoViewHolder
@@ -90,8 +91,7 @@ class DetailMangaAdapter(private val requestManager: RequestManager) : ListAdapt
             }
             AdapterTypeUtil.TYPE_CHARACTER_LIST -> {
                 val vh2 = vh as CharacterHozListViewHolder
-                vh2.binding.item = (item as DetailMangaCharacter).list
-                vh2.binding.executePendingBindings()
+                (vh2.binding.rcv.adapter as CharacterAdapter).setData((item as DetailMangaCharacter).list)
             }
             AdapterTypeUtil.TYPE_MORE_INFO -> {
                 val vh2 = vh as MoreInfoViewHolder

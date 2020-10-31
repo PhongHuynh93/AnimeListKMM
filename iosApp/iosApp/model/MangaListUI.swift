@@ -12,4 +12,6 @@ import shared
 struct MangaListUI {
     let title: String
     let mangaList: [MangaUI]
+    let loadMoreInfo: LoadMoreInfo
+    let page: Int
 }

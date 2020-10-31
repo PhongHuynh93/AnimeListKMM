@@ -19,7 +19,7 @@ struct HomeMangaView: View {
                 switch item {
                 case is MangaListUI:
                     MyVStack(alignment: .leading) {
-                        NavigationLink(destination: LazyView(MangaListView())) {
+                        NavigationLink(destination: LazyView(MangaListView(mangaListUI: item as! MangaListUI))) {
                             Text((item as! MangaListUI).title).padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                         }
                         let mangaChunkList = (item as! MangaListUI).mangaList.chunked(into: 2)

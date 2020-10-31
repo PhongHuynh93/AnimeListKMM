@@ -44,6 +44,7 @@
 		DCC5B4B7254867DD00F8EC22 /* TitleOverlayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4B6254867DD00F8EC22 /* TitleOverlayCardView.swift */; };
 		DCC5B4BB2548681300F8EC22 /* AnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4BA2548681300F8EC22 /* AnimeView.swift */; };
 		DCC5B4BF254D0D2300F8EC22 /* ListSeparatorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4BE254D0D2300F8EC22 /* ListSeparatorStyle.swift */; };
+		DCC5B4C3254D1D5B00F8EC22 /* MoreMangaVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC5B4C2254D1D5B00F8EC22 /* MoreMangaVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,7 @@
 		DCC5B4B6254867DD00F8EC22 /* TitleOverlayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleOverlayCardView.swift; sourceTree = "<group>"; };
 		DCC5B4BA2548681300F8EC22 /* AnimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeView.swift; sourceTree = "<group>"; };
 		DCC5B4BE254D0D2300F8EC22 /* ListSeparatorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSeparatorStyle.swift; sourceTree = "<group>"; };
+		DCC5B4C2254D1D5B00F8EC22 /* MoreMangaVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMangaVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +243,7 @@
 				DC52E22125374903004B18AC /* HomeMangaVM.swift */,
 				DCC5B456253C337B00F8EC22 /* DetailMangaVM.swift */,
 				DCC5B4AA254728B700F8EC22 /* HomeAnimeVM.swift */,
+				DCC5B4C2254D1D5B00F8EC22 /* MoreMangaVM.swift */,
 			);
 			path = viewmodel;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCC5B4C3254D1D5B00F8EC22 /* MoreMangaVM.swift in Sources */,
 				DCC5B4B7254867DD00F8EC22 /* TitleOverlayCardView.swift in Sources */,
 				DC7EEC3B253AEEC7006DD002 /* MangaUI.swift in Sources */,
 				DCC5B49F2547255700F8EC22 /* HomeMangaView.swift in Sources */,

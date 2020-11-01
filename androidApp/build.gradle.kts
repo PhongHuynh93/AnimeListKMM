@@ -21,6 +21,7 @@ dependencies {
     implementation(Libs.Android.appCompat)
     implementation(Libs.Android.material)
     implementation(Libs.Android.recyclerView)
+    implementation(Libs.Android.swipe)
     implementation(Libs.Android.constraint)
     implementation(Libs.Android.core)
     implementation(Libs.Android.fragment)
@@ -40,6 +41,9 @@ dependencies {
 
     // thread
     implementation(Libs.Thread.coreAndroid)
+
+    // helper
+    implementation(Libs.Helper.log)
 }
 android {
     compileSdkVersion(Configs.compileSdk)

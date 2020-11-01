@@ -16,11 +16,11 @@ class GetTopMangaUseCase constructor(
 ) : UseCase<GetTopMangaParam, List<Manga>>(dispatcher) {
     private var list = mutableListOf<Manga>()
 
-    override suspend fun execute(para: GetTopMangaParam): List<Manga> {
-        if (para.isRefreshing) {
+    override suspend fun execute(parameters: GetTopMangaParam): List<Manga> {
+        if (parameters.isRefreshing) {
             list.clear()
         }
-        return repository.getTopManga(para.subType, para.page).data
+        return repository.getTopManga(parameters.subType, parameters.page).data
             .map {
                 MangaDataMapper().map(it)
             }.filter {

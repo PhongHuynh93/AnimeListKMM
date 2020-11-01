@@ -21,6 +21,7 @@ import com.wind.animelist.androidApp.ui.adapter.TitleHeaderAdapter
 import com.wind.animelist.androidApp.viewmodel.NavViewModel
 import com.wind.animelist.shared.domain.model.Manga
 import com.wind.animelist.shared.viewmodel.HomeMangaViewModel
+import com.wind.animelist.shared.viewmodel.LoadState
 import com.wind.animelist.shared.viewmodel.model.AdapterTypeUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -56,6 +57,28 @@ class HomeMangaFragment : Fragment() {
     private val loadMoreHelper: LoadMoreHelper by inject { parametersOf(this) }
     private val vmNav by activityViewModels<NavViewModel>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        homeMangaAdapter.apply {
+            callbackManga = object: HomeMangaHozAdapter.Callback {
+                override fun onClick(view: View, pos: Int, item: Manga) {
+                    view.transitionName = item.id.toString()
+                    vmNav.goToManga.value = Event(item)
+                }
+            }
+            callback = object: HomeMangaAdapter.Callback {
+                override fun onClickMore(list: TitleManga) {
+                    vmNav.goToMoreManga.value = Event(list)
+                }
+            }
+        }
+        loadingAdapter.setCallback(object: LoadingAdapter.Callback {
+            override fun retry() {
+                vmHome.retry()
+            }
+        })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,17 +91,12 @@ class HomeMangaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeMangaAdapter.apply {
-            callbackManga = object: HomeMangaHozAdapter.Callback {
-                override fun onClick(view: View, pos: Int, item: Manga) {
-                    view.transitionName = item.id.toString()
-                    vmNav.goToManga.value = Event(item)
-                }
-            }
-            callback = object: HomeMangaAdapter.Callback {
-                override fun onClickMore(list: TitleManga) {
-                    vmNav.goToMoreManga.value = Event(list)
-                }
+        viewBinding.swipeRefresh.apply {
+            val arrayOfInt = IntArray(1)
+            arrayOfInt[0] = getColorAttr(R.attr.colorAccent)
+            setColorSchemeColors(*arrayOfInt)
+            setOnRefreshListener {
+                vmHome.refresh()
             }
         }
         viewBinding.rcv.apply {
@@ -137,6 +155,11 @@ class HomeMangaFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             vmHome.loadState.onEach { state ->
                 loadingAdapter.loadState = state
+            }.collect()
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            vmHome.loadStateRefresh.onEach { state ->
+                viewBinding.swipeRefresh.isRefreshing = state == LoadState.Loading
             }.collect()
         }
     }

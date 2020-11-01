@@ -63,6 +63,7 @@ sealed class LoadState(
      *
      * @see androidx.paging.PagedList.retry
      */
+    // TODO: 11/1/2020 handle suitable return message here
     class Error(
         val error: Throwable
     ) : LoadState(false) {

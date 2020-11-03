@@ -19,6 +19,7 @@ object Libs {
         const val appCompat = "androidx.appcompat:appcompat:${Versions.supportLibrary}"
         const val material = "com.google.android.material:material:${Versions.material}"
         const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0-alpha06"
+        const val swipe = "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
         const val constraint = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
         const val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
         const val page = "androidx.paging:paging-runtime-ktx:3.0.0-alpha06"
@@ -49,7 +50,7 @@ object Libs {
         const val glideTransform = "jp.wasabeef:glide-transformations:4.0.0"
     }
     object Helper {
-        const val timber = "com.jakewharton.timber:timber:4.7.1"
+        const val log = "com.jakewharton.timber:timber:4.7.1"
         const val lottie = "com.airbnb.android:lottie:3.0.1"
         const val multidex = "androidx.multidex:multidex:2.0.1"
         const val playCore = "com.google.android.play:core:1.6.4"

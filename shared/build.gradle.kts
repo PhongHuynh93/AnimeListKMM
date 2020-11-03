@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.resolve.calls.results.createOverloadingConflictResolver
 
 plugins {
     kotlin("multiplatform")
@@ -81,6 +80,7 @@ kotlin {
                 implementation(Libs.Android.liveData)
                 implementation(Libs.Network.android)
                 implementation(Libs.Network.logAndroid)
+                implementation(Libs.Helper.log)
             }
         }
         val androidTest by getting {

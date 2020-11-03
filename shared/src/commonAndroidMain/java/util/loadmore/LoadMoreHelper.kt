@@ -80,13 +80,25 @@ class LoadMoreHelperFragment : Fragment() {
             rcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    val totalItemCount = linearLayoutManager.itemCount
-                    val lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                    if (totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                        callback.invoke()
-                    }
+                    checkScroll(linearLayoutManager, callback)
                 }
             })
+            rcv.addOnChildAttachStateChangeListener(object: RecyclerView.OnChildAttachStateChangeListener {
+                override fun onChildViewAttachedToWindow(view: View) {
+                    checkScroll(linearLayoutManager, callback)
+                }
+
+                override fun onChildViewDetachedFromWindow(view: View) {
+                }
+            })
+        }
+    }
+
+    private fun checkScroll(layoutManager: LinearLayoutManager, callback: () -> Unit) {
+        val totalItemCount = layoutManager.itemCount
+        val lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+        if (totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+            callback.invoke()
         }
     }
 }

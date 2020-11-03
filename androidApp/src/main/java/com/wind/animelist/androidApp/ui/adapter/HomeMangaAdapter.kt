@@ -82,7 +82,7 @@ class HomeMangaAdapter constructor(
         when (getItemViewType(position)) {
             AdapterTypeUtil.TYPE_MANGA_LIST -> {
                 val homePagerViewHolder = holder as HomeMangaHozListViewHolder
-                (homePagerViewHolder.rcv.adapter as HomeMangaHozAdapter).submitList((item as MangaList).list)
+                (homePagerViewHolder.rcv.adapter as HomeMangaHozAdapter).setData((item as MangaList).list)
             }
             AdapterTypeUtil.TYPE_TITLE -> {
                 val vh = holder as TitleViewHolder

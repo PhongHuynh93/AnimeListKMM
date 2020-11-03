@@ -44,9 +44,9 @@ class MoreMangaViewModel() : BaseViewModel(), KoinComponent {
         if (doing || _loadState.value == LoadState.NotLoading.Complete) return
         doing = true
         clientScope.launch(ioDispatcher) {
-            currentPage++
             val currentList = mutableListOf(*list.toTypedArray())
-            val list = getTopMangaUseCase(GetTopMangaParam(loadMoreInfo.type, currentPage, false)).successOr(emptyList())
+            // TODO: 11/1/2020 pass the init list to check duplication
+            val list = getTopMangaUseCase(GetTopMangaParam(loadMoreInfo.type.getType(), currentPage, false)).successOr(emptyList())
             if (list.isEmpty()) {
                 _loadState.value = LoadState.NotLoading.Complete
                 doing = false

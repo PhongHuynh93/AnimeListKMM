@@ -48,7 +48,7 @@ class MoreAnimeViewModel() : BaseViewModel(), KoinComponent {
             val currentList = mutableListOf(*list.toTypedArray())
             val list = getTopAnimeUseCase(
                 GetTopAnimeParam(
-                    loadMoreInfo.type,
+                    loadMoreInfo.type.getType(),
                     currentPage,
                     false
                 )

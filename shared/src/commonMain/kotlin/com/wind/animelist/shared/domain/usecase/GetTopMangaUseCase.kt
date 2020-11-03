@@ -9,18 +9,20 @@ import kotlinx.coroutines.CoroutineDispatcher
 /**
  * Created by Phong Huynh on 9/26/2020
  */
-data class GetTopMangaParam(val subType: String, val page: Int, val isRefreshing: Boolean)
+data class GetTopMangaParam(val subType: String, val loadedPage: Int = 1, val isRefreshing: Boolean)
 class GetTopMangaUseCase constructor(
     dispatcher: CoroutineDispatcher,
     private val repository: Repository
 ) : UseCase<GetTopMangaParam, List<Manga>>(dispatcher) {
     private var list = mutableListOf<Manga>()
+    private var page = 1
 
     override suspend fun execute(parameters: GetTopMangaParam): List<Manga> {
         if (parameters.isRefreshing) {
             list.clear()
+            page = parameters.loadedPage
         }
-        return repository.getTopManga(parameters.subType, parameters.page).data
+        return repository.getTopManga(parameters.subType, page).data
             .map {
                 MangaDataMapper().map(it)
             }.filter {
@@ -37,6 +39,7 @@ class GetTopMangaUseCase constructor(
                 !duplicated
             }.also {
                 list.addAll(it)
+                page++
             }
     }
 }

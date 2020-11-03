@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.wind.animelist.androidApp.databinding.ItemMangaBinding
 import com.wind.animelist.androidApp.ui.adapter.vh.MangaItemViewHolder
@@ -13,18 +14,9 @@ import com.wind.animelist.shared.domain.model.Manga
 /**
  * Created by Phong Huynh on 10/22/2020
  */
+class HomeMangaHozAdapter constructor(private val requestManager: RequestManager) : RecyclerView.Adapter<MangaItemViewHolder>() {
 
-class HomeMangaHozAdapter constructor(private val requestManager: RequestManager) :
-    ListAdapter<Manga, MangaItemViewHolder>(object : DiffUtil
-    .ItemCallback<Manga>() {
-        override fun areItemsTheSame(oldItem: Manga, newItem: Manga): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Manga, newItem: Manga): Boolean {
-            return oldItem == newItem
-        }
-    }) {
+    private val data = mutableListOf<Manga>()
 
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -38,7 +30,7 @@ class HomeMangaHozAdapter constructor(private val requestManager: RequestManager
             itemView.setOnClickListener { view ->
                 val pos = bindingAdapterPosition
                 if (pos >= 0) {
-                    getItem(pos)?.let {
+                    data[pos].let {
                         callback?.onClick(view, pos, it)
                     }
                 }
@@ -47,14 +39,25 @@ class HomeMangaHozAdapter constructor(private val requestManager: RequestManager
     }
 
     override fun onBindViewHolder(holder: MangaItemViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.binding.item = item
+        holder.binding.item = data[position]
         holder.binding.requestManager = requestManager
         holder.binding.executePendingBindings()
+    }
+
+    override fun getItemCount() = data.size
+
+    fun setData(data: List<Manga>) {
+        this.data.apply {
+            clear()
+            addAll(data)
+        }
+        notifyDataSetChanged()
     }
 
     @FunctionalInterface
     interface Callback {
         fun onClick(view: View, pos: Int, item: Manga)
     }
+
+
 }

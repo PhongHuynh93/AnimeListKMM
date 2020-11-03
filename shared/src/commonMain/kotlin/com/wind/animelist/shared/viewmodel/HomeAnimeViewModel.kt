@@ -69,7 +69,7 @@ class HomeAnimeViewModel: BaseViewModel(), KoinComponent {
                     ""
                 }
             }
-            listHome.add(AnimeList(title, it.shuffled(), LoadMoreInfo(apiType.getType()), 1))
+            listHome.add(AnimeList(title, it.shuffled(), LoadMoreInfo(apiType), 1))
         }
         if (listHome.isEmpty()) {
             // TODO: 9/28/2020 show no data

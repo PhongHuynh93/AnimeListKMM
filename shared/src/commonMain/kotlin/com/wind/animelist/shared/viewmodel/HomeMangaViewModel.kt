@@ -4,20 +4,21 @@ import com.wind.animelist.shared.base.BaseViewModel
 import com.wind.animelist.shared.base.ioDispatcher
 import com.wind.animelist.shared.base.log
 import com.wind.animelist.shared.domain.Result
-import com.wind.animelist.shared.domain.model.LoadMoreInfo
 import com.wind.animelist.shared.domain.model.TypeAPI
-import com.wind.animelist.shared.domain.usecase.GetTopMangaParam
-import com.wind.animelist.shared.domain.usecase.GetTopMangaUseCase
-import com.wind.animelist.shared.util.API_RATE_LIMIT_TIME
+import com.wind.animelist.shared.domain.usecase.GetMangaHomeParam
+import com.wind.animelist.shared.domain.usecase.GetMangaHomeUseCase
 import com.wind.animelist.shared.util.CFlow
 import com.wind.animelist.shared.util.asCommonFlow
 import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Complete
 import com.wind.animelist.shared.viewmodel.LoadState.NotLoading.Companion.Incomplete
 import com.wind.animelist.shared.viewmodel.model.Home
 import com.wind.animelist.shared.viewmodel.model.MangaList
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -27,9 +28,8 @@ import org.koin.core.inject
 
 @ExperimentalCoroutinesApi
 class HomeMangaViewModel : BaseViewModel(), KoinComponent {
-    private var page: Int = 0
     private var getDataJob: Job? = null
-    private val getTopMangaUseCase: GetTopMangaUseCase by inject()
+    private val getMangaHomeUseCase: GetMangaHomeUseCase by inject()
     private val _data = MutableStateFlow<List<Home>?>(null)
     val data: CFlow<List<Home>> get() = _data.filterNotNull().asCommonFlow()
     private val _loadState = MutableStateFlow<LoadState>(LoadState.Loading)
@@ -47,15 +47,12 @@ class HomeMangaViewModel : BaseViewModel(), KoinComponent {
     }
 
     private fun getData() {
-        log("getdata start")
         doing = true
         // note - rate limited - 2 requests/1s
         getDataJob = clientScope.launch(ioDispatcher) {
             ensureActive()
             _loadState.value = LoadState.Loading
-            loadAndShowData(TypeAPI.TopManga, true)
-            ensureActive()
-            loadAndShowData(TypeAPI.TopNovels)
+            loadAndShowData(true)
             ensureActive()
             doing = false
             _loadStateRefresh.value = Incomplete
@@ -64,19 +61,18 @@ class HomeMangaViewModel : BaseViewModel(), KoinComponent {
     }
 
     private fun clearState() {
-        page = 0
-        list.clear()
+        list = mutableListOf()
         doing = false
     }
 
-    private suspend fun loadAndShowData(apiType: TypeAPI, isRefreshing: Boolean = false) {
+    private suspend fun loadAndShowData(isRefreshing: Boolean = false) {
         log("loadAndShowData start")
         val listHome = mutableListOf(*this.list.toTypedArray())
-        when (val item = getTopMangaUseCase(GetTopMangaParam(apiType.getType(), 1, isRefreshing))) {
+        when (val item = getMangaHomeUseCase(GetMangaHomeParam(isRefreshing))) {
             is Result.Success -> {
-                item.data.let {
+                item.data.let { response ->
                     // TODO: 10/6/2020 find the workaround for R in android and ios
-                    val title = when (apiType) {
+                    val title = when (response.loadMoreInfo.type) {
                         TypeAPI.TopManga -> "Top Manga"
                         TypeAPI.TopNovels -> "Top Novels"
                         TypeAPI.TopOneShots -> "Top One Shots"
@@ -86,13 +82,18 @@ class HomeMangaViewModel : BaseViewModel(), KoinComponent {
                             ""
                         }
                     }
-                    listHome.add(MangaList(title, it.shuffled(), LoadMoreInfo(apiType.getType()), 1))
+                    listHome.add(MangaList(title, response.data.shuffled(), response.loadMoreInfo, response.page))
                     if (listHome.isEmpty()) {
                         // TODO: 9/28/2020 show no data
                     } else {
+                        log("result success ${_data.value.hashCode()} ${listHome.hashCode()}")
                         _data.value = listHome
+                        log("result success after ${_data.value.hashCode()}")
                     }
                     this.list = listHome
+                    if (!response.isMore) {
+                        this._loadState.value = Complete
+                    }
                     log("loadAndShowData return $list")
                 }
             }
@@ -101,10 +102,13 @@ class HomeMangaViewModel : BaseViewModel(), KoinComponent {
                 log("onerror isrefreshing $isRefreshing ${item.exception}")
                 if (isRefreshing) {
                     // remove all the old data and then show error to handle retry
-                    this.list = mutableListOf()
-                    _data.value = list
+                    // TODO: 11/2/2020 testing why not emit this value
+                    val emptyList = mutableListOf<Home>()
+                    log("result error _data.value ${_data.value.hashCode()} and list ${emptyList.hashCode()}")
+                    _data.value = emptyList
+                    this.list = emptyList
+                    log("emit empty list $list")
                 }
-                _loadStateRefresh.value = Incomplete
                 _loadState.value = LoadState.Error(item.exception)
             }
             Result.Loading -> {
@@ -119,17 +123,9 @@ class HomeMangaViewModel : BaseViewModel(), KoinComponent {
         doing = true
         getDataJob = clientScope.launch(ioDispatcher) {
             log("loadmore $list")
-            page++
             ensureActive()
-            loadAndShowData(TypeAPI.TopOneShots)
+            loadAndShowData()
             ensureActive()
-            delay(API_RATE_LIMIT_TIME)
-            ensureActive()
-            loadAndShowData(TypeAPI.TopManhwa)
-            ensureActive()
-            loadAndShowData(TypeAPI.TopManhu)
-            ensureActive()
-            _loadState.value = Complete
             doing = false
             log("loadmore return loadstate ${_loadState.value}")
         }
@@ -145,5 +141,7 @@ class HomeMangaViewModel : BaseViewModel(), KoinComponent {
 
     fun retry() {
         log("retry")
+        _loadState.value = LoadState.Loading
+        loadMore()
     }
 }

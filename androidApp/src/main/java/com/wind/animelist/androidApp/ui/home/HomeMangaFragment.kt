@@ -29,12 +29,14 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import timber.log.Timber
 import util.*
 import util.loadmore.LoadMoreHelper
 
 /**
  * Created by Phong Huynh on 9/26/2020
  */
+// TODO: 11/3/2020 keep the current position of the hoz manga
 @ExperimentalCoroutinesApi
 class HomeMangaFragment : Fragment() {
     companion object {
@@ -103,6 +105,7 @@ class HomeMangaFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
             adapter = concatAdapter
+            itemAnimator = null
             val spaceNormal = getDimen(R.dimen.space_normal)
             val spaceLarge = getDimen(R.dimen.space_large)
             addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -141,6 +144,7 @@ class HomeMangaFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             vmHome.data.onEach { list ->
+                Timber.e("list ${list.size} ${list.hashCode()}")
                 if (list.isEmpty()) {
                     viewBinding.rcv.gone()
                     viewBinding.progressBar.show()
@@ -154,9 +158,12 @@ class HomeMangaFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             vmHome.loadState.onEach { state ->
+                // TODO: 11/3/2020 handle error view at the center
+                Timber.e("loadstate $state")
                 loadingAdapter.loadState = state
             }.collect()
         }
+
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             vmHome.loadStateRefresh.onEach { state ->
                 viewBinding.swipeRefresh.isRefreshing = state == LoadState.Loading

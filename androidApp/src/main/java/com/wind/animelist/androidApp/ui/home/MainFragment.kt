@@ -46,8 +46,7 @@ class MainFragment: Fragment() {
                 return when (position) {
                     0 -> HomeMangaFragment.newInstance()
                     1 -> HomeAnimeFragment()
-                    // FIXME: 10/22/2020 add the else case
-                    else -> Fragment()
+                    else -> TestFragment()
                 }
             }
         }
